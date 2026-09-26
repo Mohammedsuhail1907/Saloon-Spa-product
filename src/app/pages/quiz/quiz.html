@@ -1,0 +1,113 @@
+<section class="page-hero page-hero--compact">
+  <div class="shell">
+    <span class="eyebrow eyebrow--line">A minute of honesty</span>
+    <h1>Find your perfect experience</h1>
+    <p class="page-hero__sub">Three questions. One tailored recommendation.</p>
+  </div>
+</section>
+
+<section class="section section--flush-top">
+  <div class="shell shell--narrow">
+    @if (!showResult()) {
+      <div class="quiz-card">
+        <p-progressbar [value]="progress()" [showValue]="false" styleClass="quiz-progress" />
+        <p-stepper [value]="step()" [linear]="true" styleClass="quiz-stepper">
+          <p-step-list>
+            <p-step [value]="1">Mood</p-step>
+            <p-step [value]="2">Time</p-step>
+            <p-step [value]="3">Budget</p-step>
+          </p-step-list>
+        </p-stepper>
+
+        @switch (step()) {
+          @case (1) {
+            <h2 class="quiz-card__q">What are you looking for?</h2>
+            <div class="quiz-options">
+              @for (c of goals; track c.id) {
+                <button type="button" class="quiz-option" [class.is-active]="goal()?.id === c.id" (click)="pickGoal(c)">
+                  <i class="{{ c.icon }}" aria-hidden="true"></i>
+                  <strong>{{ c.label }}</strong>
+                  @if (c.hint) { <span>{{ c.hint }}</span> }
+                </button>
+              }
+            </div>
+          }
+          @case (2) {
+            <h2 class="quiz-card__q">How much time do you have?</h2>
+            <div class="quiz-options quiz-options--3">
+              @for (c of times; track c.id) {
+                <button type="button" class="quiz-option" [class.is-active]="time()?.id === c.id" (click)="pickTime(c)">
+                  <i class="{{ c.icon }}" aria-hidden="true"></i>
+                  <strong>{{ c.label }}</strong>
+                  @if (c.hint) { <span>{{ c.hint }}</span> }
+                </button>
+              }
+            </div>
+          }
+          @case (3) {
+            <h2 class="quiz-card__q">What’s your budget?</h2>
+            <div class="quiz-options quiz-options--3">
+              @for (c of budgets; track c.id) {
+                <button type="button" class="quiz-option" [class.is-active]="budget()?.id === c.id" (click)="pickBudget(c)">
+                  <i class="{{ c.icon }}" aria-hidden="true"></i>
+                  <strong>{{ c.label }}</strong>
+                </button>
+              }
+            </div>
+          }
+        }
+
+        @if (step() > 1) {
+          <div class="quiz-card__nav">
+            <p-button label="Back" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="backOne()" />
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="quiz-result" role="status">
+        <span class="eyebrow">Your recommended experience</span>
+        @if (recommendation().best; as best) {
+          <div class="quiz-result__hero {{ best.art }}">
+            <i class="{{ best.icon }}" aria-hidden="true"></i>
+          </div>
+          <h2>{{ best.name }}</h2>
+          <p class="quiz-result__meta">{{ best.duration }} minutes · {{ best.price | price }}</p>
+          <p class="quiz-result__desc">{{ best.description }}</p>
+          <ul class="check-list check-list--center">
+            @for (b of best.benefits; track b) {
+              <li><i class="pi pi-check" aria-hidden="true"></i>{{ b }}</li>
+            }
+          </ul>
+          <div class="quiz-result__actions">
+            @if (config.isBookingEnabled()) {
+              <p-button label="Book This Experience" size="large" [rounded]="true" (onClick)="book(best)" />
+            }
+            <p-button label="Start Over" [text]="true" severity="secondary" (onClick)="restart()" />
+          </div>
+
+          @if (recommendation().alternates.length) {
+            <h3 class="quiz-result__alt-title">Also lovely</h3>
+            <div class="mood-result__grid">
+              @for (s of recommendation().alternates; track s.id) {
+                <div class="mini-svc">
+                  <div class="mini-svc__art {{ s.art }}"><i class="{{ s.icon }}" aria-hidden="true"></i></div>
+                  <div class="mini-svc__body">
+                    <h3>{{ s.name }}</h3>
+                    <p>{{ s.duration }} min · {{ s.price | price }}</p>
+                  </div>
+                  @if (config.isBookingEnabled()) {
+                    <p-button label="Book" size="small" [rounded]="true" [outlined]="true" severity="secondary" (onClick)="book(s)" />
+                  }
+                </div>
+              }
+            </div>
+          }
+        } @else {
+          <h2>We need one more visit</h2>
+          <p>Nothing in the current menu fits those answers — try widening the budget or time.</p>
+          <p-button label="Start Over" [rounded]="true" (onClick)="restart()" />
+        }
+      </div>
+    }
+  </div>
+</section>

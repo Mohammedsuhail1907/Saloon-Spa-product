@@ -1,0 +1,98 @@
+<header class="site-header" [class.is-scrolled]="scrolled()">
+  <div class="shell site-header__inner">
+    <a routerLink="/" class="brand" [attr.aria-label]="config.business().name + ' home'">
+      @if (config.business().logo) {
+        <img [src]="config.business().logo" alt="" class="brand__logo" width="34" height="34" />
+      }
+      <span class="brand__text">
+        <span class="brand__name">{{ config.business().name }}</span>
+        <span class="brand__tagline">{{ config.business().tagline }}</span>
+      </span>
+    </a>
+
+    <nav class="main-nav" aria-label="Primary">
+      @for (item of navItems(); track item.label) {
+        <a
+          class="main-nav__link"
+          [routerLink]="item.link"
+          [queryParams]="item.query"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="item.link === '/' ? homeMatch : subsetMatch"
+          >{{ item.label }}</a
+        >
+      }
+    </nav>
+
+    <div class="site-header__actions">
+      @if (config.isRelaxationModeEnabled()) {
+        <button
+          type="button"
+          class="relax-btn"
+          [class.is-on]="ui.relaxMode()"
+          (click)="toggleRelax()"
+          [attr.aria-pressed]="ui.relaxMode()"
+          pTooltip="Relaxation mode"
+          tooltipPosition="bottom"
+        >
+          <span aria-hidden="true">🌿</span>
+        </button>
+      }
+      <a
+        routerLink="/my-experiences"
+        class="icon-link"
+        pTooltip="My experiences"
+        tooltipPosition="bottom"
+        aria-label="My experiences"
+      >
+        <i class="pi pi-user" aria-hidden="true"></i>
+      </a>
+      @if (config.isBookingEnabled()) {
+        <p-button
+          label="Book Now"
+          [rounded]="true"
+          styleClass="header-book-btn"
+          (onClick)="bookNow()"
+        />
+      }
+      <button type="button" class="menu-btn" (click)="menuOpen.set(true)" aria-label="Open menu">
+        <i class="pi pi-bars" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<p-drawer
+  [(visible)]="menuOpen"
+  position="right"
+  styleClass="mobile-drawer"
+  [header]="config.business().name"
+>
+  <nav class="drawer-nav" aria-label="Mobile">
+    @for (item of navItems(); track item.label) {
+      <a
+        class="drawer-nav__link"
+        [routerLink]="item.link"
+        [queryParams]="item.query"
+        (click)="closeMenu()"
+      >
+        <i class="{{ item.icon }}" aria-hidden="true"></i>{{ item.label }}
+      </a>
+    }
+    @if (drawerExtras().length) {
+      <div class="drawer-nav__divider" role="separator"></div>
+      @for (item of drawerExtras(); track item.label) {
+        <a class="drawer-nav__link" [routerLink]="item.link" (click)="closeMenu()">
+          <i class="{{ item.icon }}" aria-hidden="true"></i>{{ item.label }}
+        </a>
+      }
+    }
+  </nav>
+  @if (config.isBookingEnabled()) {
+    <p-button
+      label="Book Your Experience"
+      [rounded]="true"
+      styleClass="drawer-book-btn"
+      (onClick)="bookNow()"
+    />
+  }
+</p-drawer>

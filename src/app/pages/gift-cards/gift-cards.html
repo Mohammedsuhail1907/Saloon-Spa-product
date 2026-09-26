@@ -1,0 +1,110 @@
+<section class="page-hero">
+  <div class="shell">
+    <span class="eyebrow eyebrow--line">Gift cards</span>
+    <h1>Give an experience.<br />Not just a gift.</h1>
+    <p class="page-hero__sub">A little envelope that turns into an afternoon of being cared for.</p>
+  </div>
+</section>
+
+<section class="section section--flush-top">
+  <div class="shell gift-layout" appReveal>
+    <div class="gift-form">
+      <h2 class="booking-panel__title">Build the gift</h2>
+
+      <div class="form-field">
+        <label id="gift-amount-label">Amount</label>
+        <p-selectbutton
+          [options]="amountOptions"
+          [ngModel]="amountChoice()"
+          (ngModelChange)="amountChoice.set($event)"
+          optionLabel="label"
+          optionValue="value"
+          [allowEmpty]="false"
+          aria-labelledby="gift-amount-label"
+        />
+        @if (amountChoice() === 0) {
+          <p-inputnumber
+            [ngModel]="customAmount()"
+            (ngModelChange)="customAmount.set($event)"
+            mode="currency"
+            currency="INR"
+            locale="en-IN"
+            [min]="500"
+            [max]="50000"
+            [maxFractionDigits]="0"
+            placeholder="Enter amount"
+            styleClass="gift-custom-amount"
+            inputId="gift-custom"
+            ariaLabel="Custom amount"
+          />
+        }
+      </div>
+
+      @if (experiences().length > 1) {
+        <div class="form-field">
+          <label id="gift-exp-label">Experience</label>
+          <p-selectbutton
+            [options]="experiences()"
+            [ngModel]="experience()"
+            (ngModelChange)="experience.set($event)"
+            optionLabel="label"
+            optionValue="id"
+            aria-labelledby="gift-exp-label"
+          />
+        </div>
+      }
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="gift-to">To</label>
+          <input pInputText id="gift-to" [ngModel]="to()" (ngModelChange)="to.set($event)" placeholder="Their name" />
+        </div>
+        <div class="form-field">
+          <label for="gift-from">From</label>
+          <input pInputText id="gift-from" [ngModel]="from()" (ngModelChange)="from.set($event)" placeholder="Your name" />
+        </div>
+        <div class="form-field form-field--full">
+          <label for="gift-msg">Message <span class="hint-text">(optional)</span></label>
+          <textarea
+            pTextarea
+            id="gift-msg"
+            rows="3"
+            maxlength="140"
+            [ngModel]="message()"
+            (ngModelChange)="message.set($event)"
+            placeholder="You deserve an afternoon off…"
+          ></textarea>
+        </div>
+      </div>
+
+      <p-button
+        label="Create Gift Card"
+        icon="pi pi-gift"
+        [rounded]="true"
+        size="large"
+        [disabled]="!valid()"
+        (onClick)="create()"
+      />
+      <p class="hint-text">Demo gift cards — nothing is charged.</p>
+    </div>
+
+    <div class="gift-preview" aria-label="Gift card preview">
+      <div class="gift-card-art">
+        <div class="gift-card-art__head">
+          <span class="gift-card-art__brand">{{ config.business().name }}</span>
+          <i class="pi pi-gift" aria-hidden="true"></i>
+        </div>
+        <div class="gift-card-art__amount">{{ (effectiveAmount() || 0) | price }}</div>
+        <div class="gift-card-art__exp">{{ experienceLabel() }}</div>
+        <div class="gift-card-art__names">
+          <span>To: {{ to() || '—' }}</span>
+          <span>From: {{ from() || '—' }}</span>
+        </div>
+        @if (message()) {
+          <p class="gift-card-art__msg">“{{ message() }}”</p>
+        }
+      </div>
+      <p class="hint-text hint-text--center">Delivered beautifully by email or in-studio envelope.</p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,149 @@
+<section class="page-hero">
+  <div class="shell">
+    <span class="eyebrow eyebrow--line">{{ config.business().name }}</span>
+    <h1>{{ config.servicesLabel() }}</h1>
+    <p class="page-hero__sub">
+      Every treatment is a small ceremony — unhurried, personalised and finished properly.
+    </p>
+  </div>
+</section>
+
+<section class="section section--flush-top">
+  <div class="shell">
+    <div class="filter-bar" appReveal>
+      <p-iconfield styleClass="filter-bar__search">
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          pInputText
+          type="text"
+          placeholder="Search {{ config.servicesLabel().toLowerCase() }}…"
+          [ngModel]="search()"
+          (ngModelChange)="search.set($event)"
+          aria-label="Search services"
+        />
+      </p-iconfield>
+
+      @if (typeOptions().length) {
+        <p-selectbutton
+          [options]="typeOptions()"
+          [ngModel]="selectedType()"
+          (ngModelChange)="onTypeChange($event)"
+          optionLabel="label"
+          optionValue="value"
+          [allowEmpty]="false"
+          aria-label="Filter by studio"
+        />
+      }
+    </div>
+
+    <div class="chip-row" role="group" aria-label="Filter by category">
+      <button
+        type="button"
+        class="filter-chip"
+        [class.is-active]="selectedCategory() === 'all'"
+        (click)="selectedCategory.set('all')"
+      >
+        All
+      </button>
+      @for (c of categories(); track c.id) {
+        <button
+          type="button"
+          class="filter-chip"
+          [class.is-active]="selectedCategory() === c.id"
+          (click)="selectedCategory.set(c.id)"
+        >
+          <i class="{{ c.icon }}" aria-hidden="true"></i>{{ c.label }}
+        </button>
+      }
+    </div>
+
+    @if (filtered().length) {
+      <div class="card-grid card-grid--3">
+        @for (service of filtered(); track service.id) {
+          <app-service-card [service]="service" (view)="openDetail($event)" (book)="book($event)" />
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        <i class="pi pi-sparkles" aria-hidden="true"></i>
+        <h3>Nothing matches just yet</h3>
+        <p>Try a different search or category.</p>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ======================= SERVICE DETAIL DIALOG ===================== -->
+<p-dialog
+  [visible]="!!detail()"
+  (visibleChange)="!$event && closeDetail()"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="detail-dialog"
+  [breakpoints]="{ '768px': '94vw' }"
+  [style]="{ width: '46rem' }"
+>
+  <ng-template #header>
+    @if (detail(); as s) {
+      <div class="detail-dialog__head">
+        <span class="detail-dialog__icon {{ s.art }}"><i class="{{ s.icon }}" aria-hidden="true"></i></span>
+        <div>
+          <h2>{{ s.name }}</h2>
+          <span class="rating-inline"><i class="pi pi-star-fill"></i>{{ s.rating }} · {{ s.type === 'SPA' ? 'Spa' : 'Salon' }}</span>
+        </div>
+      </div>
+    }
+  </ng-template>
+
+  @if (detail(); as s) {
+    <p class="detail-dialog__desc">{{ s.description }}</p>
+
+    <div class="detail-dialog__meta">
+      <span class="meta-chip"><i class="pi pi-clock"></i>{{ s.duration }} min</span>
+      <span class="meta-chip meta-chip--price">{{ s.price | price }}</span>
+      @if (s.popular) { <p-tag value="Popular" /> }
+      @if (s.isNew) { <p-tag value="New" severity="success" /> }
+    </div>
+
+    <h3 class="detail-dialog__subtitle">Benefits</h3>
+    <ul class="check-list">
+      @for (b of s.benefits; track b) {
+        <li><i class="pi pi-check" aria-hidden="true"></i>{{ b }}</li>
+      }
+    </ul>
+
+    @if (detailProfessionals().length) {
+      <h3 class="detail-dialog__subtitle">Available professionals</h3>
+      <div class="detail-dialog__pros">
+        @for (pro of detailProfessionals(); track pro.id) {
+          <div class="pro-pill">
+            <p-avatar [label]="initials(pro.name)" shape="circle" styleClass="mini-avatar {{ pro.palette }}" />
+            <div>
+              <strong>{{ pro.name }}</strong>
+              <span>{{ pro.role }} · <i class="pi pi-star-fill"></i> {{ pro.rating }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    @if (detailAddons().length) {
+      <h3 class="detail-dialog__subtitle">Complete your experience</h3>
+      <div class="chip-row chip-row--tight">
+        @for (a of detailAddons(); track a.id) {
+          <p-chip styleClass="soft-chip" label="{{ a.name }} +{{ a.price | price }}" />
+        }
+      </div>
+      <p class="hint-text">Add-ons can be selected during booking.</p>
+    }
+  }
+
+  <ng-template #footer>
+    <p-button label="Close" [text]="true" severity="secondary" (onClick)="closeDetail()" />
+    @if (config.isBookingEnabled() && detail(); as s) {
+      <p-button label="Book Appointment" [rounded]="true" (onClick)="book(s)" />
+    }
+  </ng-template>
+</p-dialog>

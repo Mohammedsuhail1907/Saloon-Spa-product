@@ -1,0 +1,49 @@
+<footer class="site-footer">
+  <div class="shell">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        @if (config.business().logo) {
+          <img [src]="config.business().logo" alt="" width="40" height="40" />
+        }
+        <h3 class="site-footer__name">{{ config.business().name }}</h3>
+        <p class="site-footer__tagline">{{ config.business().tagline }}</p>
+        <p class="site-footer__note">
+          Demo experience — bookings, availability and payments shown here are sample data.
+        </p>
+      </div>
+
+      <nav class="site-footer__col" aria-label="Explore">
+        <h4>Explore</h4>
+        @for (l of exploreLinks(); track l.label) {
+          <a [routerLink]="l.link">{{ l.label }}</a>
+        }
+        <a routerLink="/contact">Contact</a>
+      </nav>
+
+      <nav class="site-footer__col" aria-label="Experiences">
+        <h4>Experiences</h4>
+        @for (l of experienceLinks(); track l.label) {
+          <a [routerLink]="l.link">{{ l.label }}</a>
+        }
+      </nav>
+
+      <div class="site-footer__col" aria-label="Visit">
+        <h4>Visit</h4>
+        <p><i class="pi pi-map-marker" aria-hidden="true"></i>{{ config.business().address ?? config.business().location }}</p>
+        <p><i class="pi pi-phone" aria-hidden="true"></i>{{ config.business().phone }}</p>
+        <p><i class="pi pi-envelope" aria-hidden="true"></i>{{ config.business().email }}</p>
+        @if (config.business().hoursLabel) {
+          <p><i class="pi pi-clock" aria-hidden="true"></i>{{ config.business().hoursLabel }}</p>
+        }
+        @if (config.business().instagram) {
+          <p><i class="pi pi-instagram" aria-hidden="true"></i>{{ config.business().instagram }}</p>
+        }
+      </div>
+    </div>
+
+    <p-divider />
+    <p class="site-footer__copyright">
+      © {{ year }} {{ config.business().name }} · {{ config.business().location }} · All rights reserved
+    </p>
+  </div>
+</footer>

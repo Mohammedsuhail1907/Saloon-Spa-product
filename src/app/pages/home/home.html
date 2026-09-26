@@ -1,0 +1,323 @@
+<!-- ============================== HERO ============================== -->
+<section class="hero">
+  <div class="hero__bg" aria-hidden="true">
+    <span class="hero__blob hero__blob--one"></span>
+    <span class="hero__blob hero__blob--two"></span>
+  </div>
+  <div class="shell hero__inner">
+    <div class="hero__copy">
+      <span class="eyebrow eyebrow--line">{{ config.business().name }} · {{ config.business().location }}</span>
+      <h1 class="hero__title">
+        @for (word of config.heroWords(); track word) {
+          <span class="hero__word" [style.animation-delay]="$index * 0.16 + 's'">{{ word }}</span>
+        }
+      </h1>
+      <p class="hero__sub">Where self-care becomes an experience.</p>
+      <div class="hero__ctas">
+        @if (config.isBookingEnabled()) {
+          <p-button label="Book Your Experience" size="large" [rounded]="true" (onClick)="go('/booking')" />
+        }
+        <p-button
+          label="Explore {{ config.servicesLabel() }}"
+          size="large"
+          [rounded]="true"
+          [outlined]="true"
+          severity="secondary"
+          (onClick)="go('/services')"
+        />
+      </div>
+      <dl class="hero__stats">
+        <div><dt>{{ catalog.services().length }}+</dt><dd>Curated {{ config.servicesLabel().toLowerCase() }}</dd></div>
+        <div><dt>{{ catalog.professionals().length }}</dt><dd>Expert professionals</dd></div>
+        <div><dt>4.9<i class="pi pi-star-fill" aria-hidden="true"></i></dt><dd>Guest rating</dd></div>
+      </dl>
+    </div>
+    <div class="hero__visual" aria-hidden="true">
+      <div class="hero__tile hero__tile--a art-gold"><i class="pi pi-sparkles"></i><span>Glow</span></div>
+      <div class="hero__tile hero__tile--b art-sage"><i class="pi pi-moon"></i><span>Calm</span></div>
+      <div class="hero__tile hero__tile--c art-rose"><i class="pi pi-heart"></i><span>Care</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= TODAY'S STUDIO ========================= -->
+@if (config.isLiveStatusEnabled()) {
+  <section class="section section--flush" appReveal>
+    <div class="shell">
+      <div class="status-bar">
+        <div class="status-bar__head">
+          <span class="status-dot" [class.is-open]="isOpenNow()" aria-hidden="true"></span>
+          <span class="status-bar__title">Today’s Studio — <strong>{{ isOpenNow() ? 'Open' : 'Closed now' }}</strong></span>
+          <p-tag value="Sample preview" severity="secondary" styleClass="status-bar__tag" />
+        </div>
+        <div class="status-bar__grid">
+          @for (studio of studios(); track studio.name) {
+            <div class="status-bar__cell">
+              <i class="{{ studio.icon }}" aria-hidden="true"></i>
+              <div><strong>{{ studio.name }}</strong><span>{{ studio.detail }}</span></div>
+            </div>
+          }
+          <div class="status-bar__cell status-bar__cell--next">
+            <i class="pi pi-clock" aria-hidden="true"></i>
+            <div><strong>Next available</strong><span>{{ nextSlotLabel() }}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ============================== MOODS ============================= -->
+<section class="section" appReveal>
+  <div class="shell">
+    <div class="section-head section-head--center">
+      <span class="eyebrow">Tailored to your mood</span>
+      <h2>What are you looking for today?</h2>
+    </div>
+    <div class="mood-grid" role="group" aria-label="Choose your mood">
+      @for (mood of catalog.moods(); track mood.id) {
+        <button
+          type="button"
+          class="mood-chip"
+          [class.is-active]="selectedMood()?.id === mood.id"
+          [attr.aria-pressed]="selectedMood()?.id === mood.id"
+          (click)="selectMood(mood)"
+        >
+          <i class="{{ mood.icon }}" aria-hidden="true"></i>
+          <span>{{ mood.label }}</span>
+        </button>
+      }
+    </div>
+
+    @if (selectedMood(); as mood) {
+      <div class="mood-result">
+        <p class="mood-result__intro">
+          You selected <em>“{{ mood.blurb }}”</em> — we recommend:
+        </p>
+        <div class="mood-result__grid">
+          @for (s of moodServices(); track s.id) {
+            <div class="mini-svc">
+              <div class="mini-svc__art {{ s.art }}"><i class="{{ s.icon }}" aria-hidden="true"></i></div>
+              <div class="mini-svc__body">
+                <h3>{{ s.name }}</h3>
+                <p>{{ s.duration }} min · {{ s.price | price }}</p>
+              </div>
+              @if (config.isBookingEnabled()) {
+                <p-button label="Book Now" size="small" [rounded]="true" (onClick)="bookService(s)" />
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ======================= FEATURED SERVICES ======================== -->
+<section class="section section--tinted" appReveal>
+  <div class="shell">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Discover</span>
+        <h2>Signature {{ config.servicesLabel().toLowerCase() }}</h2>
+      </div>
+      <a routerLink="/services" class="section-link">View all <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+    </div>
+    <div class="card-grid card-grid--3">
+      @for (service of featuredServices(); track service.id) {
+        <app-service-card [service]="service" (view)="viewService($event)" (book)="bookService($event)" />
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ============================ QUIZ CTA ============================ -->
+@if (config.isBeautyQuizEnabled()) {
+  <section class="section" appReveal>
+    <div class="shell">
+      <div class="quiz-banner">
+        <div class="quiz-banner__copy">
+          <span class="eyebrow">Not sure where to begin?</span>
+          <h2>Find your perfect experience</h2>
+          <p>Three quick questions — your mood, your time, your budget — and we’ll curate the rest.</p>
+        </div>
+        <p-button label="Take the Quiz" size="large" [rounded]="true" (onClick)="go('/quiz')" />
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ========================= PROFESSIONALS ========================== -->
+@if (featuredProfessionals().length) {
+  <section class="section" appReveal>
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">In expert hands</span>
+          <h2>Meet our {{ config.professionalsLabel().toLowerCase() }}</h2>
+        </div>
+        <a routerLink="/professionals" class="section-link">Meet everyone <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+      </div>
+      <div class="card-grid card-grid--4">
+        @for (pro of featuredProfessionals(); track pro.id) {
+          <app-professional-card [professional]="pro" (profile)="viewProfessional($event)" (book)="bookProfessional($event)" />
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ========================== BEFORE / AFTER ======================== -->
+@if (config.isBeforeAfterEnabled() && firstBeforeAfter(); as item) {
+  <section class="section section--tinted" appReveal>
+    <div class="shell ba-teaser">
+      <div class="ba-teaser__copy">
+        <span class="eyebrow">Real transformations</span>
+        <h2>Before &amp; after</h2>
+        <p>Drag the slider to see what a single visit can do — no filters, just our chairs.</p>
+        <p-button label="See the Gallery" [rounded]="true" [outlined]="true" severity="secondary" (onClick)="go('/gallery')" />
+      </div>
+      <app-before-after [item]="item" />
+    </div>
+  </section>
+}
+
+<!-- ============================= OFFERS ============================= -->
+@if (config.isOffersEnabled() && featuredOffers().length) {
+  <section class="section" appReveal>
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">This week’s experiences</span>
+          <h2>Offers worth booking</h2>
+        </div>
+        <a routerLink="/offers" class="section-link">All offers <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+      </div>
+      <div class="card-grid card-grid--3">
+        @for (offer of featuredOffers(); track offer.id) {
+          <article class="offer-card">
+            <div class="offer-card__art {{ offer.art }}">
+              <i class="{{ offer.icon }}" aria-hidden="true"></i>
+              <p-tag value="Save {{ offer.savings | price }}" styleClass="offer-card__save" />
+            </div>
+            <div class="offer-card__body">
+              <h3>{{ offer.title }}</h3>
+              <p>{{ offer.description }}</p>
+              <div class="offer-card__price">
+                <strong>{{ offer.price | price }}</strong>
+                <s>{{ offer.originalPrice | price }}</s>
+              </div>
+              <span class="offer-card__validity"><i class="pi pi-calendar" aria-hidden="true"></i>{{ offer.validity }}</span>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ============================ JOURNEY ============================= -->
+<section class="section section--dark" appReveal>
+  <div class="shell">
+    <div class="section-head section-head--center">
+      <span class="eyebrow">Your visit, start to finish</span>
+      <h2>The {{ config.business().name }} journey</h2>
+    </div>
+    <p-timeline [value]="journey" align="alternate" styleClass="journey-timeline">
+      <ng-template #marker let-step>
+        <span class="journey-marker"><i class="{{ step.icon }}" aria-hidden="true"></i></span>
+      </ng-template>
+      <ng-template #content let-step>
+        <div class="journey-step">
+          <span class="journey-step__n">{{ step.n }}</span>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.detail }}</p>
+        </div>
+      </ng-template>
+    </p-timeline>
+  </div>
+</section>
+
+<!-- =========================== STORIES ============================== -->
+@if (config.isReviewsEnabled()) {
+  <section class="section" appReveal>
+    <div class="shell shell--narrow">
+      <div class="section-head section-head--center">
+        <span class="eyebrow">Guest stories</span>
+        <h2>Loved, in their words</h2>
+      </div>
+      <p-carousel
+        [value]="stories()"
+        [numVisible]="1"
+        [numScroll]="1"
+        [circular]="true"
+        [autoplayInterval]="7000"
+        styleClass="story-carousel"
+      >
+        <ng-template let-story #item>
+          <article class="story-card">
+            <div class="story-card__badge {{ story.palette }}">{{ story.customer.charAt(0) }}</div>
+            <h3>{{ story.title }}</h3>
+            <div class="story-card__steps" aria-hidden="true">
+              @for (s of story.steps; track s) {
+                <span>{{ s }}</span>
+                @if (!$last) { <i class="pi pi-arrow-right"></i> }
+              }
+            </div>
+            <blockquote>“{{ story.quote }}”</blockquote>
+            <div class="story-card__meta">
+              <span class="rating-inline" [attr.aria-label]="'Rated ' + story.rating + ' out of 5'">
+                @for (i of [1, 2, 3, 4, 5]; track i) {
+                  <i class="pi" [class.pi-star-fill]="i <= story.rating" [class.pi-star]="i > story.rating"></i>
+                }
+              </span>
+              <span>{{ story.customer }} · {{ story.service }}</span>
+            </div>
+          </article>
+        </ng-template>
+      </p-carousel>
+    </div>
+  </section>
+}
+
+<!-- ====================== MEMBERSHIP + GIFT ========================= -->
+@if (config.isMembershipEnabled() || config.isGiftCardEnabled()) {
+  <section class="section section--tinted" appReveal>
+    <div class="shell duo-grid">
+      @if (config.isMembershipEnabled() && highlightPlan(); as plan) {
+        <div class="promo-panel">
+          <span class="eyebrow">Self-care membership</span>
+          <h2>Make it a ritual</h2>
+          <ul class="promo-panel__list">
+            @for (perk of plan.perks.slice(0, 4); track perk) {
+              <li><i class="pi pi-check" aria-hidden="true"></i>{{ perk }}</li>
+            }
+          </ul>
+          <p class="promo-panel__price">{{ plan.pricePerMonth | price }}<span>/month</span></p>
+          <p-button label="Explore Membership" [rounded]="true" (onClick)="go('/membership')" />
+        </div>
+      }
+      @if (config.isGiftCardEnabled()) {
+        <div class="promo-panel promo-panel--gift">
+          <span class="eyebrow">Gift cards</span>
+          <h2>Give an experience.<br />Not just a gift.</h2>
+          <p>From a single glow facial to a full spa day — beautifully wrapped, endlessly welcome.</p>
+          <p-button label="Create a Gift Card" [rounded]="true" [outlined]="true" severity="secondary" (onClick)="go('/gift-cards')" />
+        </div>
+      }
+    </div>
+  </section>
+}
+
+<!-- ============================ FINAL CTA =========================== -->
+@if (config.isBookingEnabled()) {
+  <section class="section" appReveal>
+    <div class="shell">
+      <div class="cta-banner">
+        <h2>Begin your ritual</h2>
+        <p>Your chair, your room and your time are waiting. Booking takes under a minute.</p>
+        <p-button label="Book Your Experience" size="large" [rounded]="true" (onClick)="go('/booking')" />
+      </div>
+    </div>
+  </section>
+}

@@ -1,0 +1,13 @@
+import { Product } from '../models/catalog.model';
+
+/** Demo retail products used in “keep your results at home”. */
+export const PRODUCTS: Product[] = [
+  { id: 1, name: 'Hydrating Cleanser', price: 799, description: 'pH-balanced daily cleanse.', forTags: ['glow', 'self-care'], icon: 'pi pi-cloud', art: 'art-pearl' },
+  { id: 2, name: 'Vitamin C Serum', price: 1299, description: '10% stabilised brightening serum.', forTags: ['glow'], icon: 'pi pi-sun', art: 'art-gold' },
+  { id: 3, name: 'Barrier Moisturiser', price: 899, description: 'Ceramide-rich daily comfort.', forTags: ['glow', 'self-care'], icon: 'pi pi-heart', art: 'art-blush' },
+  { id: 4, name: 'Silk Mist SPF 50', price: 699, description: 'Weightless finishing sunscreen.', forTags: ['glow', 'occasion'], icon: 'pi pi-shield', art: 'art-sand' },
+  { id: 5, name: 'Repair Hair Masque', price: 999, description: 'Weekly bond-repair treatment.', forTags: ['hair'], icon: 'pi pi-sparkles', art: 'art-rose' },
+  { id: 6, name: 'Argan Gloss Oil', price: 849, description: 'Finishing oil for mirror shine.', forTags: ['hair', 'occasion'], icon: 'pi pi-star', art: 'art-stone' },
+  { id: 7, name: 'Calming Body Oil', price: 1099, description: 'Lavender & vetiver wind-down oil.', forTags: ['relax', 'wellness', 'self-care'], icon: 'pi pi-moon', art: 'art-moss' },
+  { id: 8, name: 'Cuticle Recovery Oil', price: 499, description: 'Daily drop for strong nails.', forTags: ['nails'], icon: 'pi pi-circle', art: 'art-sage' }
+];

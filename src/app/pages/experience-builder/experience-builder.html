@@ -1,0 +1,94 @@
+<section class="page-hero">
+  <div class="shell">
+    <span class="eyebrow eyebrow--line">Package builder</span>
+    <h1>Build your experience</h1>
+    <p class="page-hero__sub">Start with one treatment, layer on the little luxuries.</p>
+  </div>
+</section>
+
+<section class="section section--flush-top">
+  <div class="shell booking-layout" appReveal>
+    <div class="booking-main">
+      <div class="booking-panel">
+        <h2 class="booking-panel__title">Base treatment</h2>
+        <p-select
+          [options]="serviceGroups()"
+          [group]="true"
+          optionGroupLabel="label"
+          optionGroupChildren="items"
+          optionLabel="name"
+          [ngModel]="base()"
+          (ngModelChange)="onBaseChange($event)"
+          placeholder="Choose your base treatment"
+          [filter]="true"
+          filterBy="name"
+          styleClass="builder-select"
+          aria-label="Base treatment"
+        >
+          <ng-template let-service #item>
+            <div class="builder-option">
+              <span class="pick-row__art pick-row__art--sm {{ service.art }}"><i class="{{ service.icon }}"></i></span>
+              <span>{{ service.name }}</span>
+              <span class="builder-option__meta">{{ service.duration }} min · {{ service.price | price }}</span>
+            </div>
+          </ng-template>
+        </p-select>
+
+        @if (base(); as b) {
+          <div class="builder-base">
+            <span class="pick-row__art {{ b.art }}"><i class="{{ b.icon }}" aria-hidden="true"></i></span>
+            <div>
+              <strong>{{ b.name }}</strong>
+              <span>{{ b.duration }} min · {{ b.price | price }}</span>
+            </div>
+          </div>
+
+          <h3 class="booking-panel__group">Add-ons</h3>
+          <div class="addon-list">
+            @for (a of addons(); track a.id) {
+              <label class="addon-row" [class.is-checked]="addOnIds().includes(a.id)">
+                <p-checkbox
+                  [binary]="true"
+                  [ngModel]="addOnIds().includes(a.id)"
+                  (ngModelChange)="toggleAddon(a.id, $event)"
+                  [inputId]="'builder-addon-' + a.id"
+                />
+                <span class="addon-row__body">
+                  <strong>{{ a.name }}</strong>
+                  <span>+{{ a.price | price }}@if (a.duration) { · +{{ a.duration }} min}</span>
+                </span>
+              </label>
+            }
+          </div>
+        } @else {
+          <p class="hint-text">Choose a base treatment to see matching add-ons.</p>
+        }
+      </div>
+    </div>
+
+    <aside class="booking-summary" aria-label="Your experience summary">
+      <h3>Your experience</h3>
+      @if (base(); as b) {
+        <div class="booking-summary__service">
+          <span class="pick-row__art {{ b.art }}"><i class="{{ b.icon }}" aria-hidden="true"></i></span>
+          <div><strong>{{ b.name }}</strong><span>{{ b.type === 'SPA' ? 'Spa' : 'Salon' }}</span></div>
+        </div>
+        <ul class="booking-summary__rows">
+          @for (a of selectedAddons(); track a.id) {
+            <li><i class="pi pi-plus-circle" aria-hidden="true"></i>{{ a.name }} · +{{ a.price | price }}</li>
+          }
+        </ul>
+        <p-divider />
+        <div class="booking-summary__total">
+          <span>{{ totalDuration() }} min</span>
+          <strong>{{ totalPrice() | price }}</strong>
+        </div>
+        @if (config.isBookingEnabled()) {
+          <p-button label="Book Experience" [rounded]="true" styleClass="booking-summary__cta" (onClick)="bookExperience()" />
+        }
+      } @else {
+        <p class="hint-text">Your build appears here.</p>
+      }
+    </aside>
+  </div>
+</section>

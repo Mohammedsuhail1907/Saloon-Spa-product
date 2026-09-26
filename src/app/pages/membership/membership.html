@@ -1,0 +1,64 @@
+<section class="page-hero">
+  <div class="shell">
+    <span class="eyebrow eyebrow--line">Self-care membership</span>
+    <h1>Make it a ritual</h1>
+    <p class="page-hero__sub">
+      The people who glow year-round aren’t lucky — they’re members.
+    </p>
+  </div>
+</section>
+
+<section class="section section--flush-top">
+  <div class="shell">
+    <div class="plan-grid" appReveal>
+      @for (plan of catalog.membershipPlans(); track plan.id) {
+        <article class="plan-card" [class.is-highlight]="plan.highlight">
+          @if (plan.tag) {
+            <p-tag [value]="plan.tag" styleClass="plan-card__tag" />
+          }
+          <h2>{{ plan.name }}</h2>
+          <p class="plan-card__price">
+            {{ plan.pricePerMonth | price }}<span>/month</span>
+          </p>
+          <ul class="check-list">
+            @for (perk of plan.perks; track perk) {
+              <li><i class="pi pi-check" aria-hidden="true"></i>{{ perk }}</li>
+            }
+          </ul>
+          @if (bookingState.membership() === plan.name) {
+            <p-button label="Your Current Plan" [disabled]="true" [rounded]="true" styleClass="plan-card__cta" />
+          } @else {
+            <p-button
+              label="Explore Membership"
+              [rounded]="true"
+              [outlined]="!plan.highlight"
+              [severity]="plan.highlight ? 'primary' : 'secondary'"
+              styleClass="plan-card__cta"
+              (onClick)="activate(plan)"
+            />
+          }
+        </article>
+      }
+    </div>
+    <p class="hint-text hint-text--center">Demo memberships — no payment is collected.</p>
+  </div>
+</section>
+
+<section class="section section--tinted" appReveal>
+  <div class="shell shell--narrow">
+    <div class="section-head section-head--center">
+      <span class="eyebrow">Good to know</span>
+      <h2>Membership questions</h2>
+    </div>
+    <p-accordion value="0">
+      @for (faq of faqs; track faq.q; let i = $index) {
+        <p-accordion-panel [value]="'' + i">
+          <p-accordion-header>{{ faq.q }}</p-accordion-header>
+          <p-accordion-content>
+            <p>{{ faq.a }}</p>
+          </p-accordion-content>
+        </p-accordion-panel>
+      }
+    </p-accordion>
+  </div>
+</section>

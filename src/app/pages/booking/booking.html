@@ -1,0 +1,320 @@
+@if (booked(); as appointment) {
+  <!-- ======================== CONFIRMATION ======================== -->
+  <section class="section">
+    <div class="shell shell--narrow">
+      <div class="confirm-card" role="status">
+        <div class="confirm-card__spark" aria-hidden="true"><i class="pi pi-check"></i></div>
+        <span class="eyebrow">Your experience is booked ✨</span>
+        <h1>{{ appointment.serviceName }}</h1>
+        <div class="confirm-card__facts">
+          <div><i class="pi pi-calendar" aria-hidden="true"></i>{{ appointment.dateTime | date: 'EEEE, d MMMM' }}</div>
+          <div><i class="pi pi-clock" aria-hidden="true"></i>{{ appointment.dateTime | date: 'h:mm a' }} · {{ appointment.durationMinutes }} min</div>
+          <div><i class="pi pi-user" aria-hidden="true"></i>With {{ appointment.professionalName }}</div>
+          <div><i class="pi pi-wallet" aria-hidden="true"></i>{{ appointment.price | price }} · pay at the studio</div>
+          <div><i class="pi pi-hashtag" aria-hidden="true"></i>Ref {{ appointment.ref }}</div>
+        </div>
+        @if (appointment.addOns.length) {
+          <p class="confirm-card__addons">
+            Including:
+            @for (a of appointment.addOns; track a.name) {
+              <span>{{ a.name }}</span>@if (!$last) {<span>, </span>}
+            }
+          </p>
+        }
+        <div class="confirm-card__actions">
+          <p-button label="Add to Calendar" icon="pi pi-calendar-plus" [outlined]="true" severity="secondary" [rounded]="true" (onClick)="downloadIcs()" />
+          <p-button label="View Booking" icon="pi pi-list" [outlined]="true" severity="secondary" [rounded]="true" (onClick)="viewBookings()" />
+          <p-button label="Book Another Experience" [rounded]="true" (onClick)="bookAnother()" />
+        </div>
+      </div>
+
+      @if (recommendedProducts().length) {
+        <div class="after-panel">
+          <div class="section-head section-head--center">
+            <span class="eyebrow">Keep your results at home</span>
+            <h2>Recommended for you</h2>
+          </div>
+          <div class="product-row">
+            @for (p of recommendedProducts(); track p.id) {
+              <div class="product-tile">
+                <span class="product-tile__art {{ p.art }}"><i class="{{ p.icon }}" aria-hidden="true"></i></span>
+                <strong>{{ p.name }}</strong>
+                <span class="hint-text">{{ p.description }}</span>
+                <span class="product-tile__price">{{ p.price | price }}</span>
+              </div>
+            }
+          </div>
+          <p class="hint-text hint-text--center">Available at the studio — mention your booking reference.</p>
+        </div>
+      }
+    </div>
+  </section>
+} @else {
+  <!-- ========================= BOOKING FLOW ======================== -->
+  <section class="page-hero page-hero--compact">
+    <div class="shell">
+      <span class="eyebrow eyebrow--line">Online booking</span>
+      <h1>Book your experience</h1>
+    </div>
+  </section>
+
+  <section class="section section--flush-top booking-layout-section">
+    <div class="shell booking-layout">
+      <div class="booking-main">
+        <p-stepper [value]="step()" [linear]="true" styleClass="booking-stepper">
+          <p-step-list>
+            <p-step [value]="1">Service</p-step>
+            @if (canChooseProfessional()) {
+              <p-step [value]="2">Professional</p-step>
+            }
+            <p-step [value]="3">Date</p-step>
+            <p-step [value]="4">{{ slotBooking() ? 'Slot' : 'Time' }}</p-step>
+            <p-step [value]="5">Details</p-step>
+            <p-step [value]="6">Confirm</p-step>
+          </p-step-list>
+        </p-stepper>
+
+        <div class="booking-panel">
+          @switch (step()) {
+            @case (1) {
+              <h2 class="booking-panel__title">Choose your service</h2>
+              @if (professional(); as pro) {
+                <p class="hint-text">Showing services by {{ pro.name }} — <button type="button" class="link-btn" (click)="selectProfessional(null)">show everything</button></p>
+              }
+              @for (group of serviceGroups(); track group.label) {
+                @if (serviceGroups().length > 1) {
+                  <h3 class="booking-panel__group">{{ group.label }}</h3>
+                }
+                <div class="pick-list" role="listbox" aria-label="Services">
+                  @for (s of group.items; track s.id) {
+                    <button
+                      type="button"
+                      class="pick-row"
+                      role="option"
+                      [class.is-selected]="service()?.id === s.id"
+                      [attr.aria-selected]="service()?.id === s.id"
+                      (click)="selectService(s)"
+                    >
+                      <span class="pick-row__art {{ s.art }}"><i class="{{ s.icon }}" aria-hidden="true"></i></span>
+                      <span class="pick-row__body">
+                        <strong>{{ s.name }}</strong>
+                        <span>{{ s.duration }} min · {{ s.price | price }}</span>
+                      </span>
+                      <i class="pi pi-check-circle pick-row__check" aria-hidden="true"></i>
+                    </button>
+                  }
+                </div>
+              }
+            }
+
+            @case (2) {
+              <h2 class="booking-panel__title">
+                {{ service()?.type === 'SPA' ? 'Choose your therapist' : 'Meet your stylist' }}
+              </h2>
+              <div class="pick-list">
+                <button
+                  type="button"
+                  class="pick-row"
+                  [class.is-selected]="anyProfessional()"
+                  (click)="selectProfessional(null)"
+                >
+                  <span class="pick-row__art art-pearl"><i class="pi pi-users" aria-hidden="true"></i></span>
+                  <span class="pick-row__body">
+                    <strong>Any available professional</strong>
+                    <span>We’ll match you with whoever is free</span>
+                  </span>
+                  <i class="pi pi-check-circle pick-row__check" aria-hidden="true"></i>
+                </button>
+                @for (pro of professionalOptions(); track pro.id) {
+                  <button
+                    type="button"
+                    class="pick-row"
+                    [class.is-selected]="professional()?.id === pro.id"
+                    (click)="selectProfessional(pro)"
+                  >
+                    <p-avatar [label]="initials(pro.name)" shape="circle" styleClass="mini-avatar {{ pro.palette }}" />
+                    <span class="pick-row__body">
+                      <strong>{{ pro.name }}</strong>
+                      <span>{{ pro.role }} · {{ pro.experienceYears }} yrs · <i class="pi pi-star-fill"></i> {{ pro.rating }}</span>
+                    </span>
+                    <i class="pi pi-check-circle pick-row__check" aria-hidden="true"></i>
+                  </button>
+                }
+              </div>
+            }
+
+            @case (3) {
+              <h2 class="booking-panel__title">Pick a date</h2>
+              <div class="date-step">
+                <p-datepicker
+                  [ngModel]="date()"
+                  (ngModelChange)="onDateChange($event)"
+                  [inline]="true"
+                  [minDate]="minDate"
+                  [maxDate]="maxDate"
+                  [disabledDays]="disabledDays"
+                  [disabledDates]="disabledDates"
+                />
+                <div class="date-step__info">
+                  @if (date()) {
+                    @if (dayAvailability()?.closed) {
+                      <p-message severity="warn" text="{{ dayAvailability()?.reason }} — please pick another date." />
+                    } @else if (availableCount() === 0) {
+                      <p-message severity="warn" text="No open slots on this day — please pick another date." />
+                    } @else {
+                      <p-message severity="success" text="{{ availableCount() }} open slots on this day." />
+                    }
+                  } @else {
+                    <p class="hint-text">Closed days and holidays are disabled in the calendar.</p>
+                  }
+                </div>
+              </div>
+            }
+
+            @case (4) {
+              <h2 class="booking-panel__title">
+                {{ slotBooking() ? 'Choose your slot' : 'Preferred time of day' }}
+              </h2>
+              @if (dayAvailability(); as day) {
+                @if (slotBooking()) {
+                  <app-slot-picker [day]="day" [selected]="slot()" (selectedChange)="slot.set($event)" />
+                } @else {
+                  <p-selectbutton
+                    [options]="periodOptions()"
+                    [ngModel]="preferredPeriod()"
+                    (ngModelChange)="onPeriodChange($event)"
+                    optionLabel="label"
+                    optionValue="value"
+                    aria-label="Preferred time of day"
+                  />
+                  @if (slot()) {
+                    <p class="hint-text">We’ve pencilled you in at {{ slotLabel() }}.</p>
+                  }
+                }
+              } @else {
+                <p class="hint-text">Pick a date first.</p>
+              }
+            }
+
+            @case (5) {
+              <h2 class="booking-panel__title">Your details</h2>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="bk-name">Full name</label>
+                  <input pInputText id="bk-name" [ngModel]="name()" (ngModelChange)="name.set($event)" autocomplete="name" placeholder="Your name" />
+                  @if (triedSubmit() && !nameValid()) { <span class="field-error">Please enter your name.</span> }
+                </div>
+                <div class="form-field">
+                  <label for="bk-phone">Phone</label>
+                  <input pInputText id="bk-phone" [ngModel]="phone()" (ngModelChange)="phone.set($event)" autocomplete="tel" inputmode="tel" placeholder="+91 …" />
+                  @if (triedSubmit() && !phoneValid()) { <span class="field-error">Please enter a valid phone number.</span> }
+                </div>
+                <div class="form-field form-field--full">
+                  <label for="bk-email">Email</label>
+                  <input pInputText id="bk-email" [ngModel]="email()" (ngModelChange)="email.set($event)" autocomplete="email" inputmode="email" placeholder="you@example.com" />
+                  @if (triedSubmit() && !emailValid()) { <span class="field-error">Please enter a valid email.</span> }
+                </div>
+                <div class="form-field form-field--full">
+                  <label for="bk-notes">Notes <span class="hint-text">(optional)</span></label>
+                  <textarea pTextarea id="bk-notes" rows="3" [ngModel]="notes()" (ngModelChange)="notes.set($event)" placeholder="Allergies, preferences, occasions…"></textarea>
+                </div>
+              </div>
+
+              @if (addons().length) {
+                <h3 class="booking-panel__group">Complete your experience</h3>
+                <div class="addon-list">
+                  @for (a of addons(); track a.id) {
+                    <label class="addon-row" [class.is-checked]="addOnIds().includes(a.id)">
+                      <p-checkbox
+                        [binary]="true"
+                        [ngModel]="addOnIds().includes(a.id)"
+                        (ngModelChange)="toggleAddon(a.id, $event)"
+                        [inputId]="'addon-' + a.id"
+                      />
+                      <span class="addon-row__body">
+                        <strong>{{ a.name }}</strong>
+                        <span>+{{ a.price | price }}@if (a.duration) { · +{{ a.duration }} min}</span>
+                      </span>
+                    </label>
+                  }
+                </div>
+              }
+            }
+
+            @case (6) {
+              <h2 class="booking-panel__title">One last look</h2>
+              <dl class="review-list">
+                <div><dt>Service</dt><dd>{{ service()?.name }}</dd></div>
+                <div><dt>Professional</dt><dd>{{ anyProfessional() ? 'Any available professional' : professional()?.name }}</dd></div>
+                <div><dt>Date</dt><dd>{{ date() | date: 'EEEE, d MMMM y' }}</dd></div>
+                <div><dt>Time</dt><dd>{{ slotLabel() }}</dd></div>
+                @if (selectedAddons().length) {
+                  <div>
+                    <dt>Add-ons</dt>
+                    <dd>
+                      @for (a of selectedAddons(); track a.id) {
+                        {{ a.name }}@if (!$last) {, }
+                      }
+                    </dd>
+                  </div>
+                }
+                <div><dt>Duration</dt><dd>{{ totalDuration() }} min</dd></div>
+                <div><dt>Total</dt><dd class="review-list__total">{{ totalPrice() | price }}</dd></div>
+                <div><dt>Guest</dt><dd>{{ name() }} · {{ phone() }}</dd></div>
+              </dl>
+              <p class="hint-text">You’ll pay at the studio. Free rescheduling until 4 hours before.</p>
+            }
+          }
+
+          <div class="booking-nav">
+            @if (step() > 1) {
+              <p-button label="Back" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="back()" />
+            } @else {
+              <span></span>
+            }
+            @if (step() < 6) {
+              <p-button label="Continue" icon="pi pi-arrow-right" iconPos="right" [rounded]="true" [disabled]="!canNext()" (onClick)="next()" />
+            } @else {
+              <p-button label="Confirm Booking" icon="pi pi-check" [rounded]="true" (onClick)="confirm()" />
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================== SUMMARY ========================= -->
+      <aside class="booking-summary" aria-label="Booking summary">
+        <h3>Your experience</h3>
+        @if (service(); as s) {
+          <div class="booking-summary__service">
+            <span class="pick-row__art {{ s.art }}"><i class="{{ s.icon }}" aria-hidden="true"></i></span>
+            <div><strong>{{ s.name }}</strong><span>{{ s.type === 'SPA' ? 'Spa' : 'Salon' }}</span></div>
+          </div>
+        } @else {
+          <p class="hint-text">Choose a service to begin.</p>
+        }
+        <ul class="booking-summary__rows">
+          @if (professional() || anyProfessional()) {
+            <li><i class="pi pi-user" aria-hidden="true"></i>{{ anyProfessional() ? 'Any professional' : professional()?.name }}</li>
+          }
+          @if (date()) {
+            <li><i class="pi pi-calendar" aria-hidden="true"></i>{{ date() | date: 'EEE, d MMM' }}</li>
+          }
+          @if (slot()) {
+            <li><i class="pi pi-clock" aria-hidden="true"></i>{{ slotLabel() }}</li>
+          }
+          @for (a of selectedAddons(); track a.id) {
+            <li><i class="pi pi-plus-circle" aria-hidden="true"></i>{{ a.name }}</li>
+          }
+        </ul>
+        @if (service()) {
+          <p-divider />
+          <div class="booking-summary__total">
+            <span>{{ totalDuration() }} min</span>
+            <strong>{{ totalPrice() | price }}</strong>
+          </div>
+        }
+        <p class="hint-text">Availability shown is sample data for this demo.</p>
+      </aside>
+    </div>
+  </section>
+}

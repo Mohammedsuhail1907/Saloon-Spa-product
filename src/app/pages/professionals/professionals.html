@@ -1,0 +1,110 @@
+<section class="page-hero">
+  <div class="shell">
+    <span class="eyebrow eyebrow--line">In expert hands</span>
+    <h1>{{ config.professionalsLabel() }}</h1>
+    <p class="page-hero__sub">
+      Choose the person, not just the slot — every profile shows real specialties and next availability.
+    </p>
+  </div>
+</section>
+
+<section class="section section--flush-top">
+  <div class="shell">
+    @if (typeOptions().length) {
+      <div class="filter-bar" appReveal>
+        <p-selectbutton
+          [options]="typeOptions()"
+          [ngModel]="selectedType()"
+          (ngModelChange)="selectedType.set($event)"
+          optionLabel="label"
+          optionValue="value"
+          [allowEmpty]="false"
+          aria-label="Filter professionals"
+        />
+      </div>
+    }
+
+    <div class="card-grid card-grid--4">
+      @for (professional of filtered(); track professional.id) {
+        <app-professional-card
+          [professional]="professional"
+          (profile)="openProfile($event)"
+          (book)="book($event)"
+        />
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ========================= PROFILE DIALOG ========================= -->
+<p-dialog
+  [visible]="!!profile()"
+  (visibleChange)="!$event && closeProfile()"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="detail-dialog"
+  [breakpoints]="{ '768px': '94vw' }"
+  [style]="{ width: '42rem' }"
+>
+  <ng-template #header>
+    @if (profile(); as p) {
+      <div class="detail-dialog__head">
+        <p-avatar [label]="initials(p.name)" shape="circle" size="xlarge" styleClass="pro-avatar {{ p.palette }}" />
+        <div>
+          <h2>{{ p.name }}</h2>
+          <span>{{ p.role }} · {{ p.experienceYears }} yrs</span>
+        </div>
+      </div>
+    }
+  </ng-template>
+
+  @if (profile(); as p) {
+    <p class="detail-dialog__desc">{{ p.bio }}</p>
+
+    <div class="detail-dialog__meta">
+      <span class="rating-inline"><i class="pi pi-star-fill"></i>{{ p.rating }}</span>
+      <span class="hint-text">{{ p.reviewsCount }} guest reviews</span>
+    </div>
+
+    <h3 class="detail-dialog__subtitle">Specialties</h3>
+    <div class="chip-row chip-row--tight">
+      @for (s of p.specialties; track s) {
+        <p-chip [label]="s" styleClass="soft-chip" />
+      }
+    </div>
+
+    @if (profileServices().length) {
+      <h3 class="detail-dialog__subtitle">Signature work</h3>
+      <ul class="link-list">
+        @for (s of profileServices(); track s.id) {
+          <li>
+            <span>{{ s.name }}</span>
+            <span class="hint-text">{{ s.duration }} min · {{ s.price | price }}</span>
+          </li>
+        }
+      </ul>
+    }
+
+    <h3 class="detail-dialog__subtitle">
+      Available {{ profileSlots().dayLabel.toLowerCase() }}
+    </h3>
+    @if (profileSlots().slots.length) {
+      <div class="chip-row chip-row--tight">
+        @for (slot of profileSlots().slots; track slot.time) {
+          <span class="slot-chip slot-chip--mini">{{ slot.label }}</span>
+        }
+      </div>
+    } @else {
+      <p class="hint-text">Fully booked — try the waitlist via the studio.</p>
+    }
+  }
+
+  <ng-template #footer>
+    <p-button label="Close" [text]="true" severity="secondary" (onClick)="closeProfile()" />
+    @if (config.isBookingEnabled() && profile(); as p) {
+      <p-button label="Book with {{ firstName(p.name) }}" [rounded]="true" (onClick)="book(p)" />
+    }
+  </ng-template>
+</p-dialog>

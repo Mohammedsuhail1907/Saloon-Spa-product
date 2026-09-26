@@ -1,0 +1,42 @@
+<section class="page-hero">
+  <div class="shell">
+    <span class="eyebrow eyebrow--line">This week’s experiences</span>
+    <h1>Offers</h1>
+    <p class="page-hero__sub">Seasonal rituals and pairings, priced to be said yes to.</p>
+  </div>
+</section>
+
+<section class="section section--flush-top">
+  <div class="shell">
+    <div class="card-grid card-grid--2" appReveal>
+      @for (offer of catalog.offers(); track offer.id) {
+        <article class="offer-card offer-card--wide">
+          <div class="offer-card__art {{ offer.art }}">
+            <i class="{{ offer.icon }}" aria-hidden="true"></i>
+            <p-tag value="Save {{ offer.savings | price }}" styleClass="offer-card__save" />
+            @if (offer.tag) {
+              <span class="offer-card__flag">{{ offer.tag }}</span>
+            }
+          </div>
+          <div class="offer-card__body">
+            <h2>{{ offer.title }}</h2>
+            <p>{{ offer.description }}</p>
+            <div class="offer-card__price">
+              <strong>{{ offer.price | price }}</strong>
+              <s>{{ offer.originalPrice | price }}</s>
+            </div>
+            <span class="offer-card__validity"><i class="pi pi-calendar" aria-hidden="true"></i>{{ offer.validity }}</span>
+            @if (config.isBookingEnabled()) {
+              <div class="offer-card__actions">
+                <p-button label="Book This Offer" [rounded]="true" (onClick)="book(offer)" />
+              </div>
+            }
+          </div>
+        </article>
+      }
+    </div>
+    <p class="hint-text hint-text--center">
+      Offers apply at the studio; mention the offer when you arrive. Demo pricing shown.
+    </p>
+  </div>
+</section>

@@ -1,0 +1,67 @@
+<section class="page-hero">
+  <div class="shell">
+    <span class="eyebrow eyebrow--line">Inside the studio</span>
+    <h1>Gallery</h1>
+    <p class="page-hero__sub">Our rooms, our work and the quiet in between.</p>
+  </div>
+</section>
+
+<section class="section section--flush-top">
+  <div class="shell">
+    <div class="chip-row" role="group" aria-label="Gallery categories">
+      @for (c of categories(); track c) {
+        <button
+          type="button"
+          class="filter-chip"
+          [class.is-active]="category() === c"
+          (click)="category.set(c)"
+        >
+          {{ c }}
+        </button>
+      }
+    </div>
+
+    <div class="gallery-grid">
+      @for (item of items(); track item.id) {
+        <figure class="gallery-tile {{ item.art }}" appReveal>
+          <i class="{{ item.icon }}" aria-hidden="true"></i>
+          <figcaption>
+            <strong>{{ item.title }}</strong>
+            <span>{{ item.category }}</span>
+          </figcaption>
+        </figure>
+      }
+    </div>
+  </div>
+</section>
+
+@if (config.isBeforeAfterEnabled() && baItems().length) {
+  <section class="section section--tinted" appReveal>
+    <div class="shell">
+      <div class="section-head section-head--center">
+        <span class="eyebrow">Real transformations</span>
+        <h2>Before &amp; after</h2>
+        <p class="lead">Drag each slider — same light, same lens, one visit apart.</p>
+      </div>
+
+      <div class="chip-row chip-row--center" role="group" aria-label="Transformation categories">
+        @for (c of baCategories(); track c) {
+          <button
+            type="button"
+            class="filter-chip"
+            [class.is-active]="baCategory() === c"
+            (click)="baCategory.set(c)"
+          >
+            {{ c }}
+          </button>
+        }
+      </div>
+
+      <div class="ba-grid">
+        @for (item of baItems(); track item.id) {
+          <app-before-after [item]="item" />
+        }
+      </div>
+    </div>
+  </section>
+}

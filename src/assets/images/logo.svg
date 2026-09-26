@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Luxe and Aura logo">
+  <defs>
+    <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c9a76d"/>
+      <stop offset="1" stop-color="#9a7847"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="none" stroke="url(#lg)" stroke-width="2.5"/>
+  <path d="M32 12c4.5 7.5 10 12.5 10 19a10 10 0 0 1-20 0c0-6.5 5.5-11.5 10-19z"
+        fill="url(#lg)" opacity="0.92"/>
+  <path d="M32 24c2.2 3.6 4.8 6 4.8 9.2a4.8 4.8 0 0 1-9.6 0c0-3.2 2.6-5.6 4.8-9.2z"
+        fill="#faf6ee"/>
+</svg>

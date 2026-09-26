@@ -1,0 +1,78 @@
+<section class="page-hero">
+  <div class="shell">
+    <span class="eyebrow eyebrow--line">Find us</span>
+    <h1>Contact</h1>
+    <p class="page-hero__sub">Questions, occasions, cold feet before a big colour change — we’re here.</p>
+  </div>
+</section>
+
+<section class="section section--flush-top">
+  <div class="shell contact-layout" appReveal>
+    <div class="contact-info">
+      <div class="contact-tile">
+        <i class="pi pi-map-marker" aria-hidden="true"></i>
+        <div>
+          <strong>Visit</strong>
+          <span>{{ config.business().address ?? config.business().location }}</span>
+        </div>
+      </div>
+      <div class="contact-tile">
+        <i class="pi pi-phone" aria-hidden="true"></i>
+        <div>
+          <strong>Call</strong>
+          <span>{{ config.business().phone }}</span>
+        </div>
+      </div>
+      <div class="contact-tile">
+        <i class="pi pi-envelope" aria-hidden="true"></i>
+        <div>
+          <strong>Write</strong>
+          <span>{{ config.business().email }}</span>
+        </div>
+      </div>
+      @if (config.business().hoursLabel) {
+        <div class="contact-tile">
+          <i class="pi pi-clock" aria-hidden="true"></i>
+          <div>
+            <strong>Hours</strong>
+            <span>{{ config.business().hoursLabel }}</span>
+          </div>
+        </div>
+      }
+      <div class="contact-map" aria-hidden="true">
+        <i class="pi pi-map-marker"></i>
+        <span>{{ config.business().location }}</span>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <h2 class="booking-panel__title">Send a message</h2>
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="ct-name">Name</label>
+          <input pInputText id="ct-name" [ngModel]="name()" (ngModelChange)="name.set($event)" autocomplete="name" placeholder="Your name" />
+        </div>
+        <div class="form-field">
+          <label for="ct-email">Email</label>
+          <input pInputText id="ct-email" [ngModel]="email()" (ngModelChange)="email.set($event)" autocomplete="email" inputmode="email" placeholder="you@example.com" />
+        </div>
+        <div class="form-field form-field--full">
+          <label for="ct-subject">Subject</label>
+          <p-select
+            inputId="ct-subject"
+            [options]="subjects()"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="subject()"
+            (ngModelChange)="subject.set($event)"
+          />
+        </div>
+        <div class="form-field form-field--full">
+          <label for="ct-message">Message</label>
+          <textarea pTextarea id="ct-message" rows="5" [ngModel]="message()" (ngModelChange)="message.set($event)" placeholder="Tell us everything…"></textarea>
+        </div>
+      </div>
+      <p-button label="Send Message" icon="pi pi-send" [rounded]="true" [disabled]="!valid()" (onClick)="send()" />
+    </div>
+  </div>
+</section>
