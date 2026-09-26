@@ -1,30 +1,64 @@
 /* ============================================================
-   Design tokens. Brand colours, fonts and radii are overwritten at
-   runtime from assets/config/theme-config.json (see
-   ThemeConfigService.apply); the values below are compile-time
-   defaults so the first paint is never unstyled.
+   Design tokens.
+
+   `--color-*`, `--font-*`, `--radius-*`, `--shadow-card` and
+   `--hover-scale` are THE theme contract: ThemeConfigService writes
+   them onto <html> from the active entry of assets/config/themes.json.
+   The values below are compile-time defaults (Luxury Gold) so the
+   first paint is never unstyled.
+
+   Everything after "derived" is an alias kept for existing component
+   SCSS — do not hardcode colours there; extend this contract instead.
    ============================================================ */
 
 :root {
-  --brand-primary: #b08d57;
-  --brand-secondary: #f5efe6;
-  --brand-accent: #6f7d5c;
-  --brand-background: #faf7f1;
-  --brand-surface: #ffffff;
-  --brand-text: #242424;
+  /* ---- theme contract ---- */
+  --color-primary: #a47e45;
+  --color-on-primary: #ffffff;
+  --color-secondary: #f5efe6;
+  --color-accent: #d4af37;
+  --color-background: #faf8f4;
+  --color-surface: #ffffff;
+  --color-text: #292524;
+  --color-muted-text: #78716c;
+  --color-border: #e7e0d5;
+  --color-success: #4d7c5a;
+  --color-warning: #c0841a;
+  --color-danger: #b91c1c;
 
-  --ink: var(--brand-text);
-  --ink-soft: color-mix(in srgb, var(--brand-text) 62%, var(--brand-background));
-  --ink-faint: color-mix(in srgb, var(--brand-text) 42%, var(--brand-background));
-  --paper: var(--brand-background);
-  --line: color-mix(in srgb, var(--brand-primary) 22%, var(--brand-background));
-  --gold-soft: color-mix(in srgb, var(--brand-primary) 18%, var(--brand-surface));
-  --shadow-soft: 0 18px 45px -18px rgba(94, 74, 42, 0.22);
-  --shadow-card: 0 10px 30px -14px rgba(94, 74, 42, 0.18);
-  --radius-lg: 22px;
-  --radius-md: 16px;
-  --radius-sm: 10px;
+  --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Jost', 'Segoe UI', system-ui, -apple-system, sans-serif;
 
-  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Jost', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --radius-base: 14px;
+  --radius-card: 22px;
+  --radius-button: 999px;
+
+  --shadow-card: 0 18px 45px -18px rgba(94, 74, 42, 0.22);
+  --hover-scale: 1.02;
+
+  /* ---- derived ---- */
+  --brand-primary: var(--color-primary);
+  --brand-secondary: var(--color-secondary);
+  --brand-accent: var(--color-accent);
+  --brand-background: var(--color-background);
+  --brand-surface: var(--color-surface);
+  --brand-text: var(--color-text);
+
+  --ink: var(--color-text);
+  --ink-soft: var(--color-muted-text);
+  --ink-faint: color-mix(in srgb, var(--color-muted-text) 72%, var(--color-background));
+  --paper: var(--color-background);
+  --line: var(--color-border);
+  --gold-soft: color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
+  /* Dark sections (journey, footer) take a hint of the primary hue. */
+  --ink-deep: color-mix(in srgb, var(--color-primary) 12%, #1d1915);
+
+  --shadow-soft: var(--shadow-card);
+
+  --radius-lg: var(--radius-card);
+  --radius-md: var(--radius-base);
+  --radius-sm: calc(var(--radius-base) * 0.7);
+
+  --font-serif: var(--font-heading);
+  --font-sans: var(--font-body);
 }

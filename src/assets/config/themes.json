@@ -1,0 +1,320 @@
+{
+  "defaultThemeKey": "LUXURY_GOLD",
+  "themes": [
+    {
+      "themeKey": "LUXURY_GOLD",
+      "name": "Luxury Gold",
+      "colors": {
+        "primary": "#A47E45",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#F5EFE6",
+        "accent": "#D4AF37",
+        "background": "#FAF8F4",
+        "surface": "#FFFFFF",
+        "text": "#292524",
+        "mutedText": "#78716C",
+        "border": "#E7E0D5",
+        "success": "#4D7C5A",
+        "warning": "#C0841A",
+        "danger": "#B91C1C"
+      },
+      "typography": { "headingFont": "Playfair Display", "bodyFont": "Jost" },
+      "shape": { "borderRadius": "14px", "cardRadius": "22px", "buttonRadius": "999px" },
+      "effects": { "shadow": "0 18px 45px -18px rgba(94, 74, 42, 0.22)", "hoverScale": "1.02" }
+    },
+    {
+      "themeKey": "ROSE_ELEGANCE",
+      "name": "Rose Elegance",
+      "colors": {
+        "primary": "#B5637A",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#FBEEF1",
+        "accent": "#D9A5B3",
+        "background": "#FFF8F9",
+        "surface": "#FFFFFF",
+        "text": "#3A2A2F",
+        "mutedText": "#8A7278",
+        "border": "#F0DCE2",
+        "success": "#4F8A5E",
+        "warning": "#C3862A",
+        "danger": "#B3261E"
+      },
+      "typography": { "headingFont": "Cormorant Garamond", "bodyFont": "Nunito Sans" },
+      "shape": { "borderRadius": "16px", "cardRadius": "24px", "buttonRadius": "999px" },
+      "effects": { "shadow": "0 16px 40px -18px rgba(181, 99, 122, 0.28)", "hoverScale": "1.03" }
+    },
+    {
+      "themeKey": "NATURAL_WELLNESS",
+      "name": "Natural Wellness",
+      "colors": {
+        "primary": "#5E7D5A",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#EEF3EA",
+        "accent": "#A8B98A",
+        "background": "#F7F8F3",
+        "surface": "#FFFFFF",
+        "text": "#24302A",
+        "mutedText": "#6C776F",
+        "border": "#DDE5D6",
+        "success": "#3F7A4C",
+        "warning": "#B7841F",
+        "danger": "#A9322C"
+      },
+      "typography": { "headingFont": "Lora", "bodyFont": "Inter" },
+      "shape": { "borderRadius": "12px", "cardRadius": "18px", "buttonRadius": "12px" },
+      "effects": { "shadow": "0 10px 30px rgba(36, 48, 42, 0.08)", "hoverScale": "1.01" }
+    },
+    {
+      "themeKey": "MIDNIGHT_LUXURY",
+      "name": "Midnight Luxury",
+      "colors": {
+        "primary": "#C9A961",
+        "onPrimary": "#1A1710",
+        "secondary": "#23222B",
+        "accent": "#E4C77E",
+        "background": "#14141A",
+        "surface": "#1E1E26",
+        "text": "#F2EDE4",
+        "mutedText": "#A9A39A",
+        "border": "#34333F",
+        "success": "#7FB48C",
+        "warning": "#E0A83A",
+        "danger": "#E06666"
+      },
+      "typography": { "headingFont": "Playfair Display", "bodyFont": "Inter" },
+      "shape": { "borderRadius": "12px", "cardRadius": "20px", "buttonRadius": "999px" },
+      "effects": { "shadow": "0 20px 50px -20px rgba(0, 0, 0, 0.65)", "hoverScale": "1.02" }
+    },
+    {
+      "themeKey": "PEARL_WHITE",
+      "name": "Pearl White",
+      "colors": {
+        "primary": "#6F665C",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#F4F2EE",
+        "accent": "#C8BFB3",
+        "background": "#FCFBF9",
+        "surface": "#FFFFFF",
+        "text": "#2C2A27",
+        "mutedText": "#7E7871",
+        "border": "#E9E5DF",
+        "success": "#5B8A63",
+        "warning": "#B8862B",
+        "danger": "#A83A3A"
+      },
+      "typography": { "headingFont": "Cormorant Garamond", "bodyFont": "Inter" },
+      "shape": { "borderRadius": "6px", "cardRadius": "12px", "buttonRadius": "6px" },
+      "effects": { "shadow": "0 8px 24px rgba(44, 42, 39, 0.06)", "hoverScale": "1" }
+    },
+    {
+      "themeKey": "CHAMPAGNE_DREAM",
+      "name": "Champagne Dream",
+      "colors": {
+        "primary": "#A8825E",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#F8F1E7",
+        "accent": "#E8D3B5",
+        "background": "#FFFBF5",
+        "surface": "#FFFDFA",
+        "text": "#33291F",
+        "mutedText": "#857766",
+        "border": "#EFE3D2",
+        "success": "#5C8A5E",
+        "warning": "#C48A2C",
+        "danger": "#B2372F"
+      },
+      "typography": { "headingFont": "Playfair Display", "bodyFont": "Poppins" },
+      "shape": { "borderRadius": "20px", "cardRadius": "28px", "buttonRadius": "999px" },
+      "effects": { "shadow": "0 22px 50px -22px rgba(168, 130, 94, 0.35)", "hoverScale": "1.03" }
+    },
+    {
+      "themeKey": "SAGE_SERENITY",
+      "name": "Sage Serenity",
+      "colors": {
+        "primary": "#5F7A6A",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#EDF1EC",
+        "accent": "#B8A47E",
+        "background": "#F6F7F3",
+        "surface": "#FFFFFF",
+        "text": "#1F2A24",
+        "mutedText": "#6B756F",
+        "border": "#DCE3DC",
+        "success": "#4A7F5C",
+        "warning": "#B2842A",
+        "danger": "#A9383A"
+      },
+      "typography": { "headingFont": "Playfair Display", "bodyFont": "Jost" },
+      "shape": { "borderRadius": "18px", "cardRadius": "28px", "buttonRadius": "999px" },
+      "effects": { "shadow": "0 18px 45px -18px rgba(31, 42, 36, 0.18)", "hoverScale": "1.02" }
+    },
+    {
+      "themeKey": "BLUSH_BEAUTY",
+      "name": "Blush Beauty",
+      "colors": {
+        "primary": "#C25F5F",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#FDEFEC",
+        "accent": "#F2B8A0",
+        "background": "#FFF9F7",
+        "surface": "#FFFFFF",
+        "text": "#3B2B2B",
+        "mutedText": "#8C7575",
+        "border": "#F4DCD6",
+        "success": "#4F8A5E",
+        "warning": "#C8862A",
+        "danger": "#A4262C"
+      },
+      "typography": { "headingFont": "DM Serif Display", "bodyFont": "DM Sans" },
+      "shape": { "borderRadius": "24px", "cardRadius": "32px", "buttonRadius": "999px" },
+      "effects": { "shadow": "0 14px 36px -14px rgba(194, 95, 95, 0.3)", "hoverScale": "1.04" }
+    },
+    {
+      "themeKey": "ROYAL_PURPLE",
+      "name": "Royal Purple",
+      "colors": {
+        "primary": "#6B4E9B",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#F1ECF8",
+        "accent": "#D4B24C",
+        "background": "#FAF8FD",
+        "surface": "#FFFFFF",
+        "text": "#2A2137",
+        "mutedText": "#75688A",
+        "border": "#E4DCEF",
+        "success": "#4E8560",
+        "warning": "#B9842A",
+        "danger": "#A9343C"
+      },
+      "typography": { "headingFont": "Cinzel", "bodyFont": "Raleway" },
+      "shape": { "borderRadius": "10px", "cardRadius": "16px", "buttonRadius": "10px" },
+      "effects": { "shadow": "0 16px 40px -16px rgba(107, 78, 155, 0.3)", "hoverScale": "1.02" }
+    },
+    {
+      "themeKey": "OCEAN_WELLNESS",
+      "name": "Ocean Wellness",
+      "colors": {
+        "primary": "#2F6F8F",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#E9F2F6",
+        "accent": "#7FB8C9",
+        "background": "#F4F9FB",
+        "surface": "#FFFFFF",
+        "text": "#1C2B33",
+        "mutedText": "#62767F",
+        "border": "#D6E4EB",
+        "success": "#3F8A6A",
+        "warning": "#B7862B",
+        "danger": "#A73A3A"
+      },
+      "typography": { "headingFont": "Merriweather", "bodyFont": "Source Sans 3" },
+      "shape": { "borderRadius": "14px", "cardRadius": "20px", "buttonRadius": "14px" },
+      "effects": { "shadow": "0 12px 34px -12px rgba(47, 111, 143, 0.25)", "hoverScale": "1.02" }
+    },
+    {
+      "themeKey": "TERRACOTTA_SPA",
+      "name": "Terracotta Spa",
+      "colors": {
+        "primary": "#B5573B",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#F8ECE6",
+        "accent": "#E0A48A",
+        "background": "#FBF5F1",
+        "surface": "#FFFDFB",
+        "text": "#33231C",
+        "mutedText": "#866D62",
+        "border": "#EBD9CF",
+        "success": "#5E8A5A",
+        "warning": "#C1842A",
+        "danger": "#A32E2E"
+      },
+      "typography": { "headingFont": "Fraunces", "bodyFont": "Inter" },
+      "shape": { "borderRadius": "8px", "cardRadius": "14px", "buttonRadius": "8px" },
+      "effects": { "shadow": "0 12px 30px -12px rgba(181, 87, 59, 0.25)", "hoverScale": "1.01" }
+    },
+    {
+      "themeKey": "EMERALD_LUXURY",
+      "name": "Emerald Luxury",
+      "colors": {
+        "primary": "#1F6B54",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#E8F2EE",
+        "accent": "#C9A961",
+        "background": "#F3F8F6",
+        "surface": "#FFFFFF",
+        "text": "#142320",
+        "mutedText": "#5E7570",
+        "border": "#D3E3DD",
+        "success": "#2E7D5B",
+        "warning": "#B7842A",
+        "danger": "#A73535"
+      },
+      "typography": { "headingFont": "Playfair Display", "bodyFont": "Lato" },
+      "shape": { "borderRadius": "12px", "cardRadius": "18px", "buttonRadius": "999px" },
+      "effects": { "shadow": "0 18px 45px -18px rgba(31, 107, 84, 0.3)", "hoverScale": "1.02" }
+    },
+    {
+      "themeKey": "SOFT_LAVENDER",
+      "name": "Soft Lavender",
+      "colors": {
+        "primary": "#7C6BA8",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#F2EFF9",
+        "accent": "#C7B8E6",
+        "background": "#FAF9FD",
+        "surface": "#FFFFFF",
+        "text": "#2F2A3D",
+        "mutedText": "#7C7590",
+        "border": "#E5E0F0",
+        "success": "#508560",
+        "warning": "#B9862E",
+        "danger": "#A8383F"
+      },
+      "typography": { "headingFont": "Josefin Slab", "bodyFont": "Nunito" },
+      "shape": { "borderRadius": "22px", "cardRadius": "30px", "buttonRadius": "999px" },
+      "effects": { "shadow": "0 14px 40px -16px rgba(124, 107, 168, 0.28)", "hoverScale": "1.03" }
+    },
+    {
+      "themeKey": "COCOA_ELEGANCE",
+      "name": "Cocoa Elegance",
+      "colors": {
+        "primary": "#6B4A3A",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#F3ECE7",
+        "accent": "#C89B7B",
+        "background": "#FAF6F3",
+        "surface": "#FFFFFF",
+        "text": "#2B1F1A",
+        "mutedText": "#7E6A60",
+        "border": "#E7DAD1",
+        "success": "#5A8560",
+        "warning": "#BC862B",
+        "danger": "#A33333"
+      },
+      "typography": { "headingFont": "Libre Baskerville", "bodyFont": "Work Sans" },
+      "shape": { "borderRadius": "10px", "cardRadius": "16px", "buttonRadius": "10px" },
+      "effects": { "shadow": "0 16px 40px -18px rgba(107, 74, 58, 0.3)", "hoverScale": "1.01" }
+    },
+    {
+      "themeKey": "MODERN_MONOCHROME",
+      "name": "Modern Monochrome",
+      "colors": {
+        "primary": "#1F1F1F",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#F2F2F2",
+        "accent": "#8A8A8A",
+        "background": "#FFFFFF",
+        "surface": "#FAFAFA",
+        "text": "#111111",
+        "mutedText": "#6B6B6B",
+        "border": "#E3E3E3",
+        "success": "#2F7D4F",
+        "warning": "#B27A1C",
+        "danger": "#B3261E"
+      },
+      "typography": { "headingFont": "Space Grotesk", "bodyFont": "Inter" },
+      "shape": { "borderRadius": "2px", "cardRadius": "4px", "buttonRadius": "2px" },
+      "effects": { "shadow": "0 6px 20px rgba(0, 0, 0, 0.08)", "hoverScale": "1" }
+    }
+  ]
+}

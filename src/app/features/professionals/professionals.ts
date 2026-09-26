@@ -7,13 +7,19 @@ import {
   linkedSignal
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
 import { DialogModule } from 'primeng/dialog';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { PROFESSIONAL_TYPES } from '../../core/constants/domain.constants';
+import {
+  PROFESSIONAL_TYPES,
+  PROFESSIONAL_TYPE_FOR_SERVICE,
+  ServiceType
+} from '../../core/constants/domain.constants';
 import { Professional, ProfessionalType } from '../../core/models/catalog.model';
 import { AvailabilityService } from '../../core/services/availability.service';
 import { BookingService } from '../../core/services/booking.service';
@@ -29,6 +35,15 @@ import { PricePipe } from '../../shared/pipes/price.pipe';
 
 type TypeFilter = 'ALL' | ProfessionalType;
 
+const PINNED_TITLE: Record<ProfessionalType, string> = {
+  STYLIST: 'Stylists',
+  THERAPIST: 'Therapists'
+};
+
+/**
+ * Team page. Also serves /stylists and /therapists: the route's `data.type`
+ * pins the professional type so one component covers all three destinations.
+ */
 @Component({
   selector: 'app-professionals-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,11 +70,23 @@ export class ProfessionalsPage {
   private readonly availability = inject(AvailabilityService);
   private readonly bookingState = inject(BookingService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   /** Bound from ?pro=<id> via withComponentInputBinding. */
   readonly pro = input<string>();
 
-  protected readonly selectedType = linkedSignal<TypeFilter>(() => 'ALL');
+  /** Professional type pinned by the route (/stylists, /therapists); undefined on /professionals. */
+  private readonly pinnedType = toSignal(
+    this.route.data.pipe(
+      map((d) => {
+        const type = d['type'] as ServiceType | undefined;
+        return type ? PROFESSIONAL_TYPE_FOR_SERVICE[type] : undefined;
+      })
+    ),
+    { initialValue: undefined }
+  );
+
+  protected readonly selectedType = linkedSignal<TypeFilter>(() => this.pinnedType() ?? 'ALL');
 
   protected readonly profile = linkedSignal<Professional | null>(() => {
     const id = Number(this.pro());
@@ -71,9 +98,15 @@ export class ProfessionalsPage {
     void this.catalog.load();
   }
 
-  protected readonly pageHero = computed(() => this.content.page('professionals'));
+  protected readonly pageHero = computed(() => {
+    const page = this.content.page('professionals');
+    const pinned = this.pinnedType();
+    return pinned ? { ...page, title: PINNED_TITLE[pinned] } : page;
+  });
 
+  /** Type toggle only when both staff types exist and the route isn't pinned. */
   protected readonly typeOptions = computed(() => {
+    if (this.pinnedType()) return [];
     if (!(this.business.isSalonStaffEnabled() && this.business.isSpaStaffEnabled())) return [];
     return [
       { label: 'Everyone', value: 'ALL' as TypeFilter },

@@ -1,0 +1,12 @@
+{
+  "_help": "activeClientKey picks the client. activeThemeKey is optional: leave it empty to use the client's own theme.themeKey, or set any key from themes.json (e.g. MIDNIGHT_LUXURY) to force that theme for testing.",
+
+  "activeClientKey": "CLIENT_SALON_001",
+  "activeThemeKey": "",
+
+  "clients": [
+    { "key": "CLIENT_SALON_001", "file": "clients/client-salon-001.json" },
+    { "key": "CLIENT_SPA_001", "file": "clients/client-spa-001.json" },
+    { "key": "CLIENT_BOTH_001", "file": "clients/client-both-001.json" }
+  ]
+}

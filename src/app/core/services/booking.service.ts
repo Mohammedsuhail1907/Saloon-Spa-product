@@ -8,8 +8,8 @@ import {
   StoredGiftCard
 } from '../models/booking.model';
 import { Professional, Service } from '../models/catalog.model';
-import { AppConfigService } from './config/app-config.service';
 import { BusinessConfigService } from './config/business-config.service';
+import { ClientConfigService } from './config/client-config.service';
 import { ServiceCatalogService } from './data/service-catalog.service';
 
 /**
@@ -21,7 +21,7 @@ import { ServiceCatalogService } from './data/service-catalog.service';
 export class BookingService {
   private readonly business = inject(BusinessConfigService);
   private readonly catalog = inject(ServiceCatalogService);
-  private readonly keys = storageKeys(inject(AppConfigService).clientId());
+  private readonly keys = storageKeys(inject(ClientConfigService).getActiveClientKey());
 
   /** In-progress selection, shared across pages and the booking stepper. */
   private readonly _draft = signal<BookingDraft>({ addOnIds: [] });

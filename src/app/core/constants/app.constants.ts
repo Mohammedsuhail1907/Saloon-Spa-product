@@ -6,23 +6,28 @@ import { environment } from '../../../environments/environment';
  */
 export const ENV_API_BASE_URL = environment.apiBaseUrl;
 
-/** Folder holding every per-client configuration file. */
+/** Folder holding every configuration file. */
 export const CONFIG_BASE_PATH = 'assets/config';
 
-/** Configuration files loaded once at bootstrap (see ConfigLoaderService). */
+/**
+ * Configuration files loaded at bootstrap (see ConfigLoaderService).
+ * `app` and `clientSelector` are required; the `*-config.json` files are the
+ * product defaults that the active client's JSON overrides section by section.
+ */
 export const CONFIG_FILES = {
   app: 'app-config.json',
-  business: 'business-config.json',
-  menu: 'menu-config.json',
+  clientSelector: 'client-selector.json',
+  themes: 'themes.json',
   feature: 'feature-config.json',
+  menu: 'menu-config.json',
   booking: 'booking-config.json',
-  theme: 'theme-config.json',
   permission: 'permission-config.json',
   content: 'content-config.json'
 } as const;
 
 /**
  * Logical data resources. With dataSource=ASSETS these map to
+ * `<client data path>/<name>.json` when the client owns the resource, else
  * `assets/data/<name>.json`; with API they become `${apiBaseUrl}/<name>`.
  */
 export const DATA_RESOURCES = {
@@ -41,13 +46,20 @@ export const DATA_RESOURCES = {
 } as const;
 export type DataResource = (typeof DATA_RESOURCES)[keyof typeof DATA_RESOURCES];
 
+/** Shared catalogue used by every client that does not override a resource. */
 export const DATA_BASE_PATH = 'assets/data';
 
-/** localStorage keys, namespaced per client so two configs never collide. */
-export const storageKeys = (clientId: string) =>
+/** localStorage keys, namespaced per client so two clients never collide. */
+export const storageKeys = (clientKey: string) =>
   ({
-    appointments: `${clientId}.appointments`,
-    favorites: `${clientId}.favorites`,
-    giftCards: `${clientId}.giftcards`,
-    membership: `${clientId}.membership`
+    appointments: `${clientKey}.appointments`,
+    favorites: `${clientKey}.favorites`,
+    giftCards: `${clientKey}.giftcards`,
+    membership: `${clientKey}.membership`
   }) as const;
+
+/** sessionStorage keys for the development-only client/theme switcher. */
+export const DEV_OVERRIDE_KEYS = {
+  client: 'salon-spa.dev.clientKey',
+  theme: 'salon-spa.dev.themeKey'
+} as const;

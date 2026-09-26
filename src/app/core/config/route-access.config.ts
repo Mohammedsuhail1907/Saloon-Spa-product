@@ -14,6 +14,8 @@ export interface RouteAccessRule {
   section?: ServiceType;
   /** Requires at least one professional type to be enabled. */
   staff?: boolean;
+  /** Requires this specific professional type to be enabled. */
+  staffType?: ServiceType;
   /** Booking rules must have `enabled: true`. */
   booking?: boolean;
   permission?: Permission;
@@ -25,6 +27,8 @@ export const ROUTE_ACCESS = {
   salon: { section: 'SALON', permission: PERMISSIONS.catalogView },
   spa: { section: 'SPA', permission: PERMISSIONS.catalogView },
   professionals: { staff: true, permission: PERMISSIONS.catalogView },
+  stylists: { staffType: 'SALON', permission: PERMISSIONS.catalogView },
+  therapists: { staffType: 'SPA', permission: PERMISSIONS.catalogView },
   booking: { feature: 'onlineBooking', booking: true, permission: PERMISSIONS.bookingCreate },
   quiz: { feature: 'beautyQuiz' },
   gallery: { feature: 'gallery' },

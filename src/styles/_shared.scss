@@ -37,7 +37,7 @@
 
 .meta-chip--price {
   background: var(--brand-primary);
-  color: #fff;
+  color: var(--color-on-primary);
   font-weight: 600;
 }
 
@@ -80,7 +80,7 @@
   &.is-selected {
     background: var(--brand-primary);
     border-color: var(--brand-primary);
-    color: #fff;
+    color: var(--color-on-primary);
     box-shadow: 0 6px 16px -8px rgba(176, 141, 87, 0.7);
   }
 
@@ -499,7 +499,7 @@
   box-shadow: var(--shadow-card);
   transition: transform 0.3s ease;
 
-  &:hover { transform: translateY(-4px); }
+  &:hover { transform: translateY(-4px) scale(var(--hover-scale)); }
 
   h2,
   h3 {

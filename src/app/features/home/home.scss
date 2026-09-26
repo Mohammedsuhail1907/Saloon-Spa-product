@@ -274,10 +274,10 @@
   &.is-active {
     background: var(--brand-primary);
     border-color: var(--brand-primary);
-    color: #fff;
+    color: var(--color-on-primary);
 
     i {
-      color: #fff;
+      color: var(--color-on-primary);
     }
   }
 }

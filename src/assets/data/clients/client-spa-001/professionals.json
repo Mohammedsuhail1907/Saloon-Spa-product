@@ -1,0 +1,53 @@
+[
+  {
+    "id": 6,
+    "name": "Arjun Pillai",
+    "role": "Senior Massage Therapist",
+    "type": "THERAPIST",
+    "experienceYears": 10,
+    "specialties": [
+      "Deep Tissue",
+      "Sports Recovery",
+      "Swedish"
+    ],
+    "rating": 4.9,
+    "reviewsCount": 341,
+    "bio": "Arjun trained in Kerala and Chiang Mai; his pressure work is legendary among our regulars.",
+    "palette": "art-moss",
+    "enabled": true
+  },
+  {
+    "id": 7,
+    "name": "Meera Nair",
+    "role": "Wellness Aesthetician",
+    "type": "THERAPIST",
+    "experienceYears": 9,
+    "specialties": [
+      "Facial Rituals",
+      "Lymphatic Massage",
+      "Aromatherapy"
+    ],
+    "rating": 4.8,
+    "reviewsCount": 205,
+    "bio": "Meera blends skincare science with slow, meditative touch.",
+    "palette": "art-sand",
+    "enabled": true
+  },
+  {
+    "id": 8,
+    "name": "Sofia D’Souza",
+    "role": "Senior Ritual Therapist",
+    "type": "THERAPIST",
+    "experienceYears": 6,
+    "specialties": [
+      "Aromatherapy",
+      "Body Rituals",
+      "Relaxation Therapy"
+    ],
+    "rating": 4.9,
+    "reviewsCount": 178,
+    "bio": "Sofia curates each session’s oils, music and warmth around how you arrive.",
+    "palette": "art-stone",
+    "enabled": true
+  }
+]

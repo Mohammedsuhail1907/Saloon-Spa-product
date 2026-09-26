@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Serenity Wellness Spa">
+  <circle cx="32" cy="32" r="30" fill="#F6F7F3" stroke="#5F7A6A" stroke-width="2"/>
+  <path d="M32 14c-8 8-12 15-12 22a12 12 0 0 0 24 0c0-7-4-14-12-22z" fill="none" stroke="#5F7A6A" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M32 24v24" stroke="#B8A47E" stroke-width="2" stroke-linecap="round"/>
+</svg>

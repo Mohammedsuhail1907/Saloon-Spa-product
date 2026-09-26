@@ -6,22 +6,11 @@
   font-family: var(--font-sans);
 }
 
-/* Button shape follows theme-config.json `buttonStyle` (set on <html>). */
-.p-button {
-  border-radius: 999px;
+/* Button shape follows the active theme's `shape.buttonRadius`. */
+.p-button,
+.p-button.p-button-rounded {
+  border-radius: var(--radius-button);
   letter-spacing: 0.02em;
-}
-
-html[data-button-style='soft'] .p-button,
-html[data-button-style='soft'] .sticky-cta__btn,
-html[data-button-style='soft'] .config-error__btn {
-  border-radius: var(--radius-sm);
-}
-
-html[data-button-style='square'] .p-button,
-html[data-button-style='square'] .sticky-cta__btn,
-html[data-button-style='square'] .config-error__btn {
-  border-radius: 4px;
 }
 
 .p-dialog {

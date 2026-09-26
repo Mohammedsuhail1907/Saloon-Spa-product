@@ -80,9 +80,9 @@
   margin-top: 0.75rem;
   padding: 0.75rem 1.6rem;
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--radius-button);
   background: var(--brand-primary);
-  color: #fff;
+  color: var(--color-on-primary);
   font: inherit;
   font-weight: 600;
   cursor: pointer;
@@ -93,9 +93,9 @@
   flex: 1 1 auto;
   text-align: center;
   padding: 0.85rem 1rem;
-  border-radius: 999px;
+  border-radius: var(--radius-button);
   background: var(--brand-primary);
-  color: #fff;
+  color: var(--color-on-primary);
   font-weight: 600;
   text-decoration: none;
   letter-spacing: 0.04em;
@@ -152,4 +152,18 @@
   .breath-widget {
     bottom: 84px;
   }
+}
+
+.config-error__details {
+  margin: 0.75rem 0 0;
+  padding: 0.75rem 1rem;
+  list-style: none;
+  text-align: left;
+  border-radius: var(--radius-sm);
+  background: var(--color-secondary);
+  color: var(--ink-soft);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  word-break: break-word;
 }

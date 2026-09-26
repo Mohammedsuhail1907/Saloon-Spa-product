@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "Bridal Glow Package",
+    "description": "Bridal artistry trial, premium glow facial and luxury manicure — one seamless day.",
+    "price": 5999,
+    "originalPrice": 7499,
+    "savings": 1500,
+    "validity": "Valid till end of the month",
+    "type": "SALON",
+    "tag": "Most Loved",
+    "art": "art-rose",
+    "icon": "pi pi-heart-fill",
+    "serviceId": 5
+  },
+  {
+    "id": 3,
+    "title": "First Visit Glow",
+    "description": "Your first Premium Glow Facial with us, with a skin consultation included.",
+    "price": 1499,
+    "originalPrice": 1999,
+    "savings": 500,
+    "validity": "New guests only",
+    "type": "SALON",
+    "tag": "New Guests",
+    "art": "art-gold",
+    "icon": "pi pi-sun",
+    "serviceId": 7
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": 2,
+    "customer": "Nikhil",
+    "title": "Nikhil’s Reset",
+    "rating": 5,
+    "service": "Deep Tissue Massage",
+    "type": "SPA",
+    "steps": [
+      "Arrived tense",
+      "Ninety minutes",
+      "Left weightless"
+    ],
+    "quote": "Arjun found knots I had carried for years. I booked my next session before leaving the building.",
+    "palette": "art-moss"
+  },
+  {
+    "id": 4,
+    "customer": "Divya",
+    "title": "Divya’s Sunday Ritual",
+    "rating": 4,
+    "service": "Aromatherapy Journey",
+    "type": "SPA",
+    "steps": [
+      "Arrived frazzled",
+      "The ritual",
+      "Calm for days"
+    ],
+    "quote": "The oils Sofia blends for me are half the reason my Sundays feel sacred now.",
+    "palette": "art-blush"
+  }
+]

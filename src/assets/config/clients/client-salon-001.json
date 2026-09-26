@@ -1,0 +1,127 @@
+{
+  "clientKey": "CLIENT_SALON_001",
+
+  "businessMode": "SALON_ONLY",
+
+  "business": {
+    "name": "Luxe Hair Studio",
+    "shortName": "Luxe",
+    "tagline": "Style. Confidence. You.",
+    "description": "Premium hair and beauty experience.",
+
+    "logo": "assets/images/clients/client-salon-001/logo.svg",
+    "favicon": "assets/images/clients/client-salon-001/favicon.ico",
+
+    "currency": "INR",
+    "currencySymbol": "₹",
+    "locale": "en-IN",
+
+    "contact": {
+      "phone": "+91 98765 43210",
+      "email": "hello@luxehair.com",
+      "whatsapp": "+91 98765 43210"
+    },
+
+    "address": {
+      "line1": "123 Main Street",
+      "line2": "",
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "country": "India",
+      "postalCode": "600001"
+    },
+
+    "socialMedia": {
+      "instagram": "https://instagram.com/luxehairstudio",
+      "facebook": "",
+      "youtube": "",
+      "twitter": ""
+    },
+
+    "hoursLabel": "Tue – Sun 10:00 AM – 8:00 PM · Closed Mondays"
+  },
+
+  "theme": {
+    "themeKey": "LUXURY_GOLD"
+  },
+
+  "features": {
+    "onlineBooking": true,
+    "slotBooking": true,
+    "stylistSelection": true,
+    "therapistSelection": false,
+    "servicePackages": true,
+    "customPackageBuilder": false,
+    "membership": false,
+    "giftCards": false,
+    "offers": true,
+    "reviews": true,
+    "gallery": true,
+    "beforeAfterGallery": true,
+    "beautyQuiz": true,
+    "recommendations": true,
+    "customerDashboard": true,
+    "appointmentHistory": true,
+    "appointmentReschedule": true,
+    "appointmentCancellation": true,
+    "whatsappBooking": true,
+    "callBooking": true,
+    "liveAvailability": false,
+    "products": false,
+    "productRecommendations": false,
+    "notifications": true,
+    "relaxationMode": false
+  },
+
+  "menus": [
+    { "id": "home", "label": "Home", "enabled": true, "order": 1, "group": "primary" },
+    { "id": "services", "label": "Services", "enabled": true, "order": 2, "group": "primary" },
+    { "id": "professionals", "label": "Stylists", "enabled": true, "order": 3, "group": "primary" },
+    { "id": "offers", "label": "Offers", "enabled": true, "order": 4, "group": "primary" },
+    { "id": "gallery", "label": "Gallery", "enabled": true, "order": 5, "group": "primary" },
+    { "id": "contact", "label": "Contact", "enabled": true, "order": 6, "group": "primary" },
+
+    { "id": "booking", "label": "Book Now", "enabled": true, "order": 20, "group": "secondary" },
+    { "id": "quiz", "label": "Find Your Look", "enabled": true, "order": 21, "group": "secondary" },
+    { "id": "appointments", "label": "My Appointments", "enabled": true, "order": 22, "group": "secondary" },
+
+    { "id": "salon", "enabled": false },
+    { "id": "spa", "enabled": false },
+    { "id": "stylists", "enabled": false },
+    { "id": "therapists", "enabled": false },
+    { "id": "membership", "enabled": false },
+    { "id": "gift-cards", "enabled": false },
+    { "id": "experience-builder", "enabled": false }
+  ],
+
+  "booking": {
+    "slotDuration": 45,
+    "workingHours": {
+      "sunday": { "enabled": true, "open": "10:00", "close": "18:00" },
+      "monday": { "enabled": false, "open": "10:00", "close": "20:00" }
+    }
+  },
+
+  "content": {
+    "labels": { "services": "Services", "professionals": "Stylists" },
+    "hero": {
+      "titleWords": ["STYLE.", "CONFIDENCE.", "YOU."],
+      "subtitle": "Precision cuts, dimensional colour and occasion styling — by stylists who listen first.",
+      "primaryButtonText": "Book a Chair",
+      "secondaryButtonText": "See the Menu",
+      "backgroundImage": "assets/images/clients/client-salon-001/hero.svg"
+    },
+    "pages": {
+      "services": { "eyebrow": "Our menu", "title": "", "subtitle": "Every cut and colour starts with a consultation and ends with a finish you can recreate at home." },
+      "professionals": { "eyebrow": "In expert hands", "title": "", "subtitle": "Choose your stylist, not just a slot — every profile shows real specialties and next availability." },
+      "quiz": { "eyebrow": "A minute of honesty", "title": "Find your look", "subtitle": "Three questions. One tailored recommendation." },
+      "appointments": { "eyebrow": "Your space", "title": "My appointments", "subtitle": "Upcoming visits, favourites and past looks." }
+    },
+    "footerNote": "Demo studio — bookings and availability shown here are sample data."
+  },
+
+  "data": {
+    "path": "assets/data/clients/client-salon-001",
+    "clientResources": ["services", "professionals", "offers", "gallery", "reviews"]
+  }
+}

@@ -21,7 +21,7 @@
   }
 
   &:hover {
-    transform: translateY(-4px) scale(1.01);
+    transform: translateY(-4px) scale(var(--hover-scale));
   }
 
   figcaption {

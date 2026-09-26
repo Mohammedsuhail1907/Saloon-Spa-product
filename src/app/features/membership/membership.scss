@@ -22,7 +22,7 @@
   &.is-highlight {
     border-color: var(--brand-primary);
     box-shadow: var(--shadow-soft);
-    transform: translateY(-6px);
+    transform: translateY(-6px) scale(var(--hover-scale));
   }
 
   .check-list {

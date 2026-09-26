@@ -1,11 +1,19 @@
 @if (configLoader.hasFailed()) {
-  <!-- Configuration could not be loaded: show a calm, non-technical state. -->
+  <!-- Configuration could not be loaded: a calm state for customers, details for developers. -->
   <main class="config-error" role="alert">
     <div class="config-error__card">
       <i class="pi pi-exclamation-circle" aria-hidden="true"></i>
       <h1>We’ll be right back</h1>
-      <p>{{ configLoader.error() }}</p>
-      <p class="config-error__hint">Please try again in a moment.</p>
+      <p>{{ configLoader.error()?.message }}</p>
+      @if (showErrorDetails && configLoader.error()?.details?.length) {
+        <ul class="config-error__details">
+          @for (line of configLoader.error()!.details; track $index) {
+            <li>{{ line }}</li>
+          }
+        </ul>
+      } @else {
+        <p class="config-error__hint">Please try again in a moment.</p>
+      }
       <button type="button" class="config-error__btn" (click)="reload()">Reload</button>
     </div>
   </main>
@@ -51,4 +59,9 @@
 
   <p-toast position="top-right" />
   <p-confirmdialog [style]="{ 'max-width': '26rem' }" />
+}
+
+<!-- Deferred so production bundles never ship the switcher's code. -->
+@defer (when devTools.enabled()) {
+  <app-dev-toolbar />
 }
