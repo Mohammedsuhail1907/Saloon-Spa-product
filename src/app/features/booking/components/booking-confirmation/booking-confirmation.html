@@ -1,0 +1,45 @@
+<div class="confirm-card" role="status">
+  <div class="confirm-card__spark" aria-hidden="true"><i class="pi pi-check"></i></div>
+  <span class="eyebrow">Your experience is booked ✨</span>
+  <h1>{{ appointment().serviceName }}</h1>
+  <div class="confirm-card__facts">
+    <div><i class="pi pi-calendar" aria-hidden="true"></i>{{ appointment().dateTime | date: 'EEEE, d MMMM' }}</div>
+    <div><i class="pi pi-clock" aria-hidden="true"></i>{{ appointment().dateTime | date: 'h:mm a' }} · {{ appointment().durationMinutes }} min</div>
+    <div><i class="pi pi-user" aria-hidden="true"></i>With {{ appointment().professionalName }}</div>
+    <div><i class="pi pi-wallet" aria-hidden="true"></i>{{ appointment().price | price }} · pay at the studio</div>
+    <div><i class="pi pi-hashtag" aria-hidden="true"></i>Ref {{ appointment().ref }}</div>
+  </div>
+  @if (appointment().addOns.length) {
+    <p class="confirm-card__addons">
+      Including:
+      @for (a of appointment().addOns; track a.name) {
+        <span>{{ a.name }}</span>@if (!$last) {<span>, </span>}
+      }
+    </p>
+  }
+  <div class="confirm-card__actions">
+    <p-button label="Add to Calendar" icon="pi pi-calendar-plus" [outlined]="true" severity="secondary" [rounded]="true" (onClick)="addToCalendar.emit()" />
+    <p-button label="View Booking" icon="pi pi-list" [outlined]="true" severity="secondary" [rounded]="true" (onClick)="viewAppointments.emit()" />
+    <p-button label="Book Another Experience" [rounded]="true" (onClick)="bookAnother.emit()" />
+  </div>
+</div>
+
+@if (products().length) {
+  <div class="after-panel">
+    <div class="section-head section-head--center">
+      <span class="eyebrow">Keep your results at home</span>
+      <h2>Recommended for you</h2>
+    </div>
+    <div class="product-row">
+      @for (p of products(); track p.id) {
+        <div class="product-tile">
+          <span class="product-tile__art {{ p.art }}"><i class="{{ p.icon }}" aria-hidden="true"></i></span>
+          <strong>{{ p.name }}</strong>
+          <span class="hint-text">{{ p.description }}</span>
+          <span class="product-tile__price">{{ p.price | price }}</span>
+        </div>
+      }
+    </div>
+    <p class="hint-text hint-text--center">Available at the studio — mention your booking reference.</p>
+  </div>
+}

@@ -1,0 +1,102 @@
+/* Form and filter primitives shared by booking, contact, gift cards,
+   services and gallery. */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.4rem;
+
+  label {
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+
+  input,
+  textarea {
+    width: 100%;
+  }
+}
+
+.form-field--full {
+  grid-column: 1 / -1;
+}
+
+.field-error {
+  font-size: 0.78rem;
+  color: #b3453c;
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.filter-bar__search {
+  flex: 1 1 260px;
+  max-width: 420px;
+
+  input {
+    width: 100%;
+    border-radius: 999px;
+  }
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.7rem;
+}
+
+.chip-row--tight { margin-bottom: 0.6rem; }
+.chip-row--center { justify-content: center; }
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 1.05rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--brand-surface);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  i {
+    font-size: 0.78rem;
+    color: var(--brand-primary);
+  }
+
+  &:hover {
+    border-color: var(--brand-primary);
+    color: var(--ink);
+  }
+
+  &.is-active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+
+    i { color: #fff; }
+  }
+}
+
+@media (max-width: 640px) {
+  .form-grid { grid-template-columns: 1fr; }
+}

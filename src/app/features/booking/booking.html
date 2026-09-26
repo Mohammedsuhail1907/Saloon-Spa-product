@@ -1,0 +1,145 @@
+@if (booked(); as appointment) {
+  <!-- ======================== CONFIRMATION ======================== -->
+  <section class="section">
+    <div class="shell shell--narrow">
+      <app-booking-confirmation
+        [appointment]="appointment"
+        [products]="recommendedProducts()"
+        (addToCalendar)="downloadIcs()"
+        (viewAppointments)="viewBookings()"
+        (bookAnother)="bookAnother()"
+      />
+    </div>
+  </section>
+} @else {
+  <!-- ========================= BOOKING FLOW ======================== -->
+  <section class="page-hero page-hero--compact">
+    <div class="shell">
+      <span class="eyebrow eyebrow--line">Online booking</span>
+      <h1>Book your experience</h1>
+    </div>
+  </section>
+
+  <section class="section section--flush-top booking-layout-section">
+    <div class="shell booking-layout">
+      <div class="booking-main">
+        <p-stepper [value]="step()" [linear]="true" styleClass="booking-stepper">
+          <p-step-list>
+            <p-step [value]="1">Service</p-step>
+            @if (canChooseProfessional()) {
+              <p-step [value]="2">Professional</p-step>
+            }
+            <p-step [value]="3">Date</p-step>
+            <p-step [value]="4">{{ slotBooking() ? 'Slot' : 'Time' }}</p-step>
+            <p-step [value]="5">Details</p-step>
+            <p-step [value]="6">Confirm</p-step>
+          </p-step-list>
+        </p-stepper>
+
+        <div class="booking-panel">
+          @switch (step()) {
+            @case (1) {
+              <app-service-selection
+                [groups]="serviceGroups()"
+                [selectedId]="service()?.id ?? null"
+                [filteredBy]="professional()?.name ?? null"
+                (serviceSelect)="selectService($event)"
+                (showAll)="selectProfessional(null)"
+              />
+            }
+
+            @case (2) {
+              <app-professional-selection
+                [options]="professionalOptions()"
+                [selectedId]="professional()?.id ?? null"
+                [anySelected]="anyProfessional()"
+                [serviceType]="service()?.type ?? null"
+                (professionalSelect)="selectProfessional($event)"
+              />
+            }
+
+            @case (3) {
+              <app-date-selection
+                [date]="date()"
+                [minDate]="minDate"
+                [maxDate]="maxDate"
+                [disabledDays]="disabledDays"
+                [disabledDates]="disabledDates"
+                [day]="dayAvailability()"
+                [availableCount]="availableCount()"
+                (dateChange)="onDateChange($event)"
+              />
+            }
+
+            @case (4) {
+              <app-slot-selection
+                [day]="dayAvailability()"
+                [slotBooking]="slotBooking()"
+                [slot]="slot()"
+                [periodOptions]="periodOptions()"
+                [preferredPeriod]="preferredPeriod()"
+                [slotLabel]="slotLabel()"
+                (slotChange)="slot.set($event)"
+                (periodChange)="onPeriodChange($event)"
+              />
+            }
+
+            @case (5) {
+              <app-customer-details
+                [(name)]="name"
+                [(phone)]="phone"
+                [(email)]="email"
+                [(notes)]="notes"
+                [triedSubmit]="triedSubmit()"
+                [nameValid]="nameValid()"
+                [phoneValid]="phoneValid()"
+                [emailValid]="emailValid()"
+                [addons]="addons()"
+                [addOnIds]="addOnIds()"
+                (addonToggle)="toggleAddon($event.id, $event.checked)"
+              />
+            }
+
+            @case (6) {
+              <app-booking-review
+                [service]="service()"
+                [professionalLabel]="professionalLabel() ?? ''"
+                [date]="date()"
+                [slotLabel]="slotLabel()"
+                [addons]="selectedAddons()"
+                [totalDuration]="totalDuration()"
+                [totalPrice]="totalPrice()"
+                [guestLine]="guestLine()"
+              />
+            }
+          }
+
+          <div class="booking-nav">
+            @if (step() > 1) {
+              <p-button label="Back" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="back()" />
+            } @else {
+              <span></span>
+            }
+            @if (step() < 6) {
+              <p-button label="Continue" icon="pi pi-arrow-right" iconPos="right" [rounded]="true" [disabled]="!canNext()" (onClick)="next()" />
+            } @else {
+              <p-button label="Confirm Booking" icon="pi pi-check" [rounded]="true" (onClick)="confirm()" />
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================== SUMMARY ========================= -->
+      <app-booking-summary
+        [service]="service()"
+        [professionalLabel]="professionalLabel()"
+        [dateLabel]="date() | date: 'EEE, d MMM'"
+        [timeLabel]="slot() ? slotLabel() : null"
+        [addons]="selectedAddons()"
+        [totalDuration]="totalDuration()"
+        [totalPrice]="totalPrice()"
+        hint="Availability shown is sample data for this demo."
+      />
+    </div>
+  </section>
+}

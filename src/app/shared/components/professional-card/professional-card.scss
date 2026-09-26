@@ -1,0 +1,90 @@
+/* Shared bits (.rating-inline, .soft-chip, .slot-chip, .pro-avatar) live in
+   src/styles/_shared.scss; only the card structure is scoped here. */
+
+.pro-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  background: var(--brand-surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 1.3rem;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-soft);
+  }
+}
+
+.pro-card__top {
+  display: flex;
+  gap: 0.95rem;
+  align-items: center;
+}
+
+.pro-card__name {
+  font-size: 1.12rem;
+  margin: 0;
+}
+
+.pro-card__role {
+  font-size: 0.85rem;
+  color: var(--brand-primary);
+  margin: 0.1rem 0;
+  font-weight: 500;
+}
+
+.pro-card__stats {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  margin: 0;
+}
+
+.pro-card__specialties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.pro-card__avail {
+  border-top: 1px dashed var(--line);
+  padding-top: 0.75rem;
+}
+
+.pro-card__avail-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  margin-bottom: 0.45rem;
+
+  &.muted {
+    color: var(--ink-faint);
+  }
+}
+
+.dot-open {
+  font-size: 0.5rem;
+  color: #5f8f57;
+}
+
+.pro-card__slots {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.pro-card__actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}

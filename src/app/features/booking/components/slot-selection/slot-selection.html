@@ -1,0 +1,23 @@
+<h2 class="booking-panel__title">
+  {{ slotBooking() ? 'Choose your slot' : 'Preferred time of day' }}
+</h2>
+
+@if (day(); as d) {
+  @if (slotBooking()) {
+    <app-slot-selector [day]="d" [selected]="slot()" (selectedChange)="slotChange.emit($event)" />
+  } @else {
+    <p-selectbutton
+      [options]="periodOptions()"
+      [ngModel]="preferredPeriod()"
+      (ngModelChange)="periodChange.emit($event)"
+      optionLabel="label"
+      optionValue="value"
+      aria-label="Preferred time of day"
+    />
+    @if (slot()) {
+      <p class="hint-text">We’ve pencilled you in at {{ slotLabel() }}.</p>
+    }
+  }
+} @else {
+  <p class="hint-text">Pick a date first.</p>
+}

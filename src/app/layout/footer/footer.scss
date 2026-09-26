@@ -1,0 +1,96 @@
+.site-footer {
+  background: #262019;
+  color: #cbc0aa;
+  padding: clamp(2.6rem, 6vw, 4rem) 0 1.6rem;
+  margin-top: 2rem;
+
+  h3,
+  h4 {
+    color: #f6efe2;
+  }
+
+  h4 {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.9rem;
+    color: #cdaa72;
+  }
+
+  a {
+    display: block;
+    color: #cbc0aa;
+    text-decoration: none;
+    padding: 0.22rem 0;
+    font-size: 0.92rem;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #f6efe2;
+    }
+  }
+
+  p {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.92rem;
+    margin-bottom: 0.5rem;
+
+    i {
+      color: #cdaa72;
+      margin-top: 0.25rem;
+      font-size: 0.85rem;
+    }
+  }
+}
+
+:host ::ng-deep .site-footer .p-divider {
+  --p-divider-border-color: rgba(205, 170, 114, 0.2);
+}
+
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: 1.3fr 0.8fr 0.9fr 1.2fr;
+  gap: clamp(1.6rem, 4vw, 3rem);
+  margin-bottom: 1.8rem;
+}
+
+.site-footer__name {
+  font-size: 1.5rem;
+  margin: 0.7rem 0 0.2rem;
+}
+
+.site-footer__tagline {
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: #cdaa72;
+}
+
+.site-footer__note {
+  font-size: 0.8rem !important;
+  color: #8c8270;
+  max-width: 34ch;
+  margin-top: 0.9rem;
+}
+
+.site-footer__copyright {
+  text-align: center;
+  font-size: 0.82rem;
+  color: #8c8270;
+  justify-content: center;
+}
+
+@media (max-width: 1024px) {
+  .site-footer__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-footer__grid {
+    grid-template-columns: 1fr;
+  }
+}

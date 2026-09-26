@@ -12,7 +12,8 @@ interface FooterLink {
   selector: 'app-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, DividerModule],
-  templateUrl: './footer.html'
+  templateUrl: './footer.html',
+  styleUrl: './footer.scss'
 })
 export class Footer {
   protected readonly config = inject(BusinessConfigService);
@@ -37,7 +38,7 @@ export class Footer {
     if (c.isPackagesEnabled()) links.push({ label: 'Experience Builder', link: '/experience-builder' });
     if (c.isMembershipEnabled()) links.push({ label: 'Membership', link: '/membership' });
     if (c.isGiftCardEnabled()) links.push({ label: 'Gift Cards', link: '/gift-cards' });
-    links.push({ label: 'My Experiences', link: '/my-experiences' });
+    links.push({ label: 'My Appointments', link: '/appointments' });
     return links;
   });
 }

@@ -1,0 +1,26 @@
+<h2 class="booking-panel__title">Pick a date</h2>
+
+<div class="date-step">
+  <p-datepicker
+    [ngModel]="date()"
+    (ngModelChange)="dateChange.emit($event)"
+    [inline]="true"
+    [minDate]="minDate()"
+    [maxDate]="maxDate()"
+    [disabledDays]="disabledDays()"
+    [disabledDates]="disabledDates()"
+  />
+  <div class="date-step__info">
+    @if (date()) {
+      @if (day()?.closed) {
+        <p-message severity="warn" text="{{ day()?.reason }} — please pick another date." />
+      } @else if (availableCount() === 0) {
+        <p-message severity="warn" text="No open slots on this day — please pick another date." />
+      } @else {
+        <p-message severity="success" text="{{ availableCount() }} open slots on this day." />
+      }
+    } @else {
+      <p class="hint-text">Closed days and holidays are disabled in the calendar.</p>
+    }
+  </div>
+</div>

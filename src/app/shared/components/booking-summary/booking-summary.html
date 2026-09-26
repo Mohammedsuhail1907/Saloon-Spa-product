@@ -1,0 +1,44 @@
+<aside class="booking-summary" aria-label="Booking summary">
+  <h3>Your experience</h3>
+
+  @if (service(); as s) {
+    <div class="booking-summary__service">
+      <span class="pick-row__art {{ s.art }}"><i class="{{ s.icon }}" aria-hidden="true"></i></span>
+      <div><strong>{{ s.name }}</strong><span>{{ s.type === 'SPA' ? 'Spa' : 'Salon' }}</span></div>
+    </div>
+  } @else {
+    <p class="hint-text">{{ emptyText() }}</p>
+  }
+
+  <ul class="booking-summary__rows">
+    @if (professionalLabel(); as pro) {
+      <li><i class="pi pi-user" aria-hidden="true"></i>{{ pro }}</li>
+    }
+    @if (dateLabel(); as d) {
+      <li><i class="pi pi-calendar" aria-hidden="true"></i>{{ d }}</li>
+    }
+    @if (timeLabel(); as t) {
+      <li><i class="pi pi-clock" aria-hidden="true"></i>{{ t }}</li>
+    }
+    @for (a of addons(); track a.id) {
+      <li>
+        <i class="pi pi-plus-circle" aria-hidden="true"></i>{{ a.name }}
+        @if (showAddonPrices()) { · +{{ a.price | price }} }
+      </li>
+    }
+  </ul>
+
+  @if (service()) {
+    <p-divider />
+    <div class="booking-summary__total">
+      <span>{{ totalDuration() }} min</span>
+      <strong>{{ totalPrice() | price }}</strong>
+    </div>
+  }
+
+  <ng-content />
+
+  @if (hint(); as h) {
+    <p class="hint-text">{{ h }}</p>
+  }
+</aside>

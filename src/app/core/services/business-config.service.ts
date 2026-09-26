@@ -1,12 +1,13 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { palette, updatePreset } from '@primeuix/themes';
+import { firstValueFrom } from 'rxjs';
+import { CONFIG_URL } from '../constants/app.constants';
 import {
   BusinessConfig,
   DEFAULT_BUSINESS_CONFIG,
   FeatureFlags
 } from '../models/business-config.model';
-
-const CONFIG_URL = 'assets/config/salon-spa-config.json';
 
 /**
  * Single source of truth for the business configuration.
@@ -15,6 +16,7 @@ const CONFIG_URL = 'assets/config/salon-spa-config.json';
  */
 @Injectable({ providedIn: 'root' })
 export class BusinessConfigService {
+  private readonly http = inject(HttpClient);
   private readonly _config = signal<BusinessConfig>(DEFAULT_BUSINESS_CONFIG);
 
   readonly config = this._config.asReadonly();
@@ -97,11 +99,10 @@ export class BusinessConfigService {
   /** Loads the JSON config; falls back to defaults if it cannot be fetched. */
   async load(): Promise<void> {
     try {
-      const res = await fetch(CONFIG_URL);
-      if (res.ok) {
-        const json = (await res.json()) as Partial<BusinessConfig>;
-        this._config.set(this.merge(json));
-      }
+      const json = await firstValueFrom(
+        this.http.get<Partial<BusinessConfig>>(CONFIG_URL)
+      );
+      this._config.set(this.merge(json));
     } catch {
       // Keep DEFAULT_BUSINESS_CONFIG — the app must still boot without the file.
     }

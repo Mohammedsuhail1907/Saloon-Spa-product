@@ -1,59 +1,126 @@
-# AppSaloonSpa
+# Luxe & Aura — Salon & Spa Booking Platform
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.3.
+A configuration-driven, premium salon & spa booking experience built with
+**Angular 20 (standalone components, signals, zoneless)** and **PrimeNG 20**.
 
-## Development server
+One codebase serves three business modes — switch by editing a single JSON file:
 
-To start a local development server, run:
-
-```bash
-ng serve
+```text
+SALON_ONLY  ·  SPA_ONLY  ·  SALON_AND_SPA
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Quick start
 
 ```bash
-ng generate component component-name
+npm install
+npm start           # ng serve → http://localhost:4200
+ng serve --port 5000  # or any port you prefer
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Build and test:
 
 ```bash
-ng generate --help
+npm run build       # production build → dist/
+npm test            # Karma/Jasmine unit tests
 ```
 
-## Building
+## Configuration
 
-To build the project run:
+Everything brand- and business-specific lives in:
 
-```bash
-ng build
+```text
+src/assets/config/salon-spa-config.json
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- `businessMode` — `SALON_ONLY`, `SPA_ONLY` or `SALON_AND_SPA`. Navigation,
+  services, professionals, quiz content and page sections adapt automatically.
+- `business` — name, tagline, logo, contact details, currency.
+- `theme` — brand colours; applied at runtime to CSS variables **and** the
+  PrimeNG theme preset (`BusinessConfigService.applyTheme`).
+- `features` — feature flags (onlineBooking, slotBooking, membership,
+  giftCards, beautyQuiz, offers, gallery, …). Disabled features disappear from
+  navigation and their routes are blocked by `featureGuard`.
+- `salon` / `spa` — per-section toggles for services and staff.
+- `booking` — opening hours, slot length, closed weekdays, holidays.
 
-## Running unit tests
+The config is fetched once at bootstrap via `provideAppInitializer` +
+`HttpClient`; components read it through the signal-based
+`BusinessConfigService` and never touch the JSON directly.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Architecture
 
-```bash
-ng test
+```text
+src/
+├── app/
+│   ├── core/                 # singletons — no UI
+│   │   ├── constants/        # API base URL, config URL, storage keys
+│   │   ├── data/             # mock catalogue data (swap for API calls)
+│   │   ├── guards/           # featureGuard — blocks disabled feature routes
+│   │   ├── models/           # BusinessConfig, Service, Professional,
+│   │   │                     # Appointment, AvailabilitySlot, …
+│   │   └── services/         # BusinessConfigService, CatalogService,
+│   │                         # AvailabilityService, BookingService,
+│   │                         # NotificationService (PrimeNG Toast), UiState
+│   ├── shared/               # reusable presentational building blocks
+│   │   ├── components/       # service-card, professional-card,
+│   │   │                     # slot-selector, booking-summary, before-after
+│   │   ├── directives/       # appReveal (IntersectionObserver reveal)
+│   │   └── pipes/            # price (config-driven currency)
+│   ├── layout/               # header (config-driven nav) + footer
+│   ├── features/             # one folder per lazy-loaded route
+│   │   ├── home/             # hero, moods, featured, stories, promos
+│   │   ├── services/         # catalogue with filters + detail dialog
+│   │   ├── professionals/    # stylists & therapists + profile dialog
+│   │   ├── booking/          # 6-step wizard (see below)
+│   │   ├── appointments/     # upcoming/past, reschedule, cancel, details
+│   │   ├── beauty-quiz/      # 3-question recommendation quiz
+│   │   ├── experience-builder/ # package builder (base + add-ons)
+│   │   ├── membership/  offers/  gift-cards/  gallery/  contact/
+│   ├── app.routes.ts         # lazy routes, all guarded by feature flags
+│   └── app.config.ts         # providers: router, http, PrimeNG theme,
+│                             # app initializer (config load)
+├── assets/config/            # salon-spa-config.json
+├── environments/             # environment.ts / environment.development.ts
+├── styles/                   # global SCSS partials (tokens, base, layout,
+│                             # art palettes, forms, shared patterns, PrimeNG)
+└── styles.scss               # aggregator only — page CSS lives per component
 ```
 
-## Running end-to-end tests
+### Booking flow
 
-For end-to-end (e2e) testing, run:
+`features/booking` is a thin container that owns the wizard state (signals)
+and composes presentational step components:
 
-```bash
-ng e2e
+```text
+booking.ts / booking.html          # state + PrimeNG Stepper + navigation
+└── components/
+    ├── service-selection/         # step 1
+    ├── professional-selection/    # step 2 (skipped if disabled in config)
+    ├── date-selection/            # step 3 — inline PrimeNG DatePicker
+    ├── slot-selection/            # step 4 — slot grid or period picker
+    ├── customer-details/          # step 5 — details + add-ons
+    ├── booking-review/            # step 6 — final recap
+    └── booking-confirmation/      # success screen + product suggestions
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+The sticky summary aside is the shared `app-booking-summary` component,
+reused by the experience builder.
 
-## Additional Resources
+### API readiness
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+There is no backend yet — availability is generated deterministically and
+appointments persist to `localStorage` (clearly labelled as demo data in the
+UI). The seams for a real API are already in place:
+
+- `AvailabilityService.getDayAvailability(date, professionalId)`
+  → `GET /availability`
+- `BookingService.book / reschedule / cancel` → `POST/PUT/DELETE /appointments`
+- `CatalogService` computed lists → `GET /services`, `GET /professionals`
+- `environment.apiBaseUrl` + `core/constants/app.constants.ts` hold the base URL.
+
+### Styling
+
+- Global design tokens and cross-feature patterns: `src/styles/_*.scss`
+- Per-component styles: next to each component (`*.scss`)
+- PrimeNG internals reached via `styleClass` are styled either in
+  `_primeng.scss` (app-wide) or with `:host ::ng-deep` in the owning component.

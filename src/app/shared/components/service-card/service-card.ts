@@ -22,69 +22,8 @@ import { PricePipe } from '../../pipes/price.pipe';
   selector: 'app-service-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AvatarModule, AvatarGroupModule, ButtonModule, TagModule, TooltipModule, PricePipe],
-  template: `
-    <article class="svc-card">
-      <div class="svc-card__art {{ service().art }}">
-        <i class="svc-card__icon {{ service().icon }}" aria-hidden="true"></i>
-        @if (service().popular) {
-          <p-tag class="svc-card__flag" value="Popular" />
-        } @else if (service().isNew) {
-          <p-tag class="svc-card__flag" severity="success" value="New" />
-        }
-        <button
-          type="button"
-          class="svc-card__fav"
-          (click)="onFavorite()"
-          [attr.aria-pressed]="isFavorite()"
-          [attr.aria-label]="isFavorite() ? 'Remove from favourites' : 'Add to favourites'"
-        >
-          <i class="pi" [class.pi-heart]="!isFavorite()" [class.pi-heart-fill]="isFavorite()"></i>
-        </button>
-      </div>
-
-      <div class="svc-card__body">
-        <div class="svc-card__toprow">
-          <span class="svc-card__category">{{ categoryLabel() }}</span>
-          <span class="rating-inline" aria-label="Rated {{ service().rating }} out of 5">
-            <i class="pi pi-star-fill"></i>{{ service().rating }}
-          </span>
-        </div>
-        <h3 class="svc-card__name">{{ service().name }}</h3>
-        <p class="svc-card__desc">{{ service().description }}</p>
-
-        <div class="svc-card__meta">
-          <span class="meta-chip"><i class="pi pi-clock"></i>{{ service().duration }} min</span>
-          <span class="meta-chip meta-chip--price">{{ service().price | price }}</span>
-        </div>
-
-        @if (professionals().length) {
-          <div class="svc-card__pros">
-            <p-avatar-group>
-              @for (pro of professionals(); track pro.id) {
-                <p-avatar
-                  [label]="initials(pro.name)"
-                  shape="circle"
-                  styleClass="mini-avatar {{ pro.palette }}"
-                  [pTooltip]="pro.name"
-                  tooltipPosition="top"
-                />
-              }
-            </p-avatar-group>
-            <span class="svc-card__pros-label">{{ professionals().length }} professional{{
-              professionals().length > 1 ? 's' : ''
-            }}</span>
-          </div>
-        }
-
-        <div class="svc-card__actions">
-          <p-button label="View Details" [text]="true" size="small" (onClick)="view.emit(service())" />
-          @if (bookingEnabled()) {
-            <p-button label="Book Now" [rounded]="true" size="small" (onClick)="book.emit(service())" />
-          }
-        </div>
-      </div>
-    </article>
-  `
+  templateUrl: './service-card.html',
+  styleUrl: './service-card.scss'
 })
 export class ServiceCard {
   private readonly catalog = inject(CatalogService);

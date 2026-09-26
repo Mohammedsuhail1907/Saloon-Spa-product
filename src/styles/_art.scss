@@ -1,0 +1,22 @@
+/* Art palette classes. They arrive as *dynamic strings* from mock data
+   (service.art, professional.palette, …), so they must stay global —
+   component style scoping cannot see runtime-composed class names. */
+
+.art-gold   { background: linear-gradient(135deg, #f3e7d3, #ddc094); color: #7d603a; }
+.art-rose   { background: linear-gradient(135deg, #f7e8e2, #e5bfae); color: #9c5f45; }
+.art-sage   { background: linear-gradient(135deg, #e6ece2, #becfb2); color: #5c6f4c; }
+.art-sand   { background: linear-gradient(135deg, #f5efe6, #e0d0b3); color: #86713f; }
+.art-blush  { background: linear-gradient(135deg, #f9eef0, #e8c8d1); color: #a65e74; }
+.art-stone  { background: linear-gradient(135deg, #eceae6, #cfc9bf); color: #6b655c; }
+.art-moss   { background: linear-gradient(135deg, #e4e9dd, #b4c3a2); color: #55663f; }
+.art-pearl  { background: linear-gradient(135deg, #f8f6f2, #ded7ca); color: #7c745f; }
+
+/* Before/after art layers (BeforeAfterItem.beforeArt / afterArt). */
+.ba-hair-before   { background: linear-gradient(150deg, #cfc4b4, #9d907c); }
+.ba-hair-after    { background: linear-gradient(150deg, #e8cf9e, #b08d57); }
+.ba-makeup-before { background: linear-gradient(150deg, #e3d5cc, #b3a294); }
+.ba-makeup-after  { background: linear-gradient(150deg, #f4d9cb, #d38f6e); }
+.ba-skin-before   { background: linear-gradient(150deg, #ded8ce, #a89f92); }
+.ba-skin-after    { background: linear-gradient(150deg, #fbe8d5, #e2b183); }
+.ba-nails-before  { background: linear-gradient(150deg, #d9d4cb, #a8a196); }
+.ba-nails-after   { background: linear-gradient(150deg, #f0d3da, #c76e8b); }

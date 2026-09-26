@@ -1,0 +1,79 @@
+/* `.slot-chip` itself is a shared pattern (also used on professional cards
+   and profile dialogs) and lives in src/styles/_shared.scss. */
+
+.slot-group {
+  margin-bottom: 1.1rem;
+}
+
+.slot-group__title {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.55rem;
+}
+
+.slot-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.slot-closed {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--ink-faint);
+
+  i {
+    font-size: 1.8rem;
+    color: var(--brand-primary);
+    margin-bottom: 0.6rem;
+  }
+
+  p {
+    margin: 0;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+}
+
+.slot-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+
+  &--available {
+    background: var(--brand-surface);
+    border: 1px solid var(--ink-faint);
+  }
+
+  &--selected {
+    background: var(--brand-primary);
+  }
+
+  &--booked {
+    background: #d8d2c6;
+  }
+
+  &--waitlist {
+    background: #ecd9ae;
+  }
+}

@@ -1,0 +1,210 @@
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &.is-scrolled {
+    border-bottom-color: var(--line);
+    box-shadow: 0 8px 24px -18px rgba(94, 74, 42, 0.35);
+  }
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.4rem;
+  padding: 0.7rem 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+}
+
+.brand__logo {
+  display: block;
+}
+
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brand__name {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.brand__tagline {
+  font-size: 0.66rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.7rem, 1.6vw, 1.5rem);
+}
+
+.main-nav__link {
+  position: relative;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 0.35rem 0.1rem;
+  transition: color 0.25s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: 0;
+    height: 2px;
+    background: var(--brand-primary);
+    transition: right 0.25s ease;
+  }
+
+  &:hover,
+  &.is-active {
+    color: var(--ink);
+  }
+
+  &:hover::after,
+  &.is-active::after {
+    right: 0;
+  }
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border: 1px solid var(--line);
+  background: var(--brand-surface);
+  transition: color 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    color: var(--brand-primary);
+    border-color: var(--brand-primary);
+  }
+}
+
+.relax-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--brand-surface);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+
+  &:hover {
+    transform: scale(1.06);
+  }
+
+  &.is-on {
+    background: #e6ece2;
+    border-color: var(--brand-accent);
+  }
+}
+
+.menu-btn {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--brand-surface);
+  color: var(--ink);
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+.drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-bottom: 1.4rem;
+}
+
+.drawer-nav__link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 0.6rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--ink);
+
+  i {
+    color: var(--brand-primary);
+    width: 1.1rem;
+  }
+
+  &:hover {
+    background: var(--gold-soft);
+  }
+}
+
+.drawer-nav__divider {
+  height: 1px;
+  background: var(--line);
+  margin: 0.7rem 0.4rem;
+}
+
+/* PrimeNG internals reached through styleClass. */
+:host ::ng-deep .header-book-btn .p-button-label {
+  font-weight: 600;
+}
+
+:host ::ng-deep .drawer-book-btn {
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .main-nav {
+    display: none;
+  }
+
+  .menu-btn {
+    display: inline-grid;
+    place-items: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .brand__tagline {
+    display: none;
+  }
+
+  :host ::ng-deep .site-header__actions .header-book-btn {
+    display: none;
+  }
+}

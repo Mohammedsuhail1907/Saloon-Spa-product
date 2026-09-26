@@ -1,0 +1,28 @@
+/* ============================================================
+   Design tokens. Brand colours are overwritten at runtime from
+   salon-spa-config.json (see BusinessConfigService.applyTheme);
+   the values below are the compile-time defaults.
+   ============================================================ */
+
+:root {
+  --brand-primary: #b08d57;
+  --brand-secondary: #f5efe6;
+  --brand-surface: #ffffff;
+  --brand-text: #242424;
+  --brand-accent: #6f7d5c;
+
+  --ink: var(--brand-text);
+  --ink-soft: #6b6355;
+  --ink-faint: #9a917f;
+  --paper: #faf7f1;
+  --line: #eadfce;
+  --gold-soft: #f3e9d7;
+  --shadow-soft: 0 18px 45px -18px rgba(94, 74, 42, 0.22);
+  --shadow-card: 0 10px 30px -14px rgba(94, 74, 42, 0.18);
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Jost', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}

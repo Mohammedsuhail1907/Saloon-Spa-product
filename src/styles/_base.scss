@@ -1,0 +1,97 @@
+/* Resets, typography and cross-cutting document-level behaviour. */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.18;
+  margin: 0 0 0.5rem;
+}
+
+h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); }
+h3 { font-size: 1.2rem; }
+
+p { margin: 0 0 0.75rem; }
+
+a { color: inherit; }
+
+/* ---------------------- reveal on scroll ------------------------ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* -------------------- relax mode (spa toggle) -------------------- */
+/* Global on purpose: it recolours tokens and softens visuals across
+   every component from a single body class. */
+
+body.relax-mode {
+  --paper: #f2f3ee;
+  --brand-secondary: #e9ece3;
+
+  .hero__blob--one {
+    background: radial-gradient(circle, rgba(140, 158, 120, 0.4), transparent 70%);
+  }
+
+  .svc-card__art,
+  .hero__tile,
+  .gallery-tile,
+  .offer-card__art {
+    filter: saturate(0.75);
+  }
+
+  * { animation-duration: 1.5s; }
+
+  .breath-widget__circle { animation-duration: 7s; }
+}
+
+/* ----------------------- reduced motion -------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html { scroll-behavior: auto; }
+
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* Room for the fixed mobile booking CTA (see app.scss). */
+@media (max-width: 640px) {
+  body { padding-bottom: 74px; }
+}

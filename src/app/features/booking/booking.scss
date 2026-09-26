@@ -1,0 +1,10 @@
+/* Layout primitives shared with the experience builder (.booking-layout,
+   .booking-panel, .booking-nav, .pick-row, …) live in src/styles/_shared.scss. */
+
+:host ::ng-deep .booking-stepper {
+  margin-bottom: 1.2rem;
+
+  .p-steplist {
+    flex-wrap: wrap;
+  }
+}

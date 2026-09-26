@@ -26,7 +26,8 @@ interface NavItem {
   selector: 'app-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, RouterLinkActive, ButtonModule, DrawerModule, TooltipModule, FormsModule],
-  templateUrl: './header.html'
+  templateUrl: './header.html',
+  styleUrl: './header.scss'
 })
 export class Header {
   protected readonly config = inject(BusinessConfigService);
@@ -88,7 +89,7 @@ export class Header {
     if (c.isGiftCardEnabled()) {
       items.push({ label: 'Gift Cards', link: '/gift-cards', icon: 'pi pi-gift' });
     }
-    items.push({ label: 'My Experiences', link: '/my-experiences', icon: 'pi pi-user' });
+    items.push({ label: 'My Appointments', link: '/appointments', icon: 'pi pi-user' });
     return items;
   });
 

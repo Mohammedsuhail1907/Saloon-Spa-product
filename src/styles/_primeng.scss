@@ -1,0 +1,39 @@
+/* Global PrimeNG refinements. These target PrimeNG-internal elements,
+   which component-scoped styles cannot reach without ::ng-deep, so the
+   app-wide ones are collected here. */
+
+.p-component {
+  font-family: var(--font-sans);
+}
+
+.p-button {
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.p-dialog {
+  border-radius: var(--radius-lg);
+
+  .p-dialog-title {
+    font-family: var(--font-serif);
+  }
+}
+
+.p-drawer .p-drawer-title {
+  font-family: var(--font-serif);
+}
+
+.p-step-title {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+}
+
+.p-accordion .p-accordionheader {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+}
+
+.p-toast .p-toast-summary {
+  font-family: var(--font-sans);
+  font-weight: 600;
+}

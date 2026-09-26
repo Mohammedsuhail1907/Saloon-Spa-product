@@ -1,40 +1,16 @@
 import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
 import { BeforeAfterItem } from '../../../core/models/catalog.model';
 
+/**
+ * Touch-friendly, keyboard-accessible before/after comparison. The invisible
+ * range input on top of the frame drives the divider for mouse, touch and
+ * arrow keys alike.
+ */
 @Component({
   selector: 'app-before-after',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <figure class="ba">
-      <div class="ba__frame">
-        <div class="ba__layer {{ item().beforeArt }}">
-          <span class="ba__label">Before</span>
-        </div>
-        <div
-          class="ba__layer ba__layer--after {{ item().afterArt }}"
-          [style.clip-path]="'inset(0 0 0 ' + position() + '%)'"
-        >
-          <span class="ba__label ba__label--after">After</span>
-        </div>
-        <div class="ba__divider" [style.left.%]="position()" aria-hidden="true">
-          <span class="ba__handle"><i class="pi pi-arrows-h"></i></span>
-        </div>
-        <input
-          class="ba__range"
-          type="range"
-          min="2"
-          max="98"
-          [value]="position()"
-          (input)="onSlide($event)"
-          [attr.aria-label]="'Compare before and after — ' + item().title"
-        />
-      </div>
-      <figcaption class="ba__caption">
-        <strong>{{ item().title }}</strong>
-        <span>{{ item().caption }}</span>
-      </figcaption>
-    </figure>
-  `
+  templateUrl: './before-after.html',
+  styleUrl: './before-after.scss'
 })
 export class BeforeAfter {
   readonly item = input.required<BeforeAfterItem>();

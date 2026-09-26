@@ -1,0 +1,37 @@
+/* .gift-card-art (the card visual) is shared with the appointments page
+   and lives in src/styles/_shared.scss. */
+
+.gift-layout {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(1.8rem, 4vw, 3rem);
+  align-items: start;
+}
+
+.gift-form {
+  background: var(--brand-surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+  box-shadow: var(--shadow-card);
+}
+
+:host ::ng-deep .gift-custom-amount {
+  margin-top: 0.6rem;
+  max-width: 240px;
+}
+
+.gift-preview {
+  position: sticky;
+  top: 100px;
+}
+
+@media (max-width: 1024px) {
+  .gift-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .gift-preview {
+    position: static;
+  }
+}

@@ -1,0 +1,80 @@
+/* The host participates in the feature's `.booking-layout` grid. */
+:host {
+  display: block;
+  position: sticky;
+  top: 90px;
+}
+
+@media (max-width: 1024px) {
+  :host {
+    position: static;
+    order: -1;
+  }
+}
+
+.booking-summary {
+  background: var(--brand-surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 1.3rem;
+  box-shadow: var(--shadow-card);
+
+  h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.8rem;
+  }
+}
+
+.booking-summary__service {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.7rem;
+
+  strong {
+    display: block;
+    font-size: 0.95rem;
+  }
+
+  span {
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+  }
+}
+
+.booking-summary__rows {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.28rem 0;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+
+    i {
+      color: var(--brand-primary);
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.booking-summary__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  span {
+    color: var(--ink-faint);
+    font-size: 0.88rem;
+  }
+
+  strong {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    color: var(--brand-primary);
+  }
+}

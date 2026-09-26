@@ -1,0 +1,22 @@
+<h2 class="booking-panel__title">One last look</h2>
+
+<dl class="review-list">
+  <div><dt>Service</dt><dd>{{ service()?.name }}</dd></div>
+  <div><dt>Professional</dt><dd>{{ professionalLabel() }}</dd></div>
+  <div><dt>Date</dt><dd>{{ date() | date: 'EEEE, d MMMM y' }}</dd></div>
+  <div><dt>Time</dt><dd>{{ slotLabel() }}</dd></div>
+  @if (addons().length) {
+    <div>
+      <dt>Add-ons</dt>
+      <dd>
+        @for (a of addons(); track a.id) {
+          {{ a.name }}@if (!$last) {, }
+        }
+      </dd>
+    </div>
+  }
+  <div><dt>Duration</dt><dd>{{ totalDuration() }} min</dd></div>
+  <div><dt>Total</dt><dd class="review-list__total">{{ totalPrice() | price }}</dd></div>
+  <div><dt>Guest</dt><dd>{{ guestLine() }}</dd></div>
+</dl>
+<p class="hint-text">You’ll pay at the studio. Free rescheduling until 4 hours before.</p>

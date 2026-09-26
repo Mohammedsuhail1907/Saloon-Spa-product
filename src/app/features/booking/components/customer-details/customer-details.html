@@ -1,0 +1,43 @@
+<h2 class="booking-panel__title">Your details</h2>
+
+<div class="form-grid">
+  <div class="form-field">
+    <label for="bk-name">Full name</label>
+    <input pInputText id="bk-name" [(ngModel)]="name" autocomplete="name" placeholder="Your name" />
+    @if (triedSubmit() && !nameValid()) { <span class="field-error">Please enter your name.</span> }
+  </div>
+  <div class="form-field">
+    <label for="bk-phone">Phone</label>
+    <input pInputText id="bk-phone" [(ngModel)]="phone" autocomplete="tel" inputmode="tel" placeholder="+91 …" />
+    @if (triedSubmit() && !phoneValid()) { <span class="field-error">Please enter a valid phone number.</span> }
+  </div>
+  <div class="form-field form-field--full">
+    <label for="bk-email">Email</label>
+    <input pInputText id="bk-email" [(ngModel)]="email" autocomplete="email" inputmode="email" placeholder="you@example.com" />
+    @if (triedSubmit() && !emailValid()) { <span class="field-error">Please enter a valid email.</span> }
+  </div>
+  <div class="form-field form-field--full">
+    <label for="bk-notes">Notes <span class="hint-text">(optional)</span></label>
+    <textarea pTextarea id="bk-notes" rows="3" [(ngModel)]="notes" placeholder="Allergies, preferences, occasions…"></textarea>
+  </div>
+</div>
+
+@if (addons().length) {
+  <h3 class="booking-panel__group">Complete your experience</h3>
+  <div class="addon-list">
+    @for (a of addons(); track a.id) {
+      <label class="addon-row" [class.is-checked]="addOnIds().includes(a.id)">
+        <p-checkbox
+          [binary]="true"
+          [ngModel]="addOnIds().includes(a.id)"
+          (ngModelChange)="addonToggle.emit({ id: a.id, checked: $event })"
+          [inputId]="'addon-' + a.id"
+        />
+        <span class="addon-row__body">
+          <strong>{{ a.name }}</strong>
+          <span>+{{ a.price | price }}@if (a.duration) { · +{{ a.duration }} min}</span>
+        </span>
+      </label>
+    }
+  </div>
+}

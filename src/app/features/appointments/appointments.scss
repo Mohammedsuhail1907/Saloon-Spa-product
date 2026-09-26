@@ -1,0 +1,99 @@
+.appt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.appt-card {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: var(--brand-surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.3rem;
+  box-shadow: var(--shadow-card);
+
+  h3 {
+    margin: 0 0 0.15rem;
+    font-size: 1.1rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+  }
+}
+
+.appt-card--muted {
+  opacity: 0.82;
+}
+
+.appt-card__when {
+  flex: 0 0 62px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-radius: var(--radius-md);
+  background: var(--gold-soft);
+}
+
+.appt-card__day {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  line-height: 1.1;
+  color: var(--brand-primary);
+}
+
+.appt-card__month {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.appt-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.appt-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: flex-end;
+}
+
+.reschedule-current {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--gold-soft);
+  margin-bottom: 1.1rem;
+
+  span {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+}
+
+.giftcard-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.2rem;
+}
+
+@media (max-width: 640px) {
+  .appt-card {
+    flex-wrap: wrap;
+  }
+
+  .appt-card__actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}

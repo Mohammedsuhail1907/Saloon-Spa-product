@@ -1,4 +1,5 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
+import { STORAGE_KEYS } from '../constants/app.constants';
 import { EXPERIENCE_ADDONS } from '../data/experience.mock';
 import {
   Appointment,
@@ -10,10 +11,10 @@ import {
 import { Professional, Service } from '../models/catalog.model';
 import { BusinessConfigService } from './business-config.service';
 
-const APPOINTMENTS_KEY = 'luxe-aura.appointments';
-const FAVORITES_KEY = 'luxe-aura.favorites';
-const GIFTCARDS_KEY = 'luxe-aura.giftcards';
-const MEMBERSHIP_KEY = 'luxe-aura.membership';
+const APPOINTMENTS_KEY = STORAGE_KEYS.appointments;
+const FAVORITES_KEY = STORAGE_KEYS.favorites;
+const GIFTCARDS_KEY = STORAGE_KEYS.giftCards;
+const MEMBERSHIP_KEY = STORAGE_KEYS.membership;
 
 /**
  * Client-side booking state. Appointments live in localStorage so the demo
