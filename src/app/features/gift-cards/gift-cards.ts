@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   inject,
+  linkedSignal,
   signal
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -11,13 +12,12 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TextareaModule } from 'primeng/textarea';
-import {
-  GIFT_CARD_AMOUNTS,
-  GIFT_CARD_EXPERIENCES
-} from '../../core/data/membership.mock';
 import { BookingService } from '../../core/services/booking.service';
-import { BusinessConfigService } from '../../core/services/business-config.service';
+import { BusinessConfigService } from '../../core/services/config/business-config.service';
+import { ContentConfigService } from '../../core/services/config/content-config.service';
+import { GiftCardService } from '../../core/services/data/gift-card.service';
 import { NotificationService } from '../../core/services/notification.service';
+import { DataState } from '../../shared/components/data-state/data-state';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
 import { PricePipe } from '../../shared/pipes/price.pipe';
 
@@ -31,6 +31,7 @@ import { PricePipe } from '../../shared/pipes/price.pipe';
     InputTextModule,
     SelectButtonModule,
     TextareaModule,
+    DataState,
     RevealDirective,
     PricePipe
   ],
@@ -38,25 +39,32 @@ import { PricePipe } from '../../shared/pipes/price.pipe';
   styleUrl: './gift-cards.scss'
 })
 export class GiftCardsPage {
-  protected readonly config = inject(BusinessConfigService);
+  protected readonly business = inject(BusinessConfigService);
+  protected readonly content = inject(ContentConfigService);
+  protected readonly giftCards = inject(GiftCardService);
   private readonly bookingState = inject(BookingService);
   private readonly notify = inject(NotificationService);
 
-  protected readonly amountOptions = [
-    ...GIFT_CARD_AMOUNTS.map((a) => ({ label: `₹${a.toLocaleString('en-IN')}`, value: a })),
+  protected readonly pageHero = computed(() => this.content.page('giftCards'));
+
+  constructor() {
+    void this.giftCards.load();
+  }
+
+  protected readonly amountOptions = computed(() => [
+    ...this.giftCards.amounts().map((a) => ({ label: this.business.formatPrice(a), value: a })),
     { label: 'Custom', value: 0 }
-  ];
+  ]);
 
-  protected readonly experiences = computed(() =>
-    GIFT_CARD_EXPERIENCES.filter((e) => {
-      if (e.type === 'BOTH') return this.config.isSalonEnabled() && this.config.isSpaEnabled();
-      return e.type === 'SALON' ? this.config.isSalonEnabled() : this.config.isSpaEnabled();
-    })
-  );
+  protected readonly experiences = this.giftCards.experiences;
 
-  protected readonly amountChoice = signal(2500);
+  /** Defaults to the middle preset once amounts arrive. */
+  protected readonly amountChoice = linkedSignal<number>(() => {
+    const amounts = this.giftCards.amounts();
+    return amounts[Math.floor(amounts.length / 2)] ?? 0;
+  });
   protected readonly customAmount = signal<number | null>(null);
-  protected readonly experience = signal('');
+  protected readonly experience = linkedSignal<string>(() => this.experiences()[0]?.id ?? '');
   protected readonly to = signal('');
   protected readonly from = signal('');
   protected readonly message = signal('');
@@ -74,14 +82,17 @@ export class GiftCardsPage {
 
   protected readonly valid = computed(
     () =>
-      this.effectiveAmount() >= 500 &&
+      this.effectiveAmount() >= this.giftCards.minimumAmount() &&
       this.to().trim().length >= 2 &&
       this.from().trim().length >= 2
   );
 
   create(): void {
     if (!this.valid()) {
-      this.notify.warn('Almost there', 'Add names and an amount of at least ₹500.');
+      this.notify.warn(
+        'Almost there',
+        `Add names and an amount of at least ${this.business.formatPrice(this.giftCards.minimumAmount())}.`
+      );
       return;
     }
     const card = this.bookingState.addGiftCard({

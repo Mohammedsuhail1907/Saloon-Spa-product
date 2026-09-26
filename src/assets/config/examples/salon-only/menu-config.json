@@ -1,0 +1,130 @@
+{
+  "menus": [
+    {
+      "id": "home",
+      "label": "Home",
+      "route": "/",
+      "icon": "pi pi-home",
+      "enabled": true,
+      "order": 1,
+      "group": "primary"
+    },
+    {
+      "id": "salon",
+      "label": "Salon",
+      "route": "/salon",
+      "icon": "pi pi-sparkles",
+      "enabled": false,
+      "order": 2,
+      "group": "primary"
+    },
+    {
+      "id": "spa",
+      "label": "Spa",
+      "route": "/spa",
+      "icon": "pi pi-moon",
+      "enabled": false,
+      "order": 3,
+      "group": "primary"
+    },
+    {
+      "id": "services",
+      "label": "Hair Services",
+      "route": "/services",
+      "icon": "pi pi-list",
+      "enabled": true,
+      "order": 2,
+      "group": "primary"
+    },
+    {
+      "id": "professionals",
+      "label": "Our Stylists",
+      "route": "/professionals",
+      "icon": "pi pi-users",
+      "enabled": true,
+      "order": 5,
+      "group": "primary"
+    },
+    {
+      "id": "offers",
+      "label": "Offers",
+      "route": "/offers",
+      "icon": "pi pi-tag",
+      "enabled": true,
+      "order": 6,
+      "group": "primary"
+    },
+    {
+      "id": "gallery",
+      "label": "Gallery",
+      "route": "/gallery",
+      "icon": "pi pi-images",
+      "enabled": true,
+      "order": 7,
+      "group": "primary"
+    },
+    {
+      "id": "membership",
+      "label": "Membership",
+      "route": "/membership",
+      "icon": "pi pi-star",
+      "enabled": true,
+      "order": 8,
+      "group": "primary"
+    },
+    {
+      "id": "contact",
+      "label": "Contact",
+      "route": "/contact",
+      "icon": "pi pi-map-marker",
+      "enabled": true,
+      "order": 9,
+      "group": "primary"
+    },
+    {
+      "id": "booking",
+      "label": "Book an Appointment",
+      "route": "/booking",
+      "icon": "pi pi-calendar-plus",
+      "enabled": true,
+      "order": 20,
+      "group": "secondary"
+    },
+    {
+      "id": "quiz",
+      "label": "Find Your Experience",
+      "route": "/quiz",
+      "icon": "pi pi-compass",
+      "enabled": true,
+      "order": 21,
+      "group": "secondary"
+    },
+    {
+      "id": "experience-builder",
+      "label": "Experience Builder",
+      "route": "/experience-builder",
+      "icon": "pi pi-sliders-h",
+      "enabled": true,
+      "order": 22,
+      "group": "secondary"
+    },
+    {
+      "id": "gift-cards",
+      "label": "Gift Cards",
+      "route": "/gift-cards",
+      "icon": "pi pi-gift",
+      "enabled": true,
+      "order": 23,
+      "group": "secondary"
+    },
+    {
+      "id": "appointments",
+      "label": "My Appointments",
+      "route": "/appointments",
+      "icon": "pi pi-user",
+      "enabled": true,
+      "order": 24,
+      "group": "secondary"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+[
+  {
+    "id": 1,
+    "name": "Head Massage",
+    "price": 300,
+    "duration": 15,
+    "appliesTo": [
+      "SALON",
+      "SPA"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Hair Spa Boost",
+    "price": 800,
+    "duration": 30,
+    "appliesTo": [
+      "SALON"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Premium Products Upgrade",
+    "price": 500,
+    "duration": 0,
+    "appliesTo": [
+      "SALON",
+      "SPA"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Neck & Shoulder Massage",
+    "price": 400,
+    "duration": 20,
+    "appliesTo": [
+      "SALON",
+      "SPA"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Express Manicure",
+    "price": 599,
+    "duration": 25,
+    "appliesTo": [
+      "SALON"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Aroma Steam",
+    "price": 350,
+    "duration": 15,
+    "appliesTo": [
+      "SPA"
+    ]
+  }
+]

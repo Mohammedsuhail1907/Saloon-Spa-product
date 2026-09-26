@@ -1,0 +1,44 @@
+[
+  {
+    "id": "hair",
+    "label": "Hair",
+    "type": "SALON",
+    "icon": "pi pi-sparkles"
+  },
+  {
+    "id": "makeup",
+    "label": "Makeup",
+    "type": "SALON",
+    "icon": "pi pi-palette"
+  },
+  {
+    "id": "skin",
+    "label": "Skin Care",
+    "type": "SALON",
+    "icon": "pi pi-sun"
+  },
+  {
+    "id": "nails",
+    "label": "Nails",
+    "type": "SALON",
+    "icon": "pi pi-star"
+  },
+  {
+    "id": "massage",
+    "label": "Massage",
+    "type": "SPA",
+    "icon": "pi pi-heart"
+  },
+  {
+    "id": "body",
+    "label": "Body Rituals",
+    "type": "SPA",
+    "icon": "pi pi-moon"
+  },
+  {
+    "id": "wellness",
+    "label": "Wellness",
+    "type": "SPA",
+    "icon": "pi pi-asterisk"
+  }
+]

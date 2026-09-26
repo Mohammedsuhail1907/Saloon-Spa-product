@@ -1,0 +1,44 @@
+{
+  "businessMode": "SALON_ONLY",
+  "business": {
+    "name": "Maison Coiffure",
+    "shortName": "MC",
+    "tagline": "Hair, done beautifully.",
+    "description": "A boutique hair salon for cuts, colour and occasion styling.",
+    "logo": "assets/images/logo/logo.svg",
+    "favicon": "favicon.ico",
+    "currency": "INR",
+    "currencySymbol": "₹",
+    "locale": "en-IN",
+    "contact": {
+      "phone": "+91 98765 43210",
+      "email": "hello@maisoncoiffure.example",
+      "whatsapp": "+919876543210"
+    },
+    "address": {
+      "line1": "4 Lavelle Road",
+      "line2": "",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "country": "India",
+      "postalCode": "560001"
+    },
+    "socialMedia": {
+      "instagram": "https://instagram.com/maisoncoiffure",
+      "facebook": "",
+      "youtube": "",
+      "twitter": ""
+    },
+    "hoursLabel": "Tue - Sun 10:00 AM - 8:00 PM, closed Mondays"
+  },
+  "salon": {
+    "enabled": true,
+    "servicesEnabled": true,
+    "stylistsEnabled": true
+  },
+  "spa": {
+    "enabled": false,
+    "servicesEnabled": false,
+    "therapistsEnabled": false
+  }
+}

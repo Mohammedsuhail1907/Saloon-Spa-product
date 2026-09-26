@@ -1,0 +1,40 @@
+[
+  {
+    "id": 1,
+    "name": "Essential Care",
+    "pricePerMonth": 1499,
+    "perks": [
+      "1 hair treatment monthly",
+      "1 express facial monthly",
+      "5% off products",
+      "Priority weekday slots"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Signature Self-Care",
+    "pricePerMonth": 2999,
+    "highlight": true,
+    "tag": "Most Loved",
+    "perks": [
+      "2 hair treatments monthly",
+      "1 facial monthly",
+      "1 spa session monthly",
+      "10% off products",
+      "Priority booking"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Elite Ritual",
+    "pricePerMonth": 4999,
+    "perks": [
+      "Unlimited blow-drys",
+      "2 facials monthly",
+      "2 spa sessions monthly",
+      "15% off products",
+      "Dedicated concierge",
+      "Guest passes"
+    ]
+  }
+]

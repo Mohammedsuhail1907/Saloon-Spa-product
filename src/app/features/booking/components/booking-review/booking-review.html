@@ -19,4 +19,6 @@
   <div><dt>Total</dt><dd class="review-list__total">{{ totalPrice() | price }}</dd></div>
   <div><dt>Guest</dt><dd>{{ guestLine() }}</dd></div>
 </dl>
-<p class="hint-text">You’ll pay at the studio. Free rescheduling until 4 hours before.</p>
+<p class="hint-text">
+  You’ll pay at the studio.@if (rescheduleAllowed()) { Free rescheduling from your appointments page.}
+</p>

@@ -16,6 +16,8 @@ import { PricePipe } from '../../../../shared/pipes/price.pipe';
 export class BookingConfirmation {
   readonly appointment = input.required<Appointment>();
   readonly products = input<Product[]>([]);
+  /** Hide the "View Booking" CTA when the customer dashboard is disabled. */
+  readonly showAppointments = input(true);
 
   readonly addToCalendar = output<void>();
   readonly viewAppointments = output<void>();

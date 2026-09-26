@@ -1,0 +1,44 @@
+[
+  {
+    "id": "relax",
+    "label": "Relax",
+    "icon": "pi pi-moon",
+    "tag": "relax",
+    "blurb": "I want to relax"
+  },
+  {
+    "id": "glow",
+    "label": "Glow",
+    "icon": "pi pi-sun",
+    "tag": "glow",
+    "blurb": "I want my skin to glow"
+  },
+  {
+    "id": "hair",
+    "label": "Hair Transformation",
+    "icon": "pi pi-sparkles",
+    "tag": "hair",
+    "blurb": "I want a hair transformation"
+  },
+  {
+    "id": "self-care",
+    "label": "Self Care",
+    "icon": "pi pi-heart",
+    "tag": "self-care",
+    "blurb": "I owe myself some care"
+  },
+  {
+    "id": "occasion",
+    "label": "Special Occasion",
+    "icon": "pi pi-star",
+    "tag": "occasion",
+    "blurb": "I have a special occasion"
+  },
+  {
+    "id": "wellness",
+    "label": "Wellness",
+    "icon": "pi pi-asterisk",
+    "tag": "wellness",
+    "blurb": "I want to feel well again"
+  }
+]

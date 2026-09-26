@@ -1,15 +1,18 @@
 import { Injectable, inject } from '@angular/core';
 import { AvailabilitySlot, DayAvailability, DayPeriod } from '../models/booking.model';
-import { BusinessConfigService } from './business-config.service';
+import { BookingConfigService } from './config/booking-config.service';
+import { BusinessConfigService } from './config/business-config.service';
 
 /**
- * MOCK availability engine. Slot states are generated deterministically from
- * (date, professional, time) so the demo feels stable, but nothing here is
- * real-time. Replace with `GET /availability?date=…&professionalId=…`.
+ * MOCK availability engine driven by booking-config.json. Slot states are
+ * generated deterministically from (date, professional, time) so the demo
+ * feels stable, but nothing here is real-time. Replace the body of
+ * `getDayAvailability` with `GET /availability?date=…&professionalId=…`.
  */
 @Injectable({ providedIn: 'root' })
 export class AvailabilityService {
-  private readonly config = inject(BusinessConfigService);
+  private readonly booking = inject(BookingConfigService);
+  private readonly business = inject(BusinessConfigService);
 
   toIsoDate(date: Date): string {
     const y = date.getFullYear();
@@ -25,27 +28,33 @@ export class AvailabilityService {
     return `${hour12}:${`${m}`.padStart(2, '0')} ${suffix}`;
   }
 
-  getDayAvailability(date: Date, professionalId = 0): DayAvailability {
-    const rules = this.config.bookingRules();
-    const iso = this.toIsoDate(date);
+  /** Whether the studio is open right now according to working hours. */
+  isOpenNow(now = new Date()): boolean {
+    const day = this.booking.workingDay(now);
+    if (!day || this.booking.isHoliday(this.toIsoDate(now))) return false;
+    const minutes = now.getHours() * 60 + now.getMinutes();
+    return minutes >= this.toMinutes(day.open) && minutes < this.toMinutes(day.close);
+  }
 
-    if (rules.closedWeekdays.includes(date.getDay())) {
+  getDayAvailability(date: Date, professionalId = 0): DayAvailability {
+    const iso = this.toIsoDate(date);
+    const day = this.booking.workingDay(date);
+
+    if (!day) {
       return { date: iso, closed: true, reason: 'Closed on this day', slots: [] };
     }
-    if (rules.holidays.includes(iso)) {
+    if (this.booking.isHoliday(iso)) {
       return { date: iso, closed: true, reason: 'Closed for a holiday', slots: [] };
     }
 
     const now = new Date();
     const isToday = this.toIsoDate(now) === iso;
-    const cutoff = now.getHours() * 60 + now.getMinutes() + 45;
+    const cutoff =
+      now.getHours() * 60 + now.getMinutes() + this.booking.minimumAdvanceHours() * 60;
 
     const slots: AvailabilitySlot[] = [];
-    for (
-      let minutes = rules.openingHour * 60;
-      minutes < rules.closingHour * 60;
-      minutes += rules.slotMinutes
-    ) {
+    const step = this.booking.slotDuration();
+    for (let minutes = this.toMinutes(day.open); minutes < this.toMinutes(day.close); minutes += step) {
       const h = Math.floor(minutes / 60);
       const m = minutes % 60;
       const time = `${`${h}`.padStart(2, '0')}:${`${m}`.padStart(2, '0')}`;
@@ -68,7 +77,11 @@ export class AvailabilityService {
       const open = day.slots.filter((s) => s.status === 'available').slice(0, count);
       if (!day.closed && open.length) {
         const dayLabel =
-          i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : cursor.toLocaleDateString('en-IN', { weekday: 'long' });
+          i === 0
+            ? 'Today'
+            : i === 1
+              ? 'Tomorrow'
+              : cursor.toLocaleDateString(this.business.locale(), { weekday: 'long' });
         return { dayLabel, slots: open };
       }
       cursor.setDate(cursor.getDate() + 1);
@@ -82,16 +95,21 @@ export class AvailabilityService {
 
   maxDate(): Date {
     const d = new Date();
-    d.setDate(d.getDate() + this.config.bookingRules().maxAdvanceDays);
+    d.setDate(d.getDate() + this.booking.maximumAdvanceDays());
     return d;
   }
 
   disabledDays(): number[] {
-    return this.config.bookingRules().closedWeekdays;
+    return this.booking.closedWeekdays();
   }
 
   disabledDates(): Date[] {
-    return this.config.bookingRules().holidays.map((h) => new Date(`${h}T00:00:00`));
+    return this.booking.holidays().map((h) => new Date(`${h}T00:00:00`));
+  }
+
+  private toMinutes(hhmm: string): number {
+    const [h, m] = hhmm.split(':').map(Number);
+    return (h || 0) * 60 + (m || 0);
   }
 
   private periodOf(hour: number): DayPeriod {

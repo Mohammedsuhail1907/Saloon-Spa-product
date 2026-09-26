@@ -1,0 +1,7 @@
+{
+  "clientId": "CLIENT_SALON_001",
+  "environment": "LOCAL",
+  "dataSource": "ASSETS",
+  "apiBaseUrl": "",
+  "defaultRoute": "/"
+}
