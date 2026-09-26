@@ -2,9 +2,11 @@ export type DataSource = 'ASSETS' | 'API';
 
 export type AppEnvironment = 'LOCAL' | 'DEV' | 'STAGING' | 'PRODUCTION';
 
-/** Deployment-level settings: which client, where data comes from. */
+/**
+ * Deployment-level settings. Which client is active is NOT here — that is
+ * assets/config/client-selector.json, the one value a tester changes.
+ */
 export interface AppConfig {
-  clientId: string;
   environment: AppEnvironment;
   /** ASSETS reads JSON from assets/data; API calls `${apiBaseUrl}/…`. */
   dataSource: DataSource;
@@ -14,7 +16,6 @@ export interface AppConfig {
 }
 
 export const DEFAULT_APP_CONFIG: AppConfig = {
-  clientId: 'DEFAULT',
   environment: 'LOCAL',
   dataSource: 'ASSETS',
   apiBaseUrl: '',

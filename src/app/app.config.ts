@@ -21,9 +21,9 @@ import { routes } from './app.routes';
 import { ConfigLoaderService } from './core/services/config/config-loader.service';
 
 /**
- * Neutral warm preset. The primary palette is re-derived at runtime from
- * theme-config.json (see ThemeConfigService.apply), so this is only the
- * compile-time default that shows for the first paint.
+ * Neutral warm preset. Primary and surface palettes are re-derived at runtime
+ * from the active entry of themes.json (see ThemeConfigService.applyTheme),
+ * so this is only the compile-time default that shows for the first paint.
  */
 const SalonSpaPreset = definePreset(Aura, {
   semantic: {

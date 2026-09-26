@@ -1,0 +1,106 @@
+{
+  "categories": [
+    "All",
+    "Salon",
+    "Spa",
+    "Hair",
+    "Beauty",
+    "Wellness",
+    "Interior"
+  ],
+  "items": [
+    {
+      "id": 1,
+      "title": "Champagne Balayage",
+      "category": "Hair",
+      "type": "SALON",
+      "art": "art-gold",
+      "icon": "pi pi-sparkles"
+    },
+    {
+      "id": 2,
+      "title": "The Colour Studio",
+      "category": "Interior",
+      "type": "BOTH",
+      "art": "art-pearl",
+      "icon": "pi pi-home"
+    },
+    {
+      "id": 3,
+      "title": "Bridal Morning",
+      "category": "Beauty",
+      "type": "SALON",
+      "art": "art-rose",
+      "icon": "pi pi-heart-fill"
+    },
+    {
+      "id": 5,
+      "title": "Glow Bar",
+      "category": "Beauty",
+      "type": "SALON",
+      "art": "art-blush",
+      "icon": "pi pi-sun"
+    },
+    {
+      "id": 6,
+      "title": "Relaxation Lounge",
+      "category": "Interior",
+      "type": "BOTH",
+      "art": "art-sand",
+      "icon": "pi pi-star"
+    },
+    {
+      "id": 8,
+      "title": "Signature Waves",
+      "category": "Hair",
+      "type": "SALON",
+      "art": "art-stone",
+      "icon": "pi pi-sparkles"
+    }
+  ],
+  "beforeAfterCategories": [
+    "All",
+    "Hair",
+    "Makeup",
+    "Facial",
+    "Nails"
+  ],
+  "beforeAfter": [
+    {
+      "id": 1,
+      "title": "Sun-Kissed Balayage",
+      "category": "Hair",
+      "caption": "Flat single-tone lengths, reborn as hand-painted dimension.",
+      "beforeArt": "ba-hair-before",
+      "afterArt": "ba-hair-after",
+      "type": "SALON"
+    },
+    {
+      "id": 2,
+      "title": "Bridal Radiance",
+      "category": "Makeup",
+      "caption": "A soft-focus, luminous bridal look built on prepped skin.",
+      "beforeArt": "ba-makeup-before",
+      "afterArt": "ba-makeup-after",
+      "type": "SALON"
+    },
+    {
+      "id": 3,
+      "title": "Glass-Skin Facial",
+      "category": "Facial",
+      "caption": "Dull, dehydrated skin after one Premium Glow session.",
+      "beforeArt": "ba-skin-before",
+      "afterArt": "ba-skin-after",
+      "type": "SALON"
+    },
+    {
+      "id": 4,
+      "title": "Sculpted Gel Set",
+      "category": "Nails",
+      "caption": "Bare nails to a sculpted, hand-painted gel set.",
+      "beforeArt": "ba-nails-before",
+      "afterArt": "ba-nails-after",
+      "type": "SALON"
+    }
+  ]
+}

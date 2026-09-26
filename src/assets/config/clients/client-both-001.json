@@ -1,0 +1,116 @@
+{
+  "clientKey": "CLIENT_BOTH_001",
+
+  "businessMode": "SALON_AND_SPA",
+
+  "business": {
+    "name": "Aura Beauty & Wellness",
+    "shortName": "Aura",
+    "tagline": "Beauty. Wellness. You.",
+    "description": "Premium salon and wellness experience under one roof.",
+
+    "logo": "assets/images/clients/client-both-001/logo.svg",
+    "favicon": "assets/images/clients/client-both-001/favicon.ico",
+
+    "currency": "INR",
+    "currencySymbol": "₹",
+    "locale": "en-IN",
+
+    "contact": {
+      "phone": "+91 22 2640 8899",
+      "email": "hello@aurabeauty.com",
+      "whatsapp": "+91 22 2640 8899"
+    },
+
+    "address": {
+      "line1": "7 Hill Road",
+      "line2": "Bandra West",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "country": "India",
+      "postalCode": "400050"
+    },
+
+    "socialMedia": {
+      "instagram": "https://instagram.com/aurabeautywellness",
+      "facebook": "",
+      "youtube": "https://youtube.com/@aurabeautywellness",
+      "twitter": ""
+    },
+
+    "hoursLabel": "Open daily 10:00 AM – 8:00 PM · Closed Sundays"
+  },
+
+  "theme": {
+    "themeKey": "ROSE_ELEGANCE"
+  },
+
+  "features": {
+    "onlineBooking": true,
+    "slotBooking": true,
+    "stylistSelection": true,
+    "therapistSelection": true,
+    "servicePackages": true,
+    "customPackageBuilder": true,
+    "membership": true,
+    "giftCards": true,
+    "offers": true,
+    "reviews": true,
+    "gallery": true,
+    "beforeAfterGallery": true,
+    "beautyQuiz": true,
+    "recommendations": true,
+    "customerDashboard": true,
+    "appointmentHistory": true,
+    "appointmentReschedule": true,
+    "appointmentCancellation": true,
+    "whatsappBooking": true,
+    "callBooking": true,
+    "liveAvailability": true,
+    "products": true,
+    "productRecommendations": true,
+    "notifications": true,
+    "relaxationMode": true
+  },
+
+  "menus": [
+    { "id": "home", "label": "Home", "enabled": true, "order": 1, "group": "primary" },
+    { "id": "salon", "label": "Salon", "enabled": true, "order": 2, "group": "primary" },
+    { "id": "spa", "label": "Spa", "enabled": true, "order": 3, "group": "primary" },
+    { "id": "services", "label": "Services", "enabled": true, "order": 4, "group": "primary" },
+    { "id": "offers", "label": "Offers", "enabled": true, "order": 5, "group": "primary" },
+    { "id": "membership", "label": "Membership", "enabled": true, "order": 6, "group": "primary" },
+    { "id": "gallery", "label": "Gallery", "enabled": true, "order": 7, "group": "primary" },
+    { "id": "contact", "label": "Contact", "enabled": true, "order": 8, "group": "primary" },
+
+    { "id": "stylists", "label": "Stylists", "enabled": true, "order": 20, "group": "secondary" },
+    { "id": "therapists", "label": "Therapists", "enabled": true, "order": 21, "group": "secondary" },
+    { "id": "experience-builder", "label": "Packages", "enabled": true, "order": 22, "group": "secondary" },
+    { "id": "gift-cards", "label": "Gift Cards", "enabled": true, "order": 23, "group": "secondary" },
+    { "id": "booking", "label": "Book Now", "enabled": true, "order": 24, "group": "secondary" },
+    { "id": "quiz", "label": "Find Your Experience", "enabled": true, "order": 25, "group": "secondary" },
+    { "id": "appointments", "label": "My Appointments", "enabled": true, "order": 26, "group": "secondary" },
+
+    { "id": "professionals", "enabled": false }
+  ],
+
+  "booking": {
+    "holidays": ["2026-10-02", "2026-10-20", "2026-12-25"]
+  },
+
+  "content": {
+    "hero": {
+      "titleWords": ["BEAUTY.", "WELLNESS.", "YOU."],
+      "subtitle": "Where self-care becomes an experience.",
+      "primaryButtonText": "Book Your Experience",
+      "secondaryButtonText": "Explore Services",
+      "backgroundImage": "assets/images/clients/client-both-001/hero.svg"
+    },
+    "footerNote": "Demo experience — bookings, availability and payments shown here are sample data."
+  },
+
+  "data": {
+    "path": "assets/data/clients/client-both-001",
+    "clientResources": ["services", "professionals", "offers", "gallery", "reviews"]
+  }
+}

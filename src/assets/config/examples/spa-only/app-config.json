@@ -1,7 +1,0 @@
-{
-  "clientId": "CLIENT_SPA_001",
-  "environment": "LOCAL",
-  "dataSource": "ASSETS",
-  "apiBaseUrl": "",
-  "defaultRoute": "/"
-}

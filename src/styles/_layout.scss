@@ -25,7 +25,7 @@
 .section--dark {
   background:
     radial-gradient(900px 480px at 15% 0%, rgba(176, 141, 87, 0.22), transparent 55%),
-    #262019;
+    var(--ink-deep);
 
   h2,
   h3 { color: #f6efe2; }

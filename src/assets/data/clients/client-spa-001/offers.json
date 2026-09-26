@@ -1,0 +1,29 @@
+[
+  {
+    "id": 2,
+    "title": "Weekday Wellness Hour",
+    "description": "Swedish massage plus aroma steam, Monday to Thursday before 2 PM.",
+    "price": 1699,
+    "originalPrice": 2199,
+    "savings": 500,
+    "validity": "Weekdays only",
+    "type": "SPA",
+    "art": "art-sage",
+    "icon": "pi pi-moon",
+    "serviceId": 11
+  },
+  {
+    "id": 4,
+    "title": "Couples Serenity Evening",
+    "description": "The Couples Retreat with extended relaxation lounge access after 6 PM.",
+    "price": 4999,
+    "originalPrice": 5999,
+    "savings": 1000,
+    "validity": "Evenings, Fri–Sat",
+    "type": "SPA",
+    "tag": "Limited",
+    "art": "art-moss",
+    "icon": "pi pi-users",
+    "serviceId": 16
+  }
+]

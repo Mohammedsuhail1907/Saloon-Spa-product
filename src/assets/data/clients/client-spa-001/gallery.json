@@ -1,0 +1,61 @@
+{
+  "categories": [
+    "All",
+    "Salon",
+    "Spa",
+    "Hair",
+    "Beauty",
+    "Wellness",
+    "Interior"
+  ],
+  "items": [
+    {
+      "id": 2,
+      "title": "The Colour Studio",
+      "category": "Interior",
+      "type": "BOTH",
+      "art": "art-pearl",
+      "icon": "pi pi-home"
+    },
+    {
+      "id": 4,
+      "title": "Warm Stone Ritual",
+      "category": "Spa",
+      "type": "SPA",
+      "art": "art-moss",
+      "icon": "pi pi-moon"
+    },
+    {
+      "id": 6,
+      "title": "Relaxation Lounge",
+      "category": "Interior",
+      "type": "BOTH",
+      "art": "art-sand",
+      "icon": "pi pi-star"
+    },
+    {
+      "id": 7,
+      "title": "Herbal Apothecary",
+      "category": "Wellness",
+      "type": "SPA",
+      "art": "art-sage",
+      "icon": "pi pi-asterisk"
+    },
+    {
+      "id": 9,
+      "title": "Couples Suite",
+      "category": "Spa",
+      "type": "SPA",
+      "art": "art-rose",
+      "icon": "pi pi-users"
+    }
+  ],
+  "beforeAfterCategories": [
+    "All",
+    "Hair",
+    "Makeup",
+    "Facial",
+    "Nails"
+  ],
+  "beforeAfter": []
+}

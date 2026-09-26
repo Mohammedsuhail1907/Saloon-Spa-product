@@ -1,0 +1,145 @@
+{
+  "clientKey": "CLIENT_SPA_001",
+
+  "businessMode": "SPA_ONLY",
+
+  "business": {
+    "name": "Serenity Wellness Spa",
+    "shortName": "Serenity",
+    "tagline": "Slow down. Breathe. Restore.",
+    "description": "A wellness spa for massage, rituals and quiet.",
+
+    "logo": "assets/images/clients/client-spa-001/logo.svg",
+    "favicon": "assets/images/clients/client-spa-001/favicon.ico",
+
+    "currency": "INR",
+    "currencySymbol": "₹",
+    "locale": "en-IN",
+
+    "contact": {
+      "phone": "+91 80 4455 6677",
+      "email": "calm@serenityspa.com",
+      "whatsapp": "+91 80 4455 6677"
+    },
+
+    "address": {
+      "line1": "18 Lavelle Road",
+      "line2": "",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "country": "India",
+      "postalCode": "560001"
+    },
+
+    "socialMedia": {
+      "instagram": "https://instagram.com/serenitywellnessspa",
+      "facebook": "https://facebook.com/serenitywellnessspa",
+      "youtube": "",
+      "twitter": ""
+    },
+
+    "hoursLabel": "Open daily 9:00 AM – 10:00 PM"
+  },
+
+  "theme": {
+    "themeKey": "SAGE_SERENITY"
+  },
+
+  "features": {
+    "onlineBooking": true,
+    "slotBooking": true,
+    "stylistSelection": false,
+    "therapistSelection": true,
+    "servicePackages": false,
+    "customPackageBuilder": false,
+    "membership": true,
+    "giftCards": false,
+    "offers": true,
+    "reviews": true,
+    "gallery": true,
+    "beforeAfterGallery": false,
+    "beautyQuiz": true,
+    "recommendations": true,
+    "customerDashboard": true,
+    "appointmentHistory": true,
+    "appointmentReschedule": true,
+    "appointmentCancellation": true,
+    "whatsappBooking": true,
+    "callBooking": true,
+    "liveAvailability": true,
+    "products": false,
+    "productRecommendations": false,
+    "notifications": true,
+    "relaxationMode": true
+  },
+
+  "menus": [
+    { "id": "home", "label": "Home", "enabled": true, "order": 1, "group": "primary" },
+    { "id": "services", "label": "Experiences", "enabled": true, "order": 2, "group": "primary" },
+    { "id": "professionals", "label": "Therapists", "enabled": true, "order": 3, "group": "primary" },
+    { "id": "offers", "label": "Offers", "enabled": true, "order": 4, "group": "primary" },
+    { "id": "gallery", "label": "Gallery", "enabled": true, "order": 5, "group": "primary" },
+    { "id": "membership", "label": "Membership", "enabled": true, "order": 6, "group": "primary" },
+    { "id": "contact", "label": "Contact", "enabled": true, "order": 7, "group": "primary" },
+
+    { "id": "booking", "label": "Book Now", "enabled": true, "order": 20, "group": "secondary" },
+    { "id": "quiz", "label": "Find Your Ritual", "enabled": true, "order": 21, "group": "secondary" },
+    { "id": "appointments", "label": "My Appointments", "enabled": true, "order": 22, "group": "secondary" },
+
+    { "id": "salon", "enabled": false },
+    { "id": "spa", "enabled": false },
+    { "id": "stylists", "enabled": false },
+    { "id": "therapists", "enabled": false },
+    { "id": "gift-cards", "enabled": false },
+    { "id": "experience-builder", "enabled": false }
+  ],
+
+  "booking": {
+    "slotDuration": 60,
+    "minimumAdvanceBookingHours": 3,
+    "workingHours": {
+      "sunday": { "enabled": true, "open": "09:00", "close": "22:00" },
+      "monday": { "enabled": true, "open": "09:00", "close": "22:00" },
+      "tuesday": { "enabled": true, "open": "09:00", "close": "22:00" },
+      "wednesday": { "enabled": true, "open": "09:00", "close": "22:00" },
+      "thursday": { "enabled": true, "open": "09:00", "close": "22:00" },
+      "friday": { "enabled": true, "open": "09:00", "close": "22:00" },
+      "saturday": { "enabled": true, "open": "09:00", "close": "22:00" }
+    },
+    "holidays": []
+  },
+
+  "content": {
+    "labels": { "services": "Experiences", "professionals": "Therapists" },
+    "hero": {
+      "titleWords": ["CALM.", "WELLNESS.", "YOU."],
+      "subtitle": "Ninety unhurried minutes, just for you.",
+      "primaryButtonText": "Reserve a Ritual",
+      "secondaryButtonText": "Explore Experiences",
+      "backgroundImage": "assets/images/clients/client-spa-001/hero.svg"
+    },
+    "pages": {
+      "services": { "eyebrow": "Our rituals", "title": "", "subtitle": "Massage, body rituals and wellness — slow, deliberate and never rushed." },
+      "professionals": { "eyebrow": "In gentle hands", "title": "", "subtitle": "Every therapist tunes pressure, oils and pace to how you arrive." },
+      "membership": { "eyebrow": "Wellness membership", "title": "Make it a ritual", "subtitle": "Monthly sessions, priority booking and a quieter mind." },
+      "quiz": { "eyebrow": "A minute of honesty", "title": "Find your ritual", "subtitle": "Three questions. One tailored recommendation." }
+    },
+    "journey": [
+      { "title": "Arrive", "detail": "Tea, warm towels and a quiet room to land.", "icon": "pi pi-map-marker" },
+      { "title": "Breathe", "detail": "Your therapist tunes pressure, oils and pace to you.", "icon": "pi pi-moon" },
+      { "title": "Restore", "detail": "Slow, deliberate work — nothing rushed.", "icon": "pi pi-heart" },
+      { "title": "Linger", "detail": "The relaxation lounge is yours for as long as you like.", "icon": "pi pi-sun" }
+    ],
+    "membershipFaqs": [
+      { "q": "How do monthly sessions work?", "a": "Sessions refresh on your billing date and can be used on any eligible ritual. Unused sessions roll over for one month." },
+      { "q": "Can I pause or cancel?", "a": "Anytime — memberships pause from your next billing cycle with a single message to the spa." },
+      { "q": "Can I bring a guest?", "a": "The Elite Ritual plan includes guest passes; other plans are personal to you." }
+    ],
+    "footerNote": "Demo spa — bookings and availability shown here are sample data."
+  },
+
+  "data": {
+    "path": "assets/data/clients/client-spa-001",
+    "clientResources": ["services", "professionals", "offers", "gallery", "reviews"]
+  }
+}

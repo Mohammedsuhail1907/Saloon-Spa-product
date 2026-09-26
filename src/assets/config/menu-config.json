@@ -1,130 +1,22 @@
 {
+  "_comment": "Product-level menu defaults. Each client overrides entries by id (label, enabled, order, group) in its clients/*.json.",
   "menus": [
-    {
-      "id": "home",
-      "label": "Home",
-      "route": "/",
-      "icon": "pi pi-home",
-      "enabled": true,
-      "order": 1,
-      "group": "primary"
-    },
-    {
-      "id": "salon",
-      "label": "Salon",
-      "route": "/salon",
-      "icon": "pi pi-sparkles",
-      "enabled": true,
-      "order": 2,
-      "group": "primary"
-    },
-    {
-      "id": "spa",
-      "label": "Spa",
-      "route": "/spa",
-      "icon": "pi pi-moon",
-      "enabled": true,
-      "order": 3,
-      "group": "primary"
-    },
-    {
-      "id": "services",
-      "label": "Services",
-      "route": "/services",
-      "icon": "pi pi-list",
-      "enabled": false,
-      "order": 4,
-      "group": "primary"
-    },
-    {
-      "id": "professionals",
-      "label": "Our Experts",
-      "route": "/professionals",
-      "icon": "pi pi-users",
-      "enabled": true,
-      "order": 5,
-      "group": "primary"
-    },
-    {
-      "id": "offers",
-      "label": "Offers",
-      "route": "/offers",
-      "icon": "pi pi-tag",
-      "enabled": true,
-      "order": 6,
-      "group": "primary"
-    },
-    {
-      "id": "gallery",
-      "label": "Gallery",
-      "route": "/gallery",
-      "icon": "pi pi-images",
-      "enabled": true,
-      "order": 7,
-      "group": "primary"
-    },
-    {
-      "id": "membership",
-      "label": "Membership",
-      "route": "/membership",
-      "icon": "pi pi-star",
-      "enabled": true,
-      "order": 8,
-      "group": "primary"
-    },
-    {
-      "id": "contact",
-      "label": "Contact",
-      "route": "/contact",
-      "icon": "pi pi-map-marker",
-      "enabled": true,
-      "order": 9,
-      "group": "primary"
-    },
-    {
-      "id": "booking",
-      "label": "Book an Appointment",
-      "route": "/booking",
-      "icon": "pi pi-calendar-plus",
-      "enabled": true,
-      "order": 20,
-      "group": "secondary"
-    },
-    {
-      "id": "quiz",
-      "label": "Find Your Experience",
-      "route": "/quiz",
-      "icon": "pi pi-compass",
-      "enabled": true,
-      "order": 21,
-      "group": "secondary"
-    },
-    {
-      "id": "experience-builder",
-      "label": "Experience Builder",
-      "route": "/experience-builder",
-      "icon": "pi pi-sliders-h",
-      "enabled": true,
-      "order": 22,
-      "group": "secondary"
-    },
-    {
-      "id": "gift-cards",
-      "label": "Gift Cards",
-      "route": "/gift-cards",
-      "icon": "pi pi-gift",
-      "enabled": true,
-      "order": 23,
-      "group": "secondary"
-    },
-    {
-      "id": "appointments",
-      "label": "My Appointments",
-      "route": "/appointments",
-      "icon": "pi pi-user",
-      "enabled": true,
-      "order": 24,
-      "group": "secondary"
-    }
+    { "id": "home", "label": "Home", "route": "/", "icon": "pi pi-home", "enabled": true, "order": 1, "group": "primary" },
+    { "id": "salon", "label": "Salon", "route": "/salon", "icon": "pi pi-sparkles", "enabled": false, "order": 2, "group": "primary" },
+    { "id": "spa", "label": "Spa", "route": "/spa", "icon": "pi pi-moon", "enabled": false, "order": 3, "group": "primary" },
+    { "id": "services", "label": "Services", "route": "/services", "icon": "pi pi-list", "enabled": true, "order": 4, "group": "primary" },
+    { "id": "professionals", "label": "Our Experts", "route": "/professionals", "icon": "pi pi-users", "enabled": true, "order": 5, "group": "primary" },
+    { "id": "stylists", "label": "Stylists", "route": "/stylists", "icon": "pi pi-user", "enabled": false, "order": 6, "group": "primary" },
+    { "id": "therapists", "label": "Therapists", "route": "/therapists", "icon": "pi pi-user", "enabled": false, "order": 7, "group": "primary" },
+    { "id": "offers", "label": "Offers", "route": "/offers", "icon": "pi pi-tag", "enabled": true, "order": 8, "group": "primary" },
+    { "id": "gallery", "label": "Gallery", "route": "/gallery", "icon": "pi pi-images", "enabled": true, "order": 9, "group": "primary" },
+    { "id": "membership", "label": "Membership", "route": "/membership", "icon": "pi pi-star", "enabled": true, "order": 10, "group": "primary" },
+    { "id": "contact", "label": "Contact", "route": "/contact", "icon": "pi pi-map-marker", "enabled": true, "order": 11, "group": "primary" },
+
+    { "id": "booking", "label": "Book Now", "route": "/booking", "icon": "pi pi-calendar-plus", "enabled": true, "order": 20, "group": "secondary" },
+    { "id": "quiz", "label": "Find Your Experience", "route": "/quiz", "icon": "pi pi-compass", "enabled": true, "order": 21, "group": "secondary" },
+    { "id": "experience-builder", "label": "Packages", "route": "/experience-builder", "icon": "pi pi-sliders-h", "enabled": true, "order": 22, "group": "secondary" },
+    { "id": "gift-cards", "label": "Gift Cards", "route": "/gift-cards", "icon": "pi pi-gift", "enabled": true, "order": 23, "group": "secondary" },
+    { "id": "appointments", "label": "My Appointments", "route": "/appointments", "icon": "pi pi-user", "enabled": true, "order": 24, "group": "secondary" }
   ]
 }

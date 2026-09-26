@@ -3,8 +3,9 @@ import { accessGuard } from './core/guards/access.guard';
 
 /**
  * Every destination is keyed into ROUTE_ACCESS (core/config) so the guard
- * and the menus share one rule. /salon and /spa reuse the services page with
- * a fixed studio filter rather than duplicating it.
+ * and the menus share one rule. /salon, /spa, /stylists and /therapists reuse
+ * the services / professionals pages with a fixed studio filter rather than
+ * duplicating them.
  */
 export const routes: Routes = [
   {
@@ -39,6 +40,22 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/professionals/professionals').then((m) => m.ProfessionalsPage),
     title: 'Our Experts'
+  },
+  {
+    path: 'stylists',
+    canActivate: [accessGuard('stylists')],
+    data: { type: 'SALON' },
+    loadComponent: () =>
+      import('./features/professionals/professionals').then((m) => m.ProfessionalsPage),
+    title: 'Stylists'
+  },
+  {
+    path: 'therapists',
+    canActivate: [accessGuard('therapists')],
+    data: { type: 'SPA' },
+    loadComponent: () =>
+      import('./features/professionals/professionals').then((m) => m.ProfessionalsPage),
+    title: 'Therapists'
   },
   {
     path: 'booking',

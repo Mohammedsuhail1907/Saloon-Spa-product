@@ -91,9 +91,9 @@
   &.is-active {
     background: var(--ink);
     border-color: var(--ink);
-    color: #fff;
+    color: var(--color-background);
 
-    i { color: #fff; }
+    i { color: var(--color-background); }
   }
 }
 

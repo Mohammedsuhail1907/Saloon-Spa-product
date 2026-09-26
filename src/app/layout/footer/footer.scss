@@ -1,5 +1,5 @@
 .site-footer {
-  background: #262019;
+  background: var(--ink-deep);
   color: #cbc0aa;
   padding: clamp(2.6rem, 6vw, 4rem) 0 1.6rem;
   margin-top: 2rem;
@@ -117,7 +117,7 @@
     &:hover,
     &:focus-visible {
       background: var(--brand-primary);
-      color: #fff;
+      color: var(--color-on-primary);
     }
   }
 }
