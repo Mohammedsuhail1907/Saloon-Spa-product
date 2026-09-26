@@ -1,41 +1,59 @@
 <section class="page-hero">
   <div class="shell">
-    <span class="eyebrow eyebrow--line">Inside the studio</span>
-    <h1>Gallery</h1>
-    <p class="page-hero__sub">Our rooms, our work and the quiet in between.</p>
+    <span class="eyebrow eyebrow--line">{{ pageHero().eyebrow }}</span>
+    <h1>{{ pageHero().title }}</h1>
+    @if (pageHero().subtitle; as sub) {
+      <p class="page-hero__sub">{{ sub }}</p>
+    }
   </div>
 </section>
 
 <section class="section section--flush-top">
   <div class="shell">
-    <div class="chip-row" role="group" aria-label="Gallery categories">
-      @for (c of categories(); track c) {
-        <button
-          type="button"
-          class="filter-chip"
-          [class.is-active]="category() === c"
-          (click)="category.set(c)"
-        >
-          {{ c }}
-        </button>
-      }
-    </div>
+    @if (gallery.categories().length > 1) {
+      <div class="chip-row" role="group" aria-label="Gallery categories">
+        @for (c of gallery.categories(); track c) {
+          <button
+            type="button"
+            class="filter-chip"
+            [class.is-active]="category() === c"
+            (click)="category.set(c)"
+          >
+            {{ c }}
+          </button>
+        }
+      </div>
+    }
 
-    <div class="gallery-grid">
-      @for (item of items(); track item.id) {
-        <figure class="gallery-tile {{ item.art }}" appReveal>
-          <i class="{{ item.icon }}" aria-hidden="true"></i>
-          <figcaption>
-            <strong>{{ item.title }}</strong>
-            <span>{{ item.category }}</span>
-          </figcaption>
-        </figure>
-      }
-    </div>
+    <app-data-state
+      [loading]="gallery.loading()"
+      [error]="gallery.error()"
+      [empty]="!items().length"
+      skeletonHeight="16rem"
+      emptyIcon="pi pi-images"
+      emptyTitle="The gallery is being curated"
+      emptyText="New photographs are added after every season."
+    >
+      <div class="gallery-grid">
+        @for (item of items(); track item.id) {
+          <figure class="gallery-tile {{ item.art }}" appReveal>
+            @if (item.image) {
+              <img [src]="item.image" [alt]="item.title" loading="lazy" />
+            } @else {
+              <i class="{{ item.icon }}" aria-hidden="true"></i>
+            }
+            <figcaption>
+              <strong>{{ item.title }}</strong>
+              <span>{{ item.category }}</span>
+            </figcaption>
+          </figure>
+        }
+      </div>
+    </app-data-state>
   </div>
 </section>
 
-@if (config.isBeforeAfterEnabled() && baItems().length) {
+@if (features.isBeforeAfterEnabled() && gallery.beforeAfter().length) {
   <section class="section section--tinted" appReveal>
     <div class="shell">
       <div class="section-head section-head--center">
@@ -44,18 +62,20 @@
         <p class="lead">Drag each slider — same light, same lens, one visit apart.</p>
       </div>
 
-      <div class="chip-row chip-row--center" role="group" aria-label="Transformation categories">
-        @for (c of baCategories(); track c) {
-          <button
-            type="button"
-            class="filter-chip"
-            [class.is-active]="baCategory() === c"
-            (click)="baCategory.set(c)"
-          >
-            {{ c }}
-          </button>
-        }
-      </div>
+      @if (gallery.beforeAfterCategories().length > 1) {
+        <div class="chip-row chip-row--center" role="group" aria-label="Transformation categories">
+          @for (c of gallery.beforeAfterCategories(); track c) {
+            <button
+              type="button"
+              class="filter-chip"
+              [class.is-active]="baCategory() === c"
+              (click)="baCategory.set(c)"
+            >
+              {{ c }}
+            </button>
+          }
+        </div>
+      }
 
       <div class="ba-grid">
         @for (item of baItems(); track item.id) {

@@ -9,14 +9,19 @@ import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
+import { SERVICE_TYPES } from '../../core/constants/domain.constants';
 import { Appointment, DayPeriod } from '../../core/models/booking.model';
 import { Professional, Service } from '../../core/models/catalog.model';
 import { AvailabilityService } from '../../core/services/availability.service';
 import { BookingService } from '../../core/services/booking.service';
-import { BusinessConfigService } from '../../core/services/business-config.service';
-import { CatalogService } from '../../core/services/catalog.service';
+import { ContentConfigService } from '../../core/services/config/content-config.service';
+import { FeatureConfigService } from '../../core/services/config/feature-config.service';
+import { ProductService } from '../../core/services/data/product.service';
+import { ProfessionalService } from '../../core/services/data/professional.service';
+import { ServiceCatalogService } from '../../core/services/data/service-catalog.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { BookingSummary } from '../../shared/components/booking-summary/booking-summary';
+import { DataState } from '../../shared/components/data-state/data-state';
 import { BookingConfirmation } from './components/booking-confirmation/booking-confirmation';
 import { BookingReview } from './components/booking-review/booking-review';
 import { CustomerDetails } from './components/customer-details/customer-details';
@@ -40,6 +45,7 @@ const PHONE_RE = /^[0-9+\-() ]{8,16}$/;
     ButtonModule,
     StepperModule,
     BookingSummary,
+    DataState,
     BookingConfirmation,
     BookingReview,
     CustomerDetails,
@@ -52,15 +58,27 @@ const PHONE_RE = /^[0-9+\-() ]{8,16}$/;
   styleUrl: './booking.scss'
 })
 export class BookingPage {
-  protected readonly config = inject(BusinessConfigService);
-  protected readonly catalog = inject(CatalogService);
+  protected readonly features = inject(FeatureConfigService);
+  protected readonly content = inject(ContentConfigService);
+  protected readonly catalog = inject(ServiceCatalogService);
   protected readonly availability = inject(AvailabilityService);
   protected readonly bookingState = inject(BookingService);
+  private readonly professionalService = inject(ProfessionalService);
+  private readonly productService = inject(ProductService);
   private readonly notify = inject(NotificationService);
   private readonly router = inject(Router);
 
   protected readonly step = signal(1);
   protected readonly booked = signal<Appointment | null>(null);
+
+  protected readonly pageHero = computed(() => this.content.page('booking'));
+
+  constructor() {
+    void this.catalog.load();
+    void this.professionalService.load();
+    if (this.features.isPackagesEnabled()) void this.catalog.loadAddons();
+    if (this.features.isProductRecommendationsEnabled()) void this.productService.load();
+  }
 
   /* --------------------------- selections --------------------------- */
 
@@ -96,30 +114,28 @@ export class BookingPage {
   protected readonly serviceGroups = computed<ServiceGroup[]>(() => {
     const services = this.catalog.services();
     const pro = this.professional();
-    const list = pro
-      ? services.filter((s) => s.professionalIds.includes(pro.id))
-      : services;
+    const list = pro ? services.filter((s) => s.professionalIds.includes(pro.id)) : services;
     return [
-      { label: 'Salon', items: list.filter((s) => s.type === 'SALON') },
-      { label: 'Spa', items: list.filter((s) => s.type === 'SPA') }
+      { label: 'Salon', items: list.filter((s) => s.type === SERVICE_TYPES.SALON) },
+      { label: 'Spa', items: list.filter((s) => s.type === SERVICE_TYPES.SPA) }
     ].filter((g) => g.items.length);
   });
 
   protected readonly professionalOptions = computed(() => {
     const s = this.service();
-    return s ? this.catalog.professionalsFor(s) : this.catalog.professionals();
+    return s ? this.catalog.professionalsFor(s) : this.professionalService.professionals();
   });
 
-  /** Professional choice may be disabled per type via feature flags. */
+  /** Professional choice may be disabled per type via feature/booking config. */
   protected readonly canChooseProfessional = computed(() => {
     const s = this.service();
-    if (!s) return true;
-    return s.type === 'SALON'
-      ? this.config.isStylistSelectionEnabled()
-      : this.config.isTherapistSelectionEnabled();
+    if (!s) return this.features.isStylistSelectionEnabled() || this.features.isTherapistSelectionEnabled();
+    return s.type === SERVICE_TYPES.SALON
+      ? this.features.isStylistSelectionEnabled()
+      : this.features.isTherapistSelectionEnabled();
   });
 
-  protected readonly slotBooking = computed(() => this.config.isSlotBookingEnabled());
+  protected readonly slotBooking = computed(() => this.features.isSlotBookingEnabled());
 
   protected readonly dayAvailability = computed(() => {
     const d = this.date();
@@ -142,7 +158,7 @@ export class BookingPage {
 
   protected readonly addons = computed(() => {
     const s = this.service();
-    return s ? this.catalog.addonsFor(s.type) : [];
+    return s && this.features.isPackagesEnabled() ? this.catalog.addonsFor(s.type) : [];
   });
 
   protected readonly selectedAddons = computed(() =>
@@ -174,8 +190,10 @@ export class BookingPage {
   protected readonly guestLine = computed(() => `${this.name()} · ${this.phone()}`);
 
   protected readonly recommendedProducts = computed(() => {
-    const s = this.booked() ? this.catalog.serviceById(this.booked()!.serviceId) : this.service();
-    return this.config.isProductsEnabled() && s ? this.catalog.productsForTags(s.tags) : [];
+    if (!this.features.isProductRecommendationsEnabled()) return [];
+    const booked = this.booked();
+    const s = booked ? this.catalog.serviceById(booked.serviceId) : this.service();
+    return s ? this.productService.productsForTags(s.tags) : [];
   });
 
   protected readonly minDate = this.availability.minDate();

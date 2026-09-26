@@ -9,30 +9,40 @@ import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { StepperModule } from 'primeng/stepper';
-import { QUIZ_BUDGETS, QUIZ_GOALS, QUIZ_TIMES, QuizChoice } from '../../core/data/quiz.mock';
-import { ExperienceTag, Service } from '../../core/models/catalog.model';
+import { ExperienceTag, QuizChoice, Service } from '../../core/models/catalog.model';
 import { BookingService } from '../../core/services/booking.service';
-import { BusinessConfigService } from '../../core/services/business-config.service';
-import { CatalogService } from '../../core/services/catalog.service';
+import { ContentConfigService } from '../../core/services/config/content-config.service';
+import { FeatureConfigService } from '../../core/services/config/feature-config.service';
+import { QuizService } from '../../core/services/data/quiz.service';
+import { ServiceCatalogService } from '../../core/services/data/service-catalog.service';
+import { DataState } from '../../shared/components/data-state/data-state';
 import { PricePipe } from '../../shared/pipes/price.pipe';
+
+/** Sentinel budget meaning "no upper limit" in quiz.json. */
+const NO_BUDGET_CAP = 99999;
 
 /** Beauty/wellness quiz: mood → time → budget → recommendation. */
 @Component({
   selector: 'app-beauty-quiz-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonModule, ProgressBarModule, StepperModule, PricePipe],
+  imports: [ButtonModule, ProgressBarModule, StepperModule, DataState, PricePipe],
   templateUrl: './beauty-quiz.html',
   styleUrl: './beauty-quiz.scss'
 })
 export class BeautyQuizPage {
-  protected readonly config = inject(BusinessConfigService);
-  private readonly catalog = inject(CatalogService);
+  protected readonly features = inject(FeatureConfigService);
+  protected readonly content = inject(ContentConfigService);
+  protected readonly quiz = inject(QuizService);
+  private readonly catalog = inject(ServiceCatalogService);
   private readonly bookingState = inject(BookingService);
   private readonly router = inject(Router);
 
-  protected readonly goals = QUIZ_GOALS;
-  protected readonly times = QUIZ_TIMES;
-  protected readonly budgets = QUIZ_BUDGETS;
+  protected readonly pageHero = computed(() => this.content.page('quiz'));
+
+  constructor() {
+    void this.quiz.load();
+    void this.catalog.load();
+  }
 
   protected readonly step = signal(1);
   protected readonly goal = signal<QuizChoice<ExperienceTag> | null>(null);
@@ -49,6 +59,10 @@ export class BeautyQuizPage {
     if (!goal || !time || !budget) return { best: undefined, alternates: [] as Service[] };
     return this.catalog.recommend(goal.value, time.value, budget.value);
   });
+
+  isUncapped(choice: QuizChoice<number>): boolean {
+    return choice.value >= NO_BUDGET_CAP;
+  }
 
   pickGoal(choice: QuizChoice<ExperienceTag>): void {
     this.goal.set(choice);

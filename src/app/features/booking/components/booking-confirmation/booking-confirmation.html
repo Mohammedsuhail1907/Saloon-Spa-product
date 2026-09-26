@@ -19,7 +19,9 @@
   }
   <div class="confirm-card__actions">
     <p-button label="Add to Calendar" icon="pi pi-calendar-plus" [outlined]="true" severity="secondary" [rounded]="true" (onClick)="addToCalendar.emit()" />
-    <p-button label="View Booking" icon="pi pi-list" [outlined]="true" severity="secondary" [rounded]="true" (onClick)="viewAppointments.emit()" />
+    @if (showAppointments()) {
+      <p-button label="View Booking" icon="pi pi-list" [outlined]="true" severity="secondary" [rounded]="true" (onClick)="viewAppointments.emit()" />
+    }
     <p-button label="Book Another Experience" [rounded]="true" (onClick)="bookAnother.emit()" />
   </div>
 </div>

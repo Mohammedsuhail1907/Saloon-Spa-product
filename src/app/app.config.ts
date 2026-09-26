@@ -18,12 +18,12 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 
 import { routes } from './app.routes';
-import { BusinessConfigService } from './core/services/business-config.service';
+import { ConfigLoaderService } from './core/services/config/config-loader.service';
 
 /**
- * Warm champagne/ivory preset. The primary palette is re-derived at runtime
- * from salon-spa-config.json (see BusinessConfigService.applyTheme), so this
- * is only the compile-time default.
+ * Neutral warm preset. Primary and surface palettes are re-derived at runtime
+ * from the active entry of themes.json (see ThemeConfigService.applyTheme),
+ * so this is only the compile-time default that shows for the first paint.
  */
 const SalonSpaPreset = definePreset(Aura, {
   semantic: {
@@ -78,6 +78,7 @@ export const appConfig: ApplicationConfig = {
     }),
     MessageService,
     ConfirmationService,
-    provideAppInitializer(() => inject(BusinessConfigService).load())
+    // All client configuration is loaded once, before the first route renders.
+    provideAppInitializer(() => inject(ConfigLoaderService).load())
   ]
 };

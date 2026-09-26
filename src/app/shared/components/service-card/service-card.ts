@@ -13,8 +13,8 @@ import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { Service } from '../../../core/models/catalog.model';
 import { BookingService } from '../../../core/services/booking.service';
-import { BusinessConfigService } from '../../../core/services/business-config.service';
-import { CatalogService } from '../../../core/services/catalog.service';
+import { FeatureConfigService } from '../../../core/services/config/feature-config.service';
+import { ServiceCatalogService } from '../../../core/services/data/service-catalog.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { PricePipe } from '../../pipes/price.pipe';
 
@@ -26,25 +26,21 @@ import { PricePipe } from '../../pipes/price.pipe';
   styleUrl: './service-card.scss'
 })
 export class ServiceCard {
-  private readonly catalog = inject(CatalogService);
+  private readonly catalog = inject(ServiceCatalogService);
   private readonly bookingState = inject(BookingService);
-  private readonly config = inject(BusinessConfigService);
+  private readonly features = inject(FeatureConfigService);
   private readonly notify = inject(NotificationService);
 
   readonly service = input.required<Service>();
   readonly view = output<Service>();
   readonly book = output<Service>();
 
-  readonly bookingEnabled = computed(() => this.config.isBookingEnabled());
+  readonly bookingEnabled = computed(() => this.features.isBookingEnabled());
   readonly professionals = computed(() => this.catalog.professionalsFor(this.service()));
   readonly isFavorite = computed(() =>
     this.bookingState.favorites().includes(this.service().id)
   );
-  readonly categoryLabel = computed(
-    () =>
-      this.catalog.categories().find((c) => c.id === this.service().category)?.label ??
-      this.service().category
-  );
+  readonly categoryLabel = computed(() => this.catalog.categoryLabel(this.service().category));
 
   initials(name: string): string {
     return name

@@ -6,8 +6,10 @@
   font-family: var(--font-sans);
 }
 
-.p-button {
-  border-radius: 999px;
+/* Button shape follows the active theme's `shape.buttonRadius`. */
+.p-button,
+.p-button.p-button-rounded {
+  border-radius: var(--radius-button);
   letter-spacing: 0.02em;
 }
 

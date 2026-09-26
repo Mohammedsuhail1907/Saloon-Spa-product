@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "customer": "Sarah",
+    "title": "Sarah’s Transformation",
+    "rating": 5,
+    "service": "Balayage & Gloss",
+    "type": "SALON",
+    "steps": [
+      "Before",
+      "Treatment",
+      "Final Look"
+    ],
+    "quote": "An amazing experience from consultation to final styling. I have never felt so listened to in a salon chair.",
+    "palette": "art-gold"
+  },
+  {
+    "id": 3,
+    "customer": "Aisha",
+    "title": "Aisha’s Wedding Week",
+    "rating": 5,
+    "service": "Bridal Artistry",
+    "type": "SALON",
+    "steps": [
+      "Trial",
+      "Wedding day",
+      "The photographs"
+    ],
+    "quote": "Ananya made me look like myself on the best day of my life — only luminous.",
+    "palette": "art-rose"
+  }
+]

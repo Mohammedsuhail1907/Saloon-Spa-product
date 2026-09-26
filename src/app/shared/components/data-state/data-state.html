@@ -1,0 +1,21 @@
+@if (loading()) {
+  <div class="card-grid card-grid--{{ skeletonGrid() }}" aria-busy="true" aria-live="polite">
+    @for (i of skeletonItems(); track i) {
+      <p-skeleton [height]="skeletonHeight()" borderRadius="var(--radius-lg)" />
+    }
+  </div>
+} @else if (error(); as message) {
+  <div class="empty-state" role="status">
+    <i class="pi pi-cloud-download" aria-hidden="true"></i>
+    <h3>{{ errorTitle() }}</h3>
+    <p>{{ message }}</p>
+  </div>
+} @else if (empty()) {
+  <div class="empty-state" role="status">
+    <i class="{{ emptyIcon() }}" aria-hidden="true"></i>
+    <h3>{{ emptyTitle() }}</h3>
+    <p>{{ emptyText() }}</p>
+  </div>
+} @else {
+  <ng-content />
+}

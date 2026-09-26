@@ -1,0 +1,61 @@
+<div class="dev-toolbar" [class.is-open]="open()">
+  <button
+    type="button"
+    class="dev-toolbar__toggle"
+    (click)="toggle()"
+    [attr.aria-expanded]="open()"
+    aria-controls="dev-toolbar-panel"
+    pTooltip="Development switcher — not shown in production"
+    tooltipPosition="right"
+  >
+    <i class="pi pi-wrench" aria-hidden="true"></i>
+    <span>Dev</span>
+    @if (devTools.hasOverrides()) {
+      <span class="dev-toolbar__dot" aria-label="Overrides active"></span>
+    }
+  </button>
+
+  @if (open()) {
+    <div class="dev-toolbar__panel" id="dev-toolbar-panel">
+      <div class="dev-toolbar__field">
+        <label for="dev-client">Client</label>
+        <p-select
+          inputId="dev-client"
+          [options]="clientOptions()"
+          optionLabel="label"
+          optionValue="value"
+          [ngModel]="clients.activeClientKey()"
+          (ngModelChange)="onClientChange($event)"
+          [loading]="loadingClients()"
+          [placeholder]="clients.activeClientKey()"
+          appendTo="body"
+          size="small"
+        />
+      </div>
+
+      <div class="dev-toolbar__field">
+        <label for="dev-theme">Theme</label>
+        <p-select
+          inputId="dev-theme"
+          [options]="themeOptions()"
+          optionLabel="label"
+          optionValue="value"
+          [ngModel]="theme.activeThemeKey()"
+          (ngModelChange)="onThemeChange($event)"
+          appendTo="body"
+          size="small"
+        />
+      </div>
+
+      <div class="dev-toolbar__foot">
+        <span class="dev-toolbar__hint">
+          Testing only. Source of truth: <code>client-selector.json</code>
+          (<code>activeClientKey</code> / <code>activeThemeKey</code>).
+        </span>
+        @if (devTools.hasOverrides()) {
+          <p-button label="Reset" icon="pi pi-refresh" size="small" [text]="true" severity="secondary" (onClick)="reset()" />
+        }
+      </div>
+    </div>
+  }
+</div>

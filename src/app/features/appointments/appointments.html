@@ -1,8 +1,10 @@
 <section class="page-hero page-hero--compact">
   <div class="shell">
-    <span class="eyebrow eyebrow--line">Your space</span>
-    <h1>My experiences</h1>
-    <p class="page-hero__sub">Appointments, favourites and everything you’ve treated yourself to.</p>
+    <span class="eyebrow eyebrow--line">{{ pageHero().eyebrow }}</span>
+    <h1>{{ pageHero().title }}</h1>
+    @if (pageHero().subtitle; as sub) {
+      <p class="page-hero__sub">{{ sub }}</p>
+    }
   </div>
 </section>
 
@@ -11,12 +13,14 @@
     <p-tabs value="upcoming" [scrollable]="true">
       <p-tablist>
         <p-tab value="upcoming">Upcoming</p-tab>
-        <p-tab value="past">Past visits</p-tab>
+        @if (features.isAppointmentHistoryEnabled()) {
+          <p-tab value="past">Past visits</p-tab>
+        }
         <p-tab value="favorites">Favourites</p-tab>
-        @if (config.isMembershipEnabled()) {
+        @if (features.isMembershipEnabled()) {
           <p-tab value="membership">Membership</p-tab>
         }
-        @if (config.isGiftCardEnabled()) {
+        @if (features.isGiftCardEnabled()) {
           <p-tab value="giftcards">Gift cards</p-tab>
         }
       </p-tablist>
@@ -40,8 +44,12 @@
                     <span class="hint-text">Ref {{ a.ref }} · {{ a.price | price }}</span>
                   </div>
                   <div class="appt-card__actions">
-                    <p-button label="Reschedule" size="small" [outlined]="true" severity="secondary" [rounded]="true" (onClick)="openReschedule(a)" />
-                    <p-button label="Cancel" size="small" [text]="true" severity="danger" (onClick)="cancel(a)" />
+                    @if (features.isRescheduleEnabled()) {
+                      <p-button label="Reschedule" size="small" [outlined]="true" severity="secondary" [rounded]="true" (onClick)="openReschedule(a)" />
+                    }
+                    @if (features.isCancellationEnabled()) {
+                      <p-button label="Cancel" size="small" [text]="true" severity="danger" (onClick)="cancel(a)" />
+                    }
                     <p-button label="Details" size="small" [text]="true" severity="secondary" (onClick)="viewing.set(a)" />
                   </div>
                 </article>
@@ -50,46 +58,48 @@
           } @else {
             <div class="empty-state">
               <i class="pi pi-calendar" aria-hidden="true"></i>
-              <h3>No upcoming experiences</h3>
+              <h3>No upcoming appointments</h3>
               <p>Your calendar is a blank canvas.</p>
-              @if (config.isBookingEnabled()) {
-                <p-button label="Book Your Experience" [rounded]="true" (onClick)="goBook()" />
+              @if (features.isBookingEnabled()) {
+                <p-button [label]="content.hero().primaryButtonText" [rounded]="true" (onClick)="goBook()" />
               }
             </div>
           }
         </p-tabpanel>
 
         <!-- =========================== PAST =========================== -->
-        <p-tabpanel value="past">
-          @if (bookingState.past().length) {
-            <div class="appt-list">
-              @for (a of bookingState.past(); track a.id) {
-                <article class="appt-card appt-card--muted">
-                  <div class="appt-card__when">
-                    <span class="appt-card__day">{{ a.dateTime | date: 'd' }}</span>
-                    <span class="appt-card__month">{{ a.dateTime | date: 'MMM' }}</span>
-                  </div>
-                  <div class="appt-card__body">
-                    <h3>{{ a.serviceName }}</h3>
-                    <p>with {{ a.professionalName }} · {{ a.dateTime | date: 'h:mm a' }}</p>
-                    <p-tag [value]="a.status === 'CANCELLED' ? 'Cancelled' : 'Completed'" [severity]="statusSeverity(a)" />
-                  </div>
-                  <div class="appt-card__actions">
-                    @if (config.isBookingEnabled()) {
-                      <p-button label="Book Again" size="small" [rounded]="true" [outlined]="true" severity="secondary" (onClick)="bookAgain(a.serviceId)" />
-                    }
-                  </div>
-                </article>
-              }
-            </div>
-          } @else {
-            <div class="empty-state">
-              <i class="pi pi-history" aria-hidden="true"></i>
-              <h3>No past visits yet</h3>
-              <p>Your story with us begins at the first booking.</p>
-            </div>
-          }
-        </p-tabpanel>
+        @if (features.isAppointmentHistoryEnabled()) {
+          <p-tabpanel value="past">
+            @if (bookingState.past().length) {
+              <div class="appt-list">
+                @for (a of bookingState.past(); track a.id) {
+                  <article class="appt-card appt-card--muted">
+                    <div class="appt-card__when">
+                      <span class="appt-card__day">{{ a.dateTime | date: 'd' }}</span>
+                      <span class="appt-card__month">{{ a.dateTime | date: 'MMM' }}</span>
+                    </div>
+                    <div class="appt-card__body">
+                      <h3>{{ a.serviceName }}</h3>
+                      <p>with {{ a.professionalName }} · {{ a.dateTime | date: 'h:mm a' }}</p>
+                      <p-tag [value]="a.status === 'CANCELLED' ? 'Cancelled' : 'Completed'" [severity]="statusSeverity(a)" />
+                    </div>
+                    <div class="appt-card__actions">
+                      @if (features.isBookingEnabled()) {
+                        <p-button label="Book Again" size="small" [rounded]="true" [outlined]="true" severity="secondary" (onClick)="bookAgain(a.serviceId)" />
+                      }
+                    </div>
+                  </article>
+                }
+              </div>
+            } @else {
+              <div class="empty-state">
+                <i class="pi pi-history" aria-hidden="true"></i>
+                <h3>No past visits yet</h3>
+                <p>Your story with us begins at the first booking.</p>
+              </div>
+            }
+          </p-tabpanel>
+        }
 
         <!-- ========================= FAVOURITES ======================= -->
         <p-tabpanel value="favorites">
@@ -102,7 +112,7 @@
                     <h3>{{ s.name }}</h3>
                     <p>{{ s.duration }} min · {{ s.price | price }}</p>
                   </div>
-                  @if (config.isBookingEnabled()) {
+                  @if (features.isBookingEnabled()) {
                     <p-button label="Book" size="small" [rounded]="true" (onClick)="bookAgain(s.id)" />
                   }
                 </div>
@@ -118,7 +128,7 @@
         </p-tabpanel>
 
         <!-- ========================= MEMBERSHIP ======================= -->
-        @if (config.isMembershipEnabled()) {
+        @if (features.isMembershipEnabled()) {
           <p-tabpanel value="membership">
             @if (bookingState.membership(); as plan) {
               <div class="empty-state">
@@ -138,14 +148,14 @@
         }
 
         <!-- ========================= GIFT CARDS ======================= -->
-        @if (config.isGiftCardEnabled()) {
+        @if (features.isGiftCardEnabled()) {
           <p-tabpanel value="giftcards">
             @if (bookingState.giftCards().length) {
               <div class="giftcard-list">
                 @for (g of bookingState.giftCards(); track g.id) {
                   <div class="gift-card-art gift-card-art--mini">
                     <div class="gift-card-art__head">
-                      <span class="gift-card-art__brand">{{ config.business().name }}</span>
+                      <span class="gift-card-art__brand">{{ business.name() }}</span>
                       <i class="pi pi-gift" aria-hidden="true"></i>
                     </div>
                     <div class="gift-card-art__amount">{{ g.amount | price }}</div>

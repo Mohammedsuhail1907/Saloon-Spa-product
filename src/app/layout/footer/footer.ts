@@ -1,13 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
-import { BusinessConfigService } from '../../core/services/business-config.service';
+import { BusinessConfigService } from '../../core/services/config/business-config.service';
+import { ContentConfigService } from '../../core/services/config/content-config.service';
+import { MenuConfigService } from '../../core/services/config/menu-config.service';
 
-interface FooterLink {
-  label: string;
-  link: string;
-}
-
+/** Footer: brand block, the two menu groups, contact details and socials. */
 @Component({
   selector: 'app-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,29 +14,8 @@ interface FooterLink {
   styleUrl: './footer.scss'
 })
 export class Footer {
-  protected readonly config = inject(BusinessConfigService);
+  protected readonly business = inject(BusinessConfigService);
+  protected readonly content = inject(ContentConfigService);
+  protected readonly menus = inject(MenuConfigService);
   protected readonly year = new Date().getFullYear();
-
-  protected readonly exploreLinks = computed<FooterLink[]>(() => {
-    const c = this.config;
-    const links: FooterLink[] = [{ label: c.servicesLabel(), link: '/services' }];
-    if (c.isSalonStaffEnabled() || c.isSpaStaffEnabled()) {
-      links.push({ label: c.professionalsLabel(), link: '/professionals' });
-    }
-    if (c.isOffersEnabled()) links.push({ label: 'Offers', link: '/offers' });
-    if (c.isGalleryEnabled()) links.push({ label: 'Gallery', link: '/gallery' });
-    return links;
-  });
-
-  protected readonly experienceLinks = computed<FooterLink[]>(() => {
-    const c = this.config;
-    const links: FooterLink[] = [];
-    if (c.isBookingEnabled()) links.push({ label: 'Book an Appointment', link: '/booking' });
-    if (c.isBeautyQuizEnabled()) links.push({ label: 'Find Your Experience', link: '/quiz' });
-    if (c.isPackagesEnabled()) links.push({ label: 'Experience Builder', link: '/experience-builder' });
-    if (c.isMembershipEnabled()) links.push({ label: 'Membership', link: '/membership' });
-    if (c.isGiftCardEnabled()) links.push({ label: 'Gift Cards', link: '/gift-cards' });
-    links.push({ label: 'My Appointments', link: '/appointments' });
-    return links;
-  });
 }

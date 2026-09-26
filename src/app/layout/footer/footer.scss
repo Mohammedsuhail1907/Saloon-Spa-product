@@ -1,5 +1,5 @@
 .site-footer {
-  background: #262019;
+  background: var(--ink-deep);
   color: #cbc0aa;
   padding: clamp(2.6rem, 6vw, 4rem) 0 1.6rem;
   margin-top: 2rem;
@@ -92,5 +92,32 @@
 @media (max-width: 640px) {
   .site-footer__grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ------------------------- social links -------------------------- */
+
+.site-footer__social {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    color: var(--brand-primary);
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--brand-primary);
+      color: var(--color-on-primary);
+    }
   }
 }

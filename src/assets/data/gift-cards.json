@@ -1,0 +1,26 @@
+{
+  "amounts": [
+    1000,
+    2500,
+    5000
+  ],
+  "minimumAmount": 500,
+  "maximumAmount": 50000,
+  "experiences": [
+    {
+      "id": "salon",
+      "label": "Salon Experience",
+      "type": "SALON"
+    },
+    {
+      "id": "spa",
+      "label": "Spa Experience",
+      "type": "SPA"
+    },
+    {
+      "id": "combined",
+      "label": "Combined Experience",
+      "type": "BOTH"
+    }
+  ]
+}

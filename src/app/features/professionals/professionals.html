@@ -1,10 +1,10 @@
 <section class="page-hero">
   <div class="shell">
-    <span class="eyebrow eyebrow--line">In expert hands</span>
-    <h1>{{ config.professionalsLabel() }}</h1>
-    <p class="page-hero__sub">
-      Choose the person, not just the slot — every profile shows real specialties and next availability.
-    </p>
+    <span class="eyebrow eyebrow--line">{{ pageHero().eyebrow }}</span>
+    <h1>{{ pageHero().title }}</h1>
+    @if (pageHero().subtitle; as sub) {
+      <p class="page-hero__sub">{{ sub }}</p>
+    }
   </div>
 </section>
 
@@ -19,20 +19,32 @@
           optionLabel="label"
           optionValue="value"
           [allowEmpty]="false"
-          aria-label="Filter professionals"
+          [attr.aria-label]="'Filter ' + content.professionalsLabel().toLowerCase()"
         />
       </div>
     }
 
-    <div class="card-grid card-grid--4">
-      @for (professional of filtered(); track professional.id) {
-        <app-professional-card
-          [professional]="professional"
-          (profile)="openProfile($event)"
-          (book)="book($event)"
-        />
-      }
-    </div>
+    <app-data-state
+      [loading]="professionalService.loading()"
+      [error]="professionalService.error()"
+      [empty]="!filtered().length"
+      skeletonGrid="4"
+      [skeletons]="4"
+      skeletonHeight="18rem"
+      emptyIcon="pi pi-users"
+      emptyTitle="No {{ content.professionalsLabel().toLowerCase() }} listed yet"
+      emptyText="Our team page is being updated."
+    >
+      <div class="card-grid card-grid--4">
+        @for (professional of filtered(); track professional.id) {
+          <app-professional-card
+            [professional]="professional"
+            (profile)="openProfile($event)"
+            (book)="book($event)"
+          />
+        }
+      </div>
+    </app-data-state>
   </div>
 </section>
 
@@ -87,23 +99,25 @@
       </ul>
     }
 
-    <h3 class="detail-dialog__subtitle">
-      Available {{ profileSlots().dayLabel.toLowerCase() }}
-    </h3>
-    @if (profileSlots().slots.length) {
-      <div class="chip-row chip-row--tight">
-        @for (slot of profileSlots().slots; track slot.time) {
-          <span class="slot-chip slot-chip--mini">{{ slot.label }}</span>
-        }
-      </div>
-    } @else {
-      <p class="hint-text">Fully booked — try the waitlist via the studio.</p>
+    @if (features.isBookingEnabled()) {
+      <h3 class="detail-dialog__subtitle">
+        Available {{ profileSlots().dayLabel.toLowerCase() }}
+      </h3>
+      @if (profileSlots().slots.length) {
+        <div class="chip-row chip-row--tight">
+          @for (slot of profileSlots().slots; track slot.time) {
+            <span class="slot-chip slot-chip--mini">{{ slot.label }}</span>
+          }
+        </div>
+      } @else {
+        <p class="hint-text">Fully booked — try the waitlist via the studio.</p>
+      }
     }
   }
 
   <ng-template #footer>
     <p-button label="Close" [text]="true" severity="secondary" (onClick)="closeProfile()" />
-    @if (config.isBookingEnabled() && profile(); as p) {
+    @if (features.isBookingEnabled() && profile(); as p) {
       <p-button label="Book with {{ firstName(p.name) }}" [rounded]="true" (onClick)="book(p)" />
     }
   </ng-template>

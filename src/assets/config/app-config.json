@@ -1,0 +1,6 @@
+{
+  "environment": "LOCAL",
+  "dataSource": "ASSETS",
+  "apiBaseUrl": "",
+  "defaultRoute": "/"
+}

@@ -17,13 +17,15 @@ import { TagModule } from 'primeng/tag';
 import { Appointment } from '../../core/models/booking.model';
 import { AvailabilityService } from '../../core/services/availability.service';
 import { BookingService } from '../../core/services/booking.service';
-import { BusinessConfigService } from '../../core/services/business-config.service';
-import { CatalogService } from '../../core/services/catalog.service';
+import { BusinessConfigService } from '../../core/services/config/business-config.service';
+import { ContentConfigService } from '../../core/services/config/content-config.service';
+import { FeatureConfigService } from '../../core/services/config/feature-config.service';
+import { ServiceCatalogService } from '../../core/services/data/service-catalog.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { SlotSelector } from '../../shared/components/slot-selector/slot-selector';
 import { PricePipe } from '../../shared/pipes/price.pipe';
 
-/** Customer appointments: upcoming, past, reschedule, cancel, details. */
+/** Customer dashboard: upcoming, past, favourites, membership and gift cards. */
 @Component({
   selector: 'app-appointments-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,13 +45,22 @@ import { PricePipe } from '../../shared/pipes/price.pipe';
   styleUrl: './appointments.scss'
 })
 export class AppointmentsPage {
-  protected readonly config = inject(BusinessConfigService);
-  protected readonly catalog = inject(CatalogService);
+  protected readonly business = inject(BusinessConfigService);
+  protected readonly features = inject(FeatureConfigService);
+  protected readonly content = inject(ContentConfigService);
+  protected readonly catalog = inject(ServiceCatalogService);
   protected readonly bookingState = inject(BookingService);
   protected readonly availability = inject(AvailabilityService);
   private readonly confirmation = inject(ConfirmationService);
   private readonly notify = inject(NotificationService);
   private readonly router = inject(Router);
+
+  protected readonly pageHero = computed(() => this.content.page('appointments'));
+
+  constructor() {
+    // Favourites and "book again" resolve services from the catalogue.
+    void this.catalog.load();
+  }
 
   protected readonly favoriteServices = computed(() =>
     this.bookingState

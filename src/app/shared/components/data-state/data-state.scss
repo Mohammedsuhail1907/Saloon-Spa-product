@@ -1,0 +1,9 @@
+:host {
+  display: block;
+}
+
+/* .card-grid and .empty-state come from the global shared styles; the
+   skeleton only needs a soft brand tint to sit with the rest of the page. */
+:host ::ng-deep .p-skeleton {
+  background: color-mix(in srgb, var(--brand-secondary) 70%, var(--brand-surface));
+}

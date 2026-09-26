@@ -8,25 +8,26 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CarouselModule } from 'primeng/carousel';
+import { SkeletonModule } from 'primeng/skeleton';
 import { TagModule } from 'primeng/tag';
 import { TimelineModule } from 'primeng/timeline';
 import { MoodOption, Professional, Service } from '../../core/models/catalog.model';
 import { AvailabilityService } from '../../core/services/availability.service';
 import { BookingService } from '../../core/services/booking.service';
-import { BusinessConfigService } from '../../core/services/business-config.service';
-import { CatalogService } from '../../core/services/catalog.service';
+import { BusinessConfigService } from '../../core/services/config/business-config.service';
+import { ContentConfigService } from '../../core/services/config/content-config.service';
+import { FeatureConfigService } from '../../core/services/config/feature-config.service';
+import { GalleryService } from '../../core/services/data/gallery.service';
+import { MembershipService } from '../../core/services/data/membership.service';
+import { OfferService } from '../../core/services/data/offer.service';
+import { ProfessionalService } from '../../core/services/data/professional.service';
+import { ReviewService } from '../../core/services/data/review.service';
+import { ServiceCatalogService } from '../../core/services/data/service-catalog.service';
 import { BeforeAfter } from '../../shared/components/before-after/before-after';
 import { ProfessionalCard } from '../../shared/components/professional-card/professional-card';
 import { ServiceCard } from '../../shared/components/service-card/service-card';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
 import { PricePipe } from '../../shared/pipes/price.pipe';
-
-interface JourneyStep {
-  n: string;
-  title: string;
-  detail: string;
-  icon: string;
-}
 
 @Component({
   selector: 'app-home',
@@ -36,6 +37,7 @@ interface JourneyStep {
     ButtonModule,
     TagModule,
     CarouselModule,
+    SkeletonModule,
     TimelineModule,
     ServiceCard,
     ProfessionalCard,
@@ -47,13 +49,31 @@ interface JourneyStep {
   styleUrl: './home.scss'
 })
 export class Home {
-  protected readonly config = inject(BusinessConfigService);
-  protected readonly catalog = inject(CatalogService);
+  protected readonly business = inject(BusinessConfigService);
+  protected readonly features = inject(FeatureConfigService);
+  protected readonly copy = inject(ContentConfigService);
+  protected readonly catalog = inject(ServiceCatalogService);
+  protected readonly professionalService = inject(ProfessionalService);
+  protected readonly offerService = inject(OfferService);
+  protected readonly membershipService = inject(MembershipService);
+  protected readonly reviewService = inject(ReviewService);
+  private readonly galleryService = inject(GalleryService);
   private readonly availability = inject(AvailabilityService);
   private readonly bookingState = inject(BookingService);
   private readonly router = inject(Router);
 
   protected readonly selectedMood = signal<MoodOption | null>(null);
+
+  constructor() {
+    // Only fetch what this client's configuration will actually render.
+    void this.catalog.load();
+    if (this.business.isAnyStaffEnabled()) void this.professionalService.load();
+    if (this.features.isRecommendationsEnabled()) void this.catalog.loadMoods();
+    if (this.features.isOffersEnabled()) void this.offerService.load();
+    if (this.features.isMembershipEnabled()) void this.membershipService.load();
+    if (this.features.isReviewsEnabled()) void this.reviewService.load();
+    if (this.features.isBeforeAfterEnabled()) void this.galleryService.load();
+  }
 
   protected readonly featuredServices = computed(() => {
     const services = this.catalog.services();
@@ -62,7 +82,7 @@ export class Home {
   });
 
   protected readonly featuredProfessionals = computed(() =>
-    this.catalog.professionals().slice(0, 4)
+    this.professionalService.professionals().slice(0, 4)
   );
 
   protected readonly moodServices = computed(() => {
@@ -70,47 +90,35 @@ export class Home {
     return mood ? this.catalog.servicesByTag(mood.tag, 3) : [];
   });
 
-  protected readonly featuredOffers = computed(() => this.catalog.offers().slice(0, 3));
+  protected readonly featuredOffers = computed(() => this.offerService.offers().slice(0, 3));
 
-  protected readonly firstBeforeAfter = computed(
-    () => this.catalog.beforeAfterItems()[0]
-  );
+  protected readonly firstBeforeAfter = computed(() => this.galleryService.beforeAfter()[0]);
 
-  protected readonly highlightPlan = computed(
-    () =>
-      this.catalog.membershipPlans().find((p) => p.highlight) ??
-      this.catalog.membershipPlans()[0]
-  );
+  protected readonly highlightPlan = computed(() => this.membershipService.highlightPlan());
 
-  protected readonly stories = computed(() => this.catalog.stories());
+  protected readonly stories = computed(() => this.reviewService.stories());
 
-  protected readonly journey: JourneyStep[] = [
-    { n: '01', title: 'Arrive', detail: 'Warm towels, herbal tea and a moment to land.', icon: 'pi pi-map-marker' },
-    { n: '02', title: 'Relax', detail: 'Your consultation happens at your pace, not ours.', icon: 'pi pi-moon' },
-    { n: '03', title: 'Transform', detail: 'Expert hands, premium products, unhurried care.', icon: 'pi pi-sparkles' },
-    { n: '04', title: 'Glow', detail: 'The mirror moment — styled, polished, radiant.', icon: 'pi pi-sun' },
-    { n: '05', title: 'Leave Renewed', detail: 'Home rituals and your next visit, planned.', icon: 'pi pi-heart' }
-  ];
+  protected readonly averageRating = computed(() => this.reviewService.averageRating());
 
   /* ----- “Today’s studio” (sample data, clearly labelled in the UI) ----- */
 
-  protected readonly isOpenNow = computed(() => {
-    const rules = this.config.bookingRules();
-    const now = new Date();
-    if (rules.closedWeekdays.includes(now.getDay())) return false;
-    return now.getHours() >= rules.openingHour && now.getHours() < rules.closingHour;
-  });
+  protected readonly isOpenNow = computed(() => this.availability.isOpenNow());
 
   protected readonly studios = computed(() => {
     const list: { name: string; detail: string; icon: string }[] = [];
-    if (this.config.isSalonEnabled()) {
-      list.push(
-        { name: 'Hair Studio', detail: '3 professionals available', icon: 'pi pi-sparkles' },
-        { name: 'Nail Studio', detail: '1 slot available', icon: 'pi pi-star' }
-      );
+    if (this.business.isSalonEnabled()) {
+      list.push({
+        name: 'Salon',
+        detail: `${this.professionalService.stylists().length} professionals available`,
+        icon: 'pi pi-sparkles'
+      });
     }
-    if (this.config.isSpaEnabled()) {
-      list.push({ name: 'Spa Suites', detail: '2 rooms available', icon: 'pi pi-moon' });
+    if (this.business.isSpaEnabled()) {
+      list.push({
+        name: 'Spa',
+        detail: `${this.professionalService.therapists().length} therapists available`,
+        icon: 'pi pi-moon'
+      });
     }
     return list;
   });

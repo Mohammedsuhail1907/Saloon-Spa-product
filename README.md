@@ -1,130 +1,185 @@
+# Salon & Spa — White-label Booking Product
 
-# Luxe & Aura — Salon & Spa Booking Platform
-
-A configuration-driven, premium salon & spa booking experience built with
-**Angular 20 (standalone components, signals, zoneless)** and **PrimeNG 20**.
-
-One codebase serves three business modes — switch by editing a single JSON file:
+One Angular 20 + PrimeNG 20 application (standalone, signals, zoneless) that
+becomes a different salon, spa or salon-and-spa business purely through
+configuration. A client is a JSON file, a theme is a catalog entry, and the
+only thing you change to switch clients is one key.
 
 ```text
-SALON_ONLY  ·  SPA_ONLY  ·  SALON_AND_SPA
+client-selector.json ─► clients/<key>.json ─► themes.json ─► data JSON ─► Angular services ─► UI
+        (activeClientKey)   business · features · menus   15 themes     per-client or shared
 ```
 
 ## Quick start
 
 ```bash
 npm install
-npm start           # ng serve → http://localhost:4200
-ng serve --port 5000  # or any port you prefer
+npm start          # ng serve → http://localhost:4200
+npm run build      # production build → dist/
+npm test           # Karma/Jasmine: client validation, theme catalog, access rules, app shell
 ```
 
-Build and test:
+### Switch client — change ONE value
 
-```bash
-npm run build       # production build → dist/
-npm test            # Karma/Jasmine unit tests
+`src/assets/config/client-selector.json`
+
+```json
+{ "activeClientKey": "CLIENT_SALON_001" }
 ```
 
-## Configuration
+| Key | Business | Mode | Theme |
+| --- | --- | --- | --- |
+| `CLIENT_SALON_001` | Luxe Hair Studio | `SALON_ONLY` | `LUXURY_GOLD` |
+| `CLIENT_SPA_001` | Serenity Wellness Spa | `SPA_ONLY` | `SAGE_SERENITY` |
+| `CLIENT_BOTH_001` | Aura Beauty & Wellness | `SALON_AND_SPA` | `ROSE_ELEGANCE` |
 
-Everything brand- and business-specific lives in:
+Reload the browser. Brand, logo, colours, fonts, navigation, enabled features,
+routes, opening hours, copy and catalogue data all follow. No TypeScript changes.
+
+### Switch theme — same file, or per client
+
+Quick test (applies to whichever client is active), in `client-selector.json`:
+
+```json
+{ "activeClientKey": "CLIENT_SALON_001", "activeThemeKey": "MIDNIGHT_LUXURY" }
+```
+
+Leave `activeThemeKey` empty to use the client's own theme, which lives in
+`clients/client-salon-001.json` → `"theme": { "themeKey": "LUXURY_GOLD" }`.
+Precedence: dev switcher › `activeThemeKey` › client `themeKey` › catalog default.
+
+Any of the 15 catalog keys works: `LUXURY_GOLD`, `ROSE_ELEGANCE`, `NATURAL_WELLNESS`,
+`MIDNIGHT_LUXURY`, `PEARL_WHITE`, `CHAMPAGNE_DREAM`, `SAGE_SERENITY`, `BLUSH_BEAUTY`,
+`ROYAL_PURPLE`, `OCEAN_WELLNESS`, `TERRACOTTA_SPA`, `EMERALD_LUXURY`, `SOFT_LAVENDER`,
+`COCOA_ELEGANCE`, `MODERN_MONOCHROME`.
+
+### Development switcher (dev builds only)
+
+`ng serve` shows a small **Dev** pill bottom-left with a Client and a Theme
+dropdown. Themes apply instantly; switching client reloads. Selections are kept
+in `sessionStorage` for the tab only — `client-selector.json` stays the source of
+truth, and **Reset** returns to it. The pill never renders in production builds
+or when `app-config.json` says `"environment": "PRODUCTION"`.
+
+## Configuration (`src/assets/config/`)
 
 ```text
-src/assets/config/salon-spa-config.json
+config/
+├── app-config.json          deployment: environment, dataSource (ASSETS|API), apiBaseUrl, defaultRoute
+├── client-selector.json     activeClientKey + registry of client files
+├── clients/
+│   ├── client-salon-001.json
+│   ├── client-spa-001.json
+│   └── client-both-001.json
+├── themes.json              catalog of 15 themes + defaultThemeKey
+├── feature-config.json      ┐
+├── menu-config.json         │ product DEFAULTS — every client overrides
+├── booking-config.json      │ these section by section
+├── permission-config.json   │
+└── content-config.json      ┘
 ```
 
-- `businessMode` — `SALON_ONLY`, `SPA_ONLY` or `SALON_AND_SPA`. Navigation,
-  services, professionals, quiz content and page sections adapt automatically.
-- `business` — name, tagline, logo, contact details, currency.
-- `theme` — brand colours; applied at runtime to CSS variables **and** the
-  PrimeNG theme preset (`BusinessConfigService.applyTheme`).
-- `features` — feature flags (onlineBooking, slotBooking, membership,
-  giftCards, beautyQuiz, offers, gallery, …). Disabled features disappear from
-  navigation and their routes are blocked by `featureGuard`.
-- `salon` / `spa` — per-section toggles for services and staff.
-- `booking` — opening hours, slot length, closed weekdays, holidays.
+### A client file
 
-The config is fetched once at bootstrap via `provideAppInitializer` +
-`HttpClient`; components read it through the signal-based
-`BusinessConfigService` and never touch the JSON directly.
+| Section | Required | Notes |
+| --- | --- | --- |
+| `clientKey` | yes | must equal the registry key |
+| `businessMode` | yes | `SALON_ONLY` \| `SPA_ONLY` \| `SALON_AND_SPA` |
+| `business` | `name`, `currency` | tagline, description, logo, favicon, locale, contact, address, socialMedia, hoursLabel |
+| `theme.themeKey` | yes* | *unknown key → warning + catalog default, never a crash |
+| `features` | no | any subset of the flags in `feature-config.json` |
+| `menus` | no | entries merged onto `menu-config.json` **by id** — set `label`, `enabled`, `order`, `group` |
+| `booking` | no | partial `BookingRules`; `workingHours` merged per weekday |
+| `content` | no | hero, page heroes, labels, journey, FAQs, contact subjects, footer note |
+| `permissions` | no | role/permission overrides |
+| `data` | no | `path` + `clientResources` the client owns; the rest comes from `assets/data` |
 
-## Architecture
+Validation runs at bootstrap (`ClientConfigService.validate`). Errors — unknown
+`activeClientKey`, bad business mode, missing name/currency, non-boolean flags,
+menu items without an id — render a calm error state; in dev builds the details
+are listed (e.g. *Available clients: CLIENT_SALON_001, …*). Unknown theme keys
+and unknown feature/menu ids are warnings.
+
+### Themes
+
+Each entry in `themes.json` defines `colors` (primary, onPrimary, secondary,
+accent, background, surface, text, mutedText, border, success, warning, danger),
+`typography` (heading/body Google Fonts), `shape` (borderRadius, cardRadius,
+buttonRadius) and `effects` (shadow, hoverScale). `ThemeConfigService.applyTheme`
+writes them to CSS custom properties on `<html>` —
+
+```css
+--color-primary  --color-on-primary  --color-secondary  --color-accent
+--color-background  --color-surface  --color-text  --color-muted-text  --color-border
+--font-heading  --font-body   --radius-base  --radius-card  --radius-button
+--shadow-card  --hover-scale
+```
+
+— regenerates PrimeNG's primary and surface palettes, loads the fonts, and sets
+`data-theme` / `data-color-scheme` on `<html>`. `styles/_tokens.scss` aliases the
+legacy `--brand-*`, `--ink*`, `--line`, `--radius-*` names to this contract, so
+component SCSS needs no theme knowledge. Dark themes (Midnight Luxury) work
+because PrimeNG's surface scale is interpolated from the theme's own surface →
+text colours.
+
+### Visibility resolution
 
 ```text
-src/
-├── app/
-│   ├── core/                 # singletons — no UI
-│   │   ├── constants/        # API base URL, config URL, storage keys
-│   │   ├── data/             # mock catalogue data (swap for API calls)
-│   │   ├── guards/           # featureGuard — blocks disabled feature routes
-│   │   ├── models/           # BusinessConfig, Service, Professional,
-│   │   │                     # Appointment, AvailabilitySlot, …
-│   │   └── services/         # BusinessConfigService, CatalogService,
-│   │                         # AvailabilityService, BookingService,
-│   │                         # NotificationService (PrimeNG Toast), UiState
-│   ├── shared/               # reusable presentational building blocks
-│   │   ├── components/       # service-card, professional-card,
-│   │   │                     # slot-selector, booking-summary, before-after
-│   │   ├── directives/       # appReveal (IntersectionObserver reveal)
-│   │   └── pipes/            # price (config-driven currency)
-│   ├── layout/               # header (config-driven nav) + footer
-│   ├── features/             # one folder per lazy-loaded route
-│   │   ├── home/             # hero, moods, featured, stories, promos
-│   │   ├── services/         # catalogue with filters + detail dialog
-│   │   ├── professionals/    # stylists & therapists + profile dialog
-│   │   ├── booking/          # 6-step wizard (see below)
-│   │   ├── appointments/     # upcoming/past, reschedule, cancel, details
-│   │   ├── beauty-quiz/      # 3-question recommendation quiz
-│   │   ├── experience-builder/ # package builder (base + add-ons)
-│   │   ├── membership/  offers/  gift-cards/  gallery/  contact/
-│   ├── app.routes.ts         # lazy routes, all guarded by feature flags
-│   └── app.config.ts         # providers: router, http, PrimeNG theme,
-│                             # app initializer (config load)
-├── assets/config/            # salon-spa-config.json
-├── environments/             # environment.ts / environment.development.ts
-├── styles/                   # global SCSS partials (tokens, base, layout,
-│                             # art palettes, forms, shared patterns, PrimeNG)
-└── styles.scss               # aggregator only — page CSS lives per component
+Business config + Feature flags + Booking rules + Permissions → AccessService.canAccess(routeKey)
 ```
 
-### Booking flow
+`core/config/route-access.config.ts` is the single rule table used by both the
+`accessGuard` and `MenuConfigService`, so a switched-off destination vanishes
+from navigation **and** redirects to `defaultRoute` when typed into the URL.
+`/salon`, `/spa`, `/stylists` and `/therapists` reuse the services and
+professionals pages with a pinned filter.
 
-`features/booking` is a thin container that owns the wizard state (signals)
-and composes presentational step components:
+## Data (`src/assets/data/`)
 
 ```text
-booking.ts / booking.html          # state + PrimeNG Stepper + navigation
-└── components/
-    ├── service-selection/         # step 1
-    ├── professional-selection/    # step 2 (skipped if disabled in config)
-    ├── date-selection/            # step 3 — inline PrimeNG DatePicker
-    ├── slot-selection/            # step 4 — slot grid or period picker
-    ├── customer-details/          # step 5 — details + add-ons
-    ├── booking-review/            # step 6 — final recap
-    └── booking-confirmation/      # success screen + product suggestions
+data/
+├── *.json                       shared catalogue (addons, moods, quiz, memberships, gift-cards, products, …)
+└── clients/
+    ├── client-salon-001/        services, professionals, offers, gallery, reviews
+    ├── client-spa-001/
+    └── client-both-001/
 ```
 
-The sticky summary aside is the shared `app-booking-summary` component,
-reused by the experience builder.
+A client's `data.clientResources` lists which resources come from its folder;
+everything else is shared, so nothing is duplicated needlessly. Components never
+read JSON — domain services (`ServiceCatalogService`, `ProfessionalService`,
+`OfferService`, …) go through the `DATA_PROVIDER` token:
 
-### API readiness
+```text
+AssetDataProvider → <client path | assets/data>/<resource>.json     (today)
+ApiDataProvider   → ${apiBaseUrl}/<resource>  + X-Client-Key header  (set dataSource: "API")
+```
 
-There is no backend yet — availability is generated deterministically and
-appointments persist to `localStorage` (clearly labelled as demo data in the
-UI). The seams for a real API are already in place:
+### Adding a client
 
-- `AvailabilityService.getDayAvailability(date, professionalId)`
-  → `GET /availability`
-- `BookingService.book / reschedule / cancel` → `POST/PUT/DELETE /appointments`
-- `CatalogService` computed lists → `GET /services`, `GET /professionals`
-- `environment.apiBaseUrl` + `core/constants/app.constants.ts` hold the base URL.
+1. Copy `clients/client-salon-001.json` → `clients/client-new-001.json`, edit it.
+2. Register it in `client-selector.json` under `clients`.
+3. Optionally add `assets/images/clients/client-new-001/` (logo, favicon, hero) and
+   `assets/data/clients/client-new-001/` for its own catalogue.
+4. Set `activeClientKey`. No Angular code changes.
 
-### Styling
+## Project structure
 
-- Global design tokens and cross-feature patterns: `src/styles/_*.scss`
-- Per-component styles: next to each component (`*.scss`)
-- PrimeNG internals reached via `styleClass` are styled either in
-  `_primeng.scss` (app-wide) or with `:host ::ng-deep` in the owning component.
-=======
-# Saloon-Spa-product
-Saloon-Spa-product
+```text
+src/app/
+├── core/
+│   ├── config/route-access.config.ts     one rule table for guards + menus
+│   ├── constants/                        config/data paths, domain enums, storage keys
+│   ├── guards/access.guard.ts
+│   ├── models/                           client-config, theme-config, *-config, catalog, booking
+│   └── services/
+│       ├── config/                       ConfigLoader, ClientConfig, Business, Feature, Menu, Booking,
+│       │                                 Permission, Content, Theme, Access, DevTools
+│       ├── data/                         DataProvider, DataStore, domain services
+│       ├── availability.service.ts       mock slot engine driven by booking rules
+│       ├── booking.service.ts            draft, appointments, favourites (localStorage per client)
+│       └── notification.service.ts
+├── shared/                               cards, slot selector, booking summary, data-state, reveal, price pipe
+├── layout/                               header + footer (menus from config), dev-toolbar (dev only)
+└── features/                             lazy pages
+```

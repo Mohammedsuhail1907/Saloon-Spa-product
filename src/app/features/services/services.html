@@ -1,10 +1,10 @@
 <section class="page-hero">
   <div class="shell">
-    <span class="eyebrow eyebrow--line">{{ config.business().name }}</span>
-    <h1>{{ config.servicesLabel() }}</h1>
-    <p class="page-hero__sub">
-      Every treatment is a small ceremony — unhurried, personalised and finished properly.
-    </p>
+    <span class="eyebrow eyebrow--line">{{ pageHero().eyebrow || business.name() }}</span>
+    <h1>{{ pageHero().title }}</h1>
+    @if (pageHero().subtitle; as sub) {
+      <p class="page-hero__sub">{{ sub }}</p>
+    }
   </div>
 </section>
 
@@ -16,10 +16,10 @@
         <input
           pInputText
           type="text"
-          placeholder="Search {{ config.servicesLabel().toLowerCase() }}…"
+          placeholder="Search {{ content.servicesLabel().toLowerCase() }}…"
           [ngModel]="search()"
           (ngModelChange)="search.set($event)"
-          aria-label="Search services"
+          [attr.aria-label]="'Search ' + content.servicesLabel().toLowerCase()"
         />
       </p-iconfield>
 
@@ -36,40 +36,43 @@
       }
     </div>
 
-    <div class="chip-row" role="group" aria-label="Filter by category">
-      <button
-        type="button"
-        class="filter-chip"
-        [class.is-active]="selectedCategory() === 'all'"
-        (click)="selectedCategory.set('all')"
-      >
-        All
-      </button>
-      @for (c of categories(); track c.id) {
+    @if (categories().length) {
+      <div class="chip-row" role="group" aria-label="Filter by category">
         <button
           type="button"
           class="filter-chip"
-          [class.is-active]="selectedCategory() === c.id"
-          (click)="selectedCategory.set(c.id)"
+          [class.is-active]="selectedCategory() === 'all'"
+          (click)="selectedCategory.set('all')"
         >
-          <i class="{{ c.icon }}" aria-hidden="true"></i>{{ c.label }}
+          All
         </button>
-      }
-    </div>
+        @for (c of categories(); track c.id) {
+          <button
+            type="button"
+            class="filter-chip"
+            [class.is-active]="selectedCategory() === c.id"
+            (click)="selectedCategory.set(c.id)"
+          >
+            <i class="{{ c.icon }}" aria-hidden="true"></i>{{ c.label }}
+          </button>
+        }
+      </div>
+    }
 
-    @if (filtered().length) {
+    <app-data-state
+      [loading]="catalog.loading()"
+      [error]="catalog.error()"
+      [empty]="!filtered().length"
+      skeletonHeight="22rem"
+      emptyTitle="Nothing matches just yet"
+      emptyText="Try a different search or category."
+    >
       <div class="card-grid card-grid--3">
         @for (service of filtered(); track service.id) {
           <app-service-card [service]="service" (view)="openDetail($event)" (book)="book($event)" />
         }
       </div>
-    } @else {
-      <div class="empty-state">
-        <i class="pi pi-sparkles" aria-hidden="true"></i>
-        <h3>Nothing matches just yet</h3>
-        <p>Try a different search or category.</p>
-      </div>
-    }
+    </app-data-state>
   </div>
 </section>
 
@@ -115,7 +118,7 @@
     </ul>
 
     @if (detailProfessionals().length) {
-      <h3 class="detail-dialog__subtitle">Available professionals</h3>
+      <h3 class="detail-dialog__subtitle">Available {{ content.professionalsLabel().toLowerCase() }}</h3>
       <div class="detail-dialog__pros">
         @for (pro of detailProfessionals(); track pro.id) {
           <div class="pro-pill">
@@ -142,7 +145,7 @@
 
   <ng-template #footer>
     <p-button label="Close" [text]="true" severity="secondary" (onClick)="closeDetail()" />
-    @if (config.isBookingEnabled() && detail(); as s) {
+    @if (features.isBookingEnabled() && detail(); as s) {
       <p-button label="Book Appointment" [rounded]="true" (onClick)="book(s)" />
     }
   </ng-template>
