@@ -1,3 +1,4 @@
+
 # Luxe & Aura — Salon & Spa Booking Platform
 
 A configuration-driven, premium salon & spa booking experience built with
@@ -124,3 +125,6 @@ UI). The seams for a real API are already in place:
 - Per-component styles: next to each component (`*.scss`)
 - PrimeNG internals reached via `styleClass` are styled either in
   `_primeng.scss` (app-wide) or with `:host ::ng-deep` in the owning component.
+=======
+# Saloon-Spa-product
+Saloon-Spa-product
