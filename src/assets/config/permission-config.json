@@ -1,0 +1,29 @@
+{
+  "currentRole": "GUEST",
+  "roles": {
+    "GUEST": {
+      "label": "Guest",
+      "permissions": [
+        "catalog:view",
+        "booking:create",
+        "appointments:view",
+        "membership:view",
+        "giftcards:create"
+      ]
+    },
+    "MEMBER": {
+      "label": "Member",
+      "permissions": [
+        "catalog:view",
+        "booking:create",
+        "appointments:view",
+        "membership:view",
+        "giftcards:create"
+      ]
+    },
+    "KIOSK": {
+      "label": "In-studio kiosk",
+      "permissions": ["catalog:view", "booking:create"]
+    }
+  }
+}

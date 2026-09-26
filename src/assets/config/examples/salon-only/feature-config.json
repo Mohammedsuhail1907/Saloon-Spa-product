@@ -1,0 +1,29 @@
+{
+  "features": {
+    "onlineBooking": true,
+    "slotBooking": true,
+    "stylistSelection": true,
+    "therapistSelection": true,
+    "servicePackages": true,
+    "customPackageBuilder": false,
+    "membership": false,
+    "giftCards": false,
+    "offers": true,
+    "reviews": true,
+    "gallery": true,
+    "beforeAfterGallery": true,
+    "beautyQuiz": true,
+    "recommendations": true,
+    "customerDashboard": true,
+    "appointmentHistory": true,
+    "appointmentReschedule": true,
+    "appointmentCancellation": true,
+    "whatsappBooking": true,
+    "callBooking": true,
+    "liveAvailability": false,
+    "products": true,
+    "productRecommendations": true,
+    "notifications": true,
+    "relaxationMode": false
+  }
+}

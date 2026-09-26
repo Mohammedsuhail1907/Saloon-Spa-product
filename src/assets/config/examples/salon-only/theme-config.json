@@ -1,0 +1,14 @@
+{
+  "theme": {
+    "primaryColor": "#8B5E3C",
+    "secondaryColor": "#F7EFE8",
+    "accentColor": "#C48A5A",
+    "backgroundColor": "#FCF8F4",
+    "surfaceColor": "#FFFFFF",
+    "textColor": "#2B2118",
+    "headingFont": "Cormorant Garamond",
+    "bodyFont": "Inter",
+    "borderRadius": "14px",
+    "buttonStyle": "soft"
+  }
+}

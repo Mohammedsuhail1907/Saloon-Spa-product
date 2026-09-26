@@ -1,30 +1,30 @@
 <header class="site-header" [class.is-scrolled]="scrolled()">
   <div class="shell site-header__inner">
-    <a routerLink="/" class="brand" [attr.aria-label]="config.business().name + ' home'">
-      @if (config.business().logo) {
-        <img [src]="config.business().logo" alt="" class="brand__logo" width="34" height="34" />
+    <a routerLink="/" class="brand" [attr.aria-label]="business.name() + ' home'">
+      @if (business.logo(); as logo) {
+        <img [src]="logo" alt="" class="brand__logo" width="34" height="34" />
       }
       <span class="brand__text">
-        <span class="brand__name">{{ config.business().name }}</span>
-        <span class="brand__tagline">{{ config.business().tagline }}</span>
+        <span class="brand__name">{{ business.name() }}</span>
+        <span class="brand__tagline">{{ business.tagline() }}</span>
       </span>
     </a>
 
     <nav class="main-nav" aria-label="Primary">
-      @for (item of navItems(); track item.label) {
+      @for (item of menus.primaryMenus(); track item.id) {
         <a
           class="main-nav__link"
-          [routerLink]="item.link"
-          [queryParams]="item.query"
+          [routerLink]="item.route"
+          [queryParams]="item.queryParams"
           routerLinkActive="is-active"
-          [routerLinkActiveOptions]="item.link === '/' ? homeMatch : subsetMatch"
+          [routerLinkActiveOptions]="item.route === '/' ? homeMatch : subsetMatch"
           >{{ item.label }}</a
         >
       }
     </nav>
 
     <div class="site-header__actions">
-      @if (config.isRelaxationModeEnabled()) {
+      @if (features.isRelaxationModeEnabled()) {
         <button
           type="button"
           class="relax-btn"
@@ -37,16 +37,18 @@
           <span aria-hidden="true">🌿</span>
         </button>
       }
-      <a
-        routerLink="/appointments"
-        class="icon-link"
-        pTooltip="My appointments"
-        tooltipPosition="bottom"
-        aria-label="My appointments"
-      >
-        <i class="pi pi-user" aria-hidden="true"></i>
-      </a>
-      @if (config.isBookingEnabled()) {
+      @if (menus.getMenu('appointments'); as appts) {
+        <a
+          [routerLink]="appts.route"
+          class="icon-link"
+          [pTooltip]="appts.label"
+          tooltipPosition="bottom"
+          [attr.aria-label]="appts.label"
+        >
+          <i class="pi pi-user" aria-hidden="true"></i>
+        </a>
+      }
+      @if (features.isBookingEnabled()) {
         <p-button
           label="Book Now"
           [rounded]="true"
@@ -65,29 +67,34 @@
   [(visible)]="menuOpen"
   position="right"
   styleClass="mobile-drawer"
-  [header]="config.business().name"
+  [header]="business.name()"
 >
   <nav class="drawer-nav" aria-label="Mobile">
-    @for (item of navItems(); track item.label) {
+    @for (item of menus.primaryMenus(); track item.id) {
       <a
         class="drawer-nav__link"
-        [routerLink]="item.link"
-        [queryParams]="item.query"
+        [routerLink]="item.route"
+        [queryParams]="item.queryParams"
         (click)="closeMenu()"
       >
-        <i class="{{ item.icon }}" aria-hidden="true"></i>{{ item.label }}
+        <i class="{{ item.icon ?? 'pi pi-circle' }}" aria-hidden="true"></i>{{ item.label }}
       </a>
     }
-    @if (drawerExtras().length) {
+    @if (menus.secondaryMenus().length) {
       <div class="drawer-nav__divider" role="separator"></div>
-      @for (item of drawerExtras(); track item.label) {
-        <a class="drawer-nav__link" [routerLink]="item.link" (click)="closeMenu()">
-          <i class="{{ item.icon }}" aria-hidden="true"></i>{{ item.label }}
+      @for (item of menus.secondaryMenus(); track item.id) {
+        <a
+          class="drawer-nav__link"
+          [routerLink]="item.route"
+          [queryParams]="item.queryParams"
+          (click)="closeMenu()"
+        >
+          <i class="{{ item.icon ?? 'pi pi-circle' }}" aria-hidden="true"></i>{{ item.label }}
         </a>
       }
     }
   </nav>
-  @if (config.isBookingEnabled()) {
+  @if (features.isBookingEnabled()) {
     <p-button
       label="Book Your Experience"
       [rounded]="true"

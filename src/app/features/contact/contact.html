@@ -1,47 +1,64 @@
 <section class="page-hero">
   <div class="shell">
-    <span class="eyebrow eyebrow--line">Find us</span>
-    <h1>Contact</h1>
-    <p class="page-hero__sub">Questions, occasions, cold feet before a big colour change — we’re here.</p>
+    <span class="eyebrow eyebrow--line">{{ pageHero().eyebrow }}</span>
+    <h1>{{ pageHero().title }}</h1>
+    @if (pageHero().subtitle; as sub) {
+      <p class="page-hero__sub">{{ sub }}</p>
+    }
   </div>
 </section>
 
 <section class="section section--flush-top">
   <div class="shell contact-layout" appReveal>
     <div class="contact-info">
-      <div class="contact-tile">
-        <i class="pi pi-map-marker" aria-hidden="true"></i>
-        <div>
-          <strong>Visit</strong>
-          <span>{{ config.business().address ?? config.business().location }}</span>
+      @if (business.addressLine(); as address) {
+        <div class="contact-tile">
+          <i class="pi pi-map-marker" aria-hidden="true"></i>
+          <div>
+            <strong>Visit</strong>
+            <span>{{ address }}</span>
+          </div>
         </div>
-      </div>
-      <div class="contact-tile">
-        <i class="pi pi-phone" aria-hidden="true"></i>
-        <div>
-          <strong>Call</strong>
-          <span>{{ config.business().phone }}</span>
-        </div>
-      </div>
-      <div class="contact-tile">
-        <i class="pi pi-envelope" aria-hidden="true"></i>
-        <div>
-          <strong>Write</strong>
-          <span>{{ config.business().email }}</span>
-        </div>
-      </div>
-      @if (config.business().hoursLabel) {
+      }
+      @if (business.contact().phone; as phone) {
+        <a class="contact-tile" [href]="phoneHref()">
+          <i class="pi pi-phone" aria-hidden="true"></i>
+          <div>
+            <strong>Call</strong>
+            <span>{{ phone }}</span>
+          </div>
+        </a>
+      }
+      @if (features.isWhatsappBookingEnabled()) {
+        <a class="contact-tile" [href]="whatsappHref()" target="_blank" rel="noopener">
+          <i class="pi pi-whatsapp" aria-hidden="true"></i>
+          <div>
+            <strong>WhatsApp</strong>
+            <span>Message us to book</span>
+          </div>
+        </a>
+      }
+      @if (business.contact().email; as email) {
+        <a class="contact-tile" [href]="mailHref()">
+          <i class="pi pi-envelope" aria-hidden="true"></i>
+          <div>
+            <strong>Write</strong>
+            <span>{{ email }}</span>
+          </div>
+        </a>
+      }
+      @if (business.hoursLabel(); as hours) {
         <div class="contact-tile">
           <i class="pi pi-clock" aria-hidden="true"></i>
           <div>
             <strong>Hours</strong>
-            <span>{{ config.business().hoursLabel }}</span>
+            <span>{{ hours }}</span>
           </div>
         </div>
       }
       <div class="contact-map" aria-hidden="true">
         <i class="pi pi-map-marker"></i>
-        <span>{{ config.business().location }}</span>
+        <span>{{ business.city() }}</span>
       </div>
     </div>
 

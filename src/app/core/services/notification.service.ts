@@ -1,16 +1,23 @@
 import { Injectable, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { FeatureConfigService } from './config/feature-config.service';
 
-/** Centralised toast handling on top of PrimeNG's MessageService. */
+/**
+ * Centralised toast handling on top of PrimeNG's MessageService. Informational
+ * toasts respect the `notifications` feature flag; errors always show.
+ */
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
   private readonly messages = inject(MessageService);
+  private readonly features = inject(FeatureConfigService);
 
   success(summary: string, detail?: string): void {
+    if (!this.features.isNotificationsEnabled()) return;
     this.messages.add({ severity: 'success', summary, detail, life: 4000 });
   }
 
   info(summary: string, detail?: string): void {
+    if (!this.features.isNotificationsEnabled()) return;
     this.messages.add({ severity: 'info', summary, detail, life: 4000 });
   }
 

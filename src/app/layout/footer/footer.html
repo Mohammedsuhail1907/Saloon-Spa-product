@@ -2,48 +2,61 @@
   <div class="shell">
     <div class="site-footer__grid">
       <div class="site-footer__brand">
-        @if (config.business().logo) {
-          <img [src]="config.business().logo" alt="" width="40" height="40" />
+        @if (business.logo(); as logo) {
+          <img [src]="logo" alt="" width="40" height="40" loading="lazy" />
         }
-        <h3 class="site-footer__name">{{ config.business().name }}</h3>
-        <p class="site-footer__tagline">{{ config.business().tagline }}</p>
-        <p class="site-footer__note">
-          Demo experience — bookings, availability and payments shown here are sample data.
-        </p>
+        <h3 class="site-footer__name">{{ business.name() }}</h3>
+        <p class="site-footer__tagline">{{ business.tagline() }}</p>
+        @if (content.footerNote(); as note) {
+          <p class="site-footer__note">{{ note }}</p>
+        }
+        @if (business.socialLinks().length) {
+          <div class="site-footer__social">
+            @for (s of business.socialLinks(); track s.id) {
+              <a [href]="s.url" target="_blank" rel="noopener" [attr.aria-label]="s.id">
+                <i class="{{ s.icon }}" aria-hidden="true"></i>
+              </a>
+            }
+          </div>
+        }
       </div>
 
       <nav class="site-footer__col" aria-label="Explore">
         <h4>Explore</h4>
-        @for (l of exploreLinks(); track l.label) {
-          <a [routerLink]="l.link">{{ l.label }}</a>
+        @for (m of menus.primaryMenus(); track m.id) {
+          <a [routerLink]="m.route" [queryParams]="m.queryParams">{{ m.label }}</a>
         }
-        <a routerLink="/contact">Contact</a>
       </nav>
 
-      <nav class="site-footer__col" aria-label="Experiences">
-        <h4>Experiences</h4>
-        @for (l of experienceLinks(); track l.label) {
-          <a [routerLink]="l.link">{{ l.label }}</a>
-        }
-      </nav>
+      @if (menus.secondaryMenus().length) {
+        <nav class="site-footer__col" aria-label="Experiences">
+          <h4>Experiences</h4>
+          @for (m of menus.secondaryMenus(); track m.id) {
+            <a [routerLink]="m.route" [queryParams]="m.queryParams">{{ m.label }}</a>
+          }
+        </nav>
+      }
 
       <div class="site-footer__col" aria-label="Visit">
         <h4>Visit</h4>
-        <p><i class="pi pi-map-marker" aria-hidden="true"></i>{{ config.business().address ?? config.business().location }}</p>
-        <p><i class="pi pi-phone" aria-hidden="true"></i>{{ config.business().phone }}</p>
-        <p><i class="pi pi-envelope" aria-hidden="true"></i>{{ config.business().email }}</p>
-        @if (config.business().hoursLabel) {
-          <p><i class="pi pi-clock" aria-hidden="true"></i>{{ config.business().hoursLabel }}</p>
+        @if (business.addressLine(); as address) {
+          <p><i class="pi pi-map-marker" aria-hidden="true"></i>{{ address }}</p>
         }
-        @if (config.business().instagram) {
-          <p><i class="pi pi-instagram" aria-hidden="true"></i>{{ config.business().instagram }}</p>
+        @if (business.contact().phone; as phone) {
+          <p><i class="pi pi-phone" aria-hidden="true"></i>{{ phone }}</p>
+        }
+        @if (business.contact().email; as email) {
+          <p><i class="pi pi-envelope" aria-hidden="true"></i>{{ email }}</p>
+        }
+        @if (business.hoursLabel(); as hours) {
+          <p><i class="pi pi-clock" aria-hidden="true"></i>{{ hours }}</p>
         }
       </div>
     </div>
 
     <p-divider />
     <p class="site-footer__copyright">
-      © {{ year }} {{ config.business().name }} · {{ config.business().location }} · All rights reserved
+      © {{ year }} {{ business.name() }}@if (business.city(); as city) { · {{ city }}} · All rights reserved
     </p>
   </div>
 </footer>

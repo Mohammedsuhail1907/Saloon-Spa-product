@@ -10,12 +10,15 @@ import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { SelectModule } from 'primeng/select';
+import { SERVICE_TYPES } from '../../core/constants/domain.constants';
 import { Service } from '../../core/models/catalog.model';
 import { BookingService } from '../../core/services/booking.service';
-import { BusinessConfigService } from '../../core/services/business-config.service';
-import { CatalogService } from '../../core/services/catalog.service';
+import { ContentConfigService } from '../../core/services/config/content-config.service';
+import { FeatureConfigService } from '../../core/services/config/feature-config.service';
+import { ServiceCatalogService } from '../../core/services/data/service-catalog.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { BookingSummary } from '../../shared/components/booking-summary/booking-summary';
+import { DataState } from '../../shared/components/data-state/data-state';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
 import { PricePipe } from '../../shared/pipes/price.pipe';
 
@@ -28,6 +31,7 @@ import { PricePipe } from '../../shared/pipes/price.pipe';
     CheckboxModule,
     SelectModule,
     BookingSummary,
+    DataState,
     RevealDirective,
     PricePipe
   ],
@@ -35,22 +39,29 @@ import { PricePipe } from '../../shared/pipes/price.pipe';
   styleUrl: './experience-builder.scss'
 })
 export class ExperienceBuilderPage {
-  protected readonly config = inject(BusinessConfigService);
-  protected readonly catalog = inject(CatalogService);
+  protected readonly features = inject(FeatureConfigService);
+  protected readonly content = inject(ContentConfigService);
+  protected readonly catalog = inject(ServiceCatalogService);
   private readonly bookingState = inject(BookingService);
   private readonly notify = inject(NotificationService);
   private readonly router = inject(Router);
 
+  protected readonly pageHero = computed(() => this.content.page('packageBuilder'));
+
   protected readonly base = signal<Service | null>(null);
   protected readonly addOnIds = signal<number[]>([]);
 
-  protected readonly serviceGroups = computed(() => {
-    const services = this.catalog.services();
-    return [
-      { label: 'Salon', items: services.filter((s) => s.type === 'SALON') },
-      { label: 'Spa', items: services.filter((s) => s.type === 'SPA') }
-    ].filter((g) => g.items.length);
-  });
+  constructor() {
+    void this.catalog.load();
+    void this.catalog.loadAddons();
+  }
+
+  protected readonly serviceGroups = computed(() =>
+    [
+      { label: 'Salon', items: this.catalog.servicesByType(SERVICE_TYPES.SALON) },
+      { label: 'Spa', items: this.catalog.servicesByType(SERVICE_TYPES.SPA) }
+    ].filter((g) => g.items.length)
+  );
 
   protected readonly addons = computed(() => {
     const base = this.base();

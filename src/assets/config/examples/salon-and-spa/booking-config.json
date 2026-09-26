@@ -1,0 +1,55 @@
+{
+  "booking": {
+    "enabled": true,
+    "bookingMode": "SLOT",
+    "allowStylistSelection": true,
+    "allowTherapistSelection": true,
+    "allowReschedule": true,
+    "allowCancellation": true,
+    "minimumAdvanceBookingHours": 1,
+    "maximumAdvanceBookingDays": 30,
+    "slotDuration": 30,
+    "workingHours": {
+      "sunday": {
+        "enabled": false,
+        "open": "10:00",
+        "close": "18:00"
+      },
+      "monday": {
+        "enabled": true,
+        "open": "10:00",
+        "close": "20:00"
+      },
+      "tuesday": {
+        "enabled": true,
+        "open": "10:00",
+        "close": "20:00"
+      },
+      "wednesday": {
+        "enabled": true,
+        "open": "10:00",
+        "close": "20:00"
+      },
+      "thursday": {
+        "enabled": true,
+        "open": "10:00",
+        "close": "20:00"
+      },
+      "friday": {
+        "enabled": true,
+        "open": "10:00",
+        "close": "20:00"
+      },
+      "saturday": {
+        "enabled": true,
+        "open": "10:00",
+        "close": "20:00"
+      }
+    },
+    "holidays": [
+      "2026-10-02",
+      "2026-10-20",
+      "2026-12-25"
+    ]
+  }
+}

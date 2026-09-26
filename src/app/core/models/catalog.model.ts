@@ -1,4 +1,6 @@
-export type ServiceType = 'SALON' | 'SPA';
+import { ProfessionalType, ServiceType } from '../constants/domain.constants';
+
+export type { ProfessionalType, ServiceType };
 
 /** Mood / intent tags used by the mood picker, quiz and recommendations. */
 export type ExperienceTag =
@@ -29,10 +31,12 @@ export interface Service {
   rating: number;
   popular?: boolean;
   isNew?: boolean;
+  /** Defaults to true when omitted in data. */
+  enabled?: boolean;
   tags: ExperienceTag[];
   benefits: string[];
   professionalIds: number[];
-  /** CSS art palette class used for the card visual. */
+  /** CSS art palette class used for the card visual when no image is set. */
   art: string;
   icon: string;
   image?: string;
@@ -42,14 +46,16 @@ export interface Professional {
   id: number;
   name: string;
   role: string;
-  type: ServiceType;
+  type: ProfessionalType;
   experienceYears: number;
   specialties: string[];
   rating: number;
   reviewsCount: number;
   bio: string;
-  /** CSS art palette class for the avatar. */
+  enabled?: boolean;
+  /** CSS art palette class for the avatar when no image is set. */
   palette: string;
+  image?: string;
 }
 
 export interface ExperienceAddon {
@@ -93,6 +99,13 @@ export interface GiftCardExperience {
   type: ServiceType | 'BOTH';
 }
 
+export interface GiftCardData {
+  amounts: number[];
+  minimumAmount: number;
+  maximumAmount: number;
+  experiences: GiftCardExperience[];
+}
+
 export interface CustomerStory {
   id: number;
   customer: string;
@@ -112,6 +125,7 @@ export interface GalleryItem {
   type: ServiceType | 'BOTH';
   art: string;
   icon: string;
+  image?: string;
 }
 
 export interface BeforeAfterItem {
@@ -119,8 +133,16 @@ export interface BeforeAfterItem {
   title: string;
   category: string;
   caption: string;
+  type: ServiceType;
   beforeArt: string;
   afterArt: string;
+}
+
+export interface GalleryData {
+  categories: string[];
+  items: GalleryItem[];
+  beforeAfterCategories: string[];
+  beforeAfter: BeforeAfterItem[];
 }
 
 export interface Product {
@@ -139,4 +161,20 @@ export interface MoodOption {
   icon: string;
   tag: ExperienceTag;
   blurb: string;
+}
+
+export interface QuizChoice<T> {
+  id: string;
+  label: string;
+  icon: string;
+  value: T;
+  hint?: string;
+}
+
+export interface QuizData {
+  goals: QuizChoice<ExperienceTag>[];
+  /** Max duration in minutes. */
+  times: QuizChoice<number>[];
+  /** Max price in business currency. */
+  budgets: QuizChoice<number>[];
 }

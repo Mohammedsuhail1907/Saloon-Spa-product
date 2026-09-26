@@ -19,4 +19,5 @@ export class BookingReview {
   readonly totalDuration = input(0);
   readonly totalPrice = input(0);
   readonly guestLine = input('');
+  readonly rescheduleAllowed = input(true);
 }

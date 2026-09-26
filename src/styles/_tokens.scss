@@ -1,22 +1,24 @@
 /* ============================================================
-   Design tokens. Brand colours are overwritten at runtime from
-   salon-spa-config.json (see BusinessConfigService.applyTheme);
-   the values below are the compile-time defaults.
+   Design tokens. Brand colours, fonts and radii are overwritten at
+   runtime from assets/config/theme-config.json (see
+   ThemeConfigService.apply); the values below are compile-time
+   defaults so the first paint is never unstyled.
    ============================================================ */
 
 :root {
   --brand-primary: #b08d57;
   --brand-secondary: #f5efe6;
+  --brand-accent: #6f7d5c;
+  --brand-background: #faf7f1;
   --brand-surface: #ffffff;
   --brand-text: #242424;
-  --brand-accent: #6f7d5c;
 
   --ink: var(--brand-text);
-  --ink-soft: #6b6355;
-  --ink-faint: #9a917f;
-  --paper: #faf7f1;
-  --line: #eadfce;
-  --gold-soft: #f3e9d7;
+  --ink-soft: color-mix(in srgb, var(--brand-text) 62%, var(--brand-background));
+  --ink-faint: color-mix(in srgb, var(--brand-text) 42%, var(--brand-background));
+  --paper: var(--brand-background);
+  --line: color-mix(in srgb, var(--brand-primary) 22%, var(--brand-background));
+  --gold-soft: color-mix(in srgb, var(--brand-primary) 18%, var(--brand-surface));
   --shadow-soft: 0 18px 45px -18px rgba(94, 74, 42, 0.22);
   --shadow-card: 0 10px 30px -14px rgba(94, 74, 42, 0.18);
   --radius-lg: 22px;

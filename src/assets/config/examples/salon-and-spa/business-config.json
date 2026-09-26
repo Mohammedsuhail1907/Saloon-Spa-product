@@ -1,0 +1,44 @@
+{
+  "businessMode": "SALON_AND_SPA",
+  "business": {
+    "name": "Luxe & Aura",
+    "shortName": "L&A",
+    "tagline": "Beauty. Wellness. You.",
+    "description": "Premium salon and wellness experience.",
+    "logo": "assets/images/logo/logo.svg",
+    "favicon": "favicon.ico",
+    "currency": "INR",
+    "currencySymbol": "₹",
+    "locale": "en-IN",
+    "contact": {
+      "phone": "+91 98400 12345",
+      "email": "hello@luxeaura.in",
+      "whatsapp": "+919840012345"
+    },
+    "address": {
+      "line1": "12 Boat Club Road",
+      "line2": "R.A. Puram",
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "country": "India",
+      "postalCode": "600028"
+    },
+    "socialMedia": {
+      "instagram": "https://instagram.com/luxeaura.chennai",
+      "facebook": "",
+      "youtube": "",
+      "twitter": ""
+    },
+    "hoursLabel": "Open daily 10:00 AM – 8:00 PM · Closed Sundays"
+  },
+  "salon": {
+    "enabled": true,
+    "servicesEnabled": true,
+    "stylistsEnabled": true
+  },
+  "spa": {
+    "enabled": true,
+    "servicesEnabled": true,
+    "therapistsEnabled": true
+  }
+}
